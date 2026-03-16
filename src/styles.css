@@ -368,9 +368,9 @@ img {
 .hero-grid {
   position: relative;
   display: grid;
-  gap: 32px;
+  gap: 26px;
   align-items: center;
-  grid-template-columns: 1.05fr 0.95fr;
+  grid-template-columns: 0.86fr 1.14fr;
 }
 
 .hero-glow {
@@ -522,8 +522,14 @@ img {
 
 .hero-gallery {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    'featured featured'
+    'left right';
+  gap: 20px;
+  align-items: start;
+  width: min(100%, 760px);
+  justify-self: end;
 }
 
 .frame-card {
@@ -533,18 +539,48 @@ img {
 }
 
 .gallery-large {
-  grid-column: 1 / -1;
+  aspect-ratio: 16 / 7;
 }
 
-.gallery-large img {
-  height: 360px;
-  object-fit: cover;
-  border-radius: 24px;
+.gallery-small {
+  aspect-ratio: 3 / 4;
 }
 
+.gallery-portrait-left {
+  grid-area: left;
+  border-radius: 34px 20px 36px 22px;
+  transform: rotate(-1.2deg);
+}
+
+.gallery-portrait-right {
+  grid-area: right;
+  border-radius: 20px 34px 22px 36px;
+  transform: rotate(1.1deg);
+}
+
+.gallery-featured {
+  grid-area: featured;
+  border-radius: 16px 32px 20px 34px;
+}
+
+.gallery-featured::before,
+.gallery-portrait-left::before,
+.gallery-portrait-right::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0) 42%);
+  z-index: 1;
+}
+
+.gallery-large img,
 .gallery-small img {
-  height: 220px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  object-position: center 28%;
   border-radius: 24px;
 }
 
@@ -659,6 +695,22 @@ img {
   color: #d90429 !important; /* Vivid red for all events */
 }
 
+.event-card-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  z-index: 0;
+}
+
+.event-card > *:not(.event-card-bg) {
+  position: relative;
+  z-index: 1;
+}
+
 .event-card::before {
   content: '';
   position: absolute;
@@ -712,7 +764,7 @@ img {
     /* Dark overlay for contrast */
     linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     /* Engagement event background image */
-    url('/photos/engagement-event-bg.jpg'),
+    url('https://i.pinimg.com/originals/71/d7/e1/71d7e153f5b1ea803896a9494719d52d.jpg'),
     /* Traditional engagement rangoli with floral patterns */
     radial-gradient(circle at 25% 25%, rgba(255, 107, 157, 0.15) 2px, transparent 2px),
     radial-gradient(circle at 75% 25%, rgba(240, 147, 251, 0.15) 2px, transparent 2px),
@@ -770,7 +822,7 @@ img {
     /* Dark overlay for contrast */
     linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     /* Haldi event background image */
-    url('/photos/haldi-event-bg.jpg'),
+    url('https://i.pinimg.com/originals/c5/48/7f/c5487f67a9bc83f6983a218126e39048.jpg'),
     /* Golden mandala for haldi ceremony - representing purity and blessings */
     repeating-conic-gradient(from 0deg at 50% 50%, rgba(255, 215, 0, 0.15) 0deg, rgba(251, 191, 36, 0.15) 30deg, rgba(245, 158, 11, 0.15) 60deg, rgba(217, 119, 6, 0.15) 90deg, rgba(255, 215, 0, 0.15) 120deg),
     /* Turmeric powder dots - traditional haldi ceremony */
@@ -795,7 +847,7 @@ img {
     /* Dark overlay for contrast */
     linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     /* Marriage event background image */
-    url('https://i.pinimg.com/736x/25/a2/c7/25a2c7dd7e2c168bc718fd719f172c8f.jpg'),
+    url('https://i.pinimg.com/originals/25/a2/c7/25a2c7dd7e2c168bc718fd719f172c8f.jpg'),
     /* Sacred wedding patterns - representing Rama and Sita's eternal union */
     linear-gradient(45deg, rgba(255, 107, 157, 0.12) 25%, transparent 25%),
     linear-gradient(-45deg, rgba(255, 107, 157, 0.12) 25%, transparent 25%),
@@ -825,7 +877,7 @@ img {
     /* Dark overlay for contrast */
     linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     /* Cocktail party event background image */
-    url('/photos/cocktail-event-bg.jpg'),
+    url('https://i.pinimg.com/originals/b7/67/7d/b7677d0a5b16f15bc5a88d3b06fa3709.jpg'),
     /* Celebration patterns with traditional Indian motifs */
     radial-gradient(circle at 50% 50%, rgba(167, 139, 250, 0.12) 1px, transparent 1px),
     radial-gradient(circle at 25% 25%, rgba(139, 92, 246, 0.12) 1px, transparent 1px),
@@ -1305,6 +1357,13 @@ button:disabled {
     grid-template-columns: 1fr;
   }
 
+  .hero-gallery {
+    grid-template-areas:
+      'featured'
+      'left'
+      'right';
+  }
+
   .section-header {
     align-items: flex-start;
     flex-direction: column;
@@ -1312,7 +1371,13 @@ button:disabled {
 
   .gallery-large img,
   .gallery-small img {
-    height: 240px;
+    object-position: center 24%;
+  }
+
+  .gallery-portrait-left,
+  .gallery-portrait-right {
+    transform: none;
+    border-radius: 24px;
   }
 
   .form-card,
@@ -1503,13 +1568,17 @@ button:disabled {
   .hero-gallery {
     display: grid;
     grid-template-columns: 1fr;
+    grid-template-areas:
+      'featured'
+      'left'
+      'right';
     gap: 12px;
   }
 
   .gallery-large,
   .gallery-small {
     width: 100%;
-    height: 250px;
+    aspect-ratio: 4 / 5;
   }
 
   .event-grid {
@@ -1927,10 +1996,11 @@ button:disabled {
   margin: 0;
   font-size: 18px;
   font-weight: 900;
-  background: linear-gradient(135deg, #ff6b9d, #f093fb);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-family: 'Cinzel', Georgia, serif;
+  letter-spacing: 0.03em;
+  color: #1f2937;
+  -webkit-text-fill-color: #1f2937;
+  background: none;
   line-height: 1;
 }
 
@@ -2211,5 +2281,1904 @@ button:disabled {
 
   .list-item-number {
     font-size: 18px;
+  }
+}
+
+/* ===== ROYAL BLUE + GOLD LUXURY THEME ===== */
+:root {
+  --royal-navy: #06153d;
+  --royal-blue: #0a2e82;
+  --royal-blue-deep: #123f9a;
+  --royal-gold: #d4af37;
+  --royal-gold-soft: #f1d88a;
+  --ivory: #faf6ea;
+  --ink: #102042;
+}
+
+body {
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 15% 20%, rgba(212, 175, 55, 0.28) 0%, rgba(212, 175, 55, 0) 35%),
+    radial-gradient(circle at 85% 10%, rgba(23, 74, 176, 0.2) 0%, rgba(23, 74, 176, 0) 32%),
+    radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.14) 0%, rgba(212, 175, 55, 0) 28%),
+    linear-gradient(140deg, #f9f6ef 0%, #eef2fb 34%, #e5ecfa 100%);
+}
+
+.hero-section {
+  background-image:
+    radial-gradient(circle at 12% 22%, rgba(212, 175, 55, 0.16) 2px, transparent 2px),
+    radial-gradient(circle at 88% 78%, rgba(10, 46, 130, 0.18) 2px, transparent 2px),
+    radial-gradient(circle at 50% 52%, rgba(18, 63, 154, 0.14) 1px, transparent 1px),
+    linear-gradient(45deg, rgba(10, 46, 130, 0.08) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(212, 175, 55, 0.09) 25%, transparent 25%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(248, 238, 204, 0.36) 100%);
+}
+
+.hero-glow-one { background: linear-gradient(45deg, rgba(10, 46, 130, 0.9), rgba(18, 63, 154, 0.8), rgba(212, 175, 55, 0.7)); }
+.hero-glow-two { background: linear-gradient(45deg, rgba(212, 175, 55, 0.75), rgba(10, 46, 130, 0.72), rgba(6, 21, 61, 0.68)); }
+.hero-glow-three { background: linear-gradient(45deg, rgba(6, 21, 61, 0.78), rgba(18, 63, 154, 0.8), rgba(212, 175, 55, 0.6)); }
+.hero-glow-four { background: linear-gradient(45deg, rgba(248, 231, 181, 0.8), rgba(212, 175, 55, 0.7), rgba(10, 46, 130, 0.55)); }
+
+.hero-copy h1,
+.section-header h2 {
+  background: linear-gradient(135deg, #f7e4a3 0%, #e2bf58 38%, #d4af37 72%, #2f5bc0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-shadow: 0 3px 12px rgba(6, 21, 61, 0.18);
+}
+
+.pill {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.97), rgba(241, 216, 138, 0.28), rgba(212, 175, 55, 0.2));
+  color: #d4af37;
+  border-color: rgba(212, 175, 55, 0.6);
+  box-shadow: 0 14px 35px rgba(10, 46, 130, 0.14);
+  text-shadow: 0 1px 0 rgba(6, 21, 61, 0.2);
+}
+
+.soft-pill {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(10, 46, 130, 0.09));
+  border-color: rgba(10, 46, 130, 0.24);
+  color: #1a2e5f;
+}
+
+.music-toggle,
+.floating-rsvp-btn,
+.floating-download-btn,
+button,
+.send-btn,
+.primary-btn {
+  background: linear-gradient(135deg, var(--royal-blue), var(--royal-blue-deep), var(--royal-gold));
+  box-shadow: 0 14px 30px rgba(10, 46, 130, 0.32);
+}
+
+.event-card-selected {
+  outline: 3px solid var(--royal-gold);
+  box-shadow: 0 24px 50px rgba(10, 46, 130, 0.24), 0 0 0 6px rgba(212, 175, 55, 0.17);
+}
+
+.theme-rose,
+.theme-haldi,
+.theme-marriage,
+.theme-cocktail {
+  background: linear-gradient(90deg, var(--royal-navy), var(--royal-blue), var(--royal-blue-deep), var(--royal-gold));
+  color: #fff;
+}
+
+.info-card,
+.frame-card,
+.event-card,
+.form-card,
+.side-card,
+.timeline-content,
+.modal-card {
+  background: linear-gradient(175deg, rgba(255, 255, 255, 0.94), rgba(245, 239, 220, 0.86));
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  box-shadow: 0 18px 45px rgba(10, 46, 130, 0.12);
+}
+
+.form-card {
+  border: 2px solid rgba(212, 175, 55, 0.32);
+  box-shadow: 0 20px 60px rgba(10, 46, 130, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+input:focus,
+textarea:focus,
+.guestbook-input textarea:focus {
+  border-color: var(--royal-blue);
+  box-shadow: 0 0 0 4px rgba(10, 46, 130, 0.15), 0 0 0 8px rgba(212, 175, 55, 0.13);
+}
+
+.select-row,
+.countdown-card,
+.marriage-countdown,
+.dashboard-section {
+  background: linear-gradient(135deg, rgba(10, 46, 130, 0.12), rgba(212, 175, 55, 0.16)) !important;
+  border: 2px solid rgba(10, 46, 130, 0.28) !important;
+  box-shadow: 0 4px 16px rgba(10, 46, 130, 0.14) !important;
+}
+
+.countdown-label-text,
+.countdown-card h4,
+.timeline-year,
+.messages-count {
+  color: var(--royal-blue);
+}
+
+.countdown-number,
+.list-item-number {
+  background: linear-gradient(135deg, var(--royal-blue), var(--royal-gold));
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.timeline::before {
+  background: linear-gradient(to bottom, var(--royal-blue), var(--royal-gold));
+}
+
+.timeline-marker {
+  background: linear-gradient(135deg, var(--royal-blue), var(--royal-gold));
+  box-shadow: 0 0 0 2px var(--royal-blue);
+}
+
+.message-item {
+  background: linear-gradient(135deg, rgba(10, 46, 130, 0.08), rgba(212, 175, 55, 0.12));
+  border-left: 4px solid var(--royal-blue);
+}
+
+.guestbook-input textarea {
+  border: 2px solid rgba(10, 46, 130, 0.22);
+  background: rgba(255, 255, 255, 0.92);
+}
+
+/* ===== LUXURY MOTION LAYER ===== */
+@keyframes royalGradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes goldSweep {
+  0% { transform: translateX(-135%) skewX(-18deg); opacity: 0; }
+  20% { opacity: 0.28; }
+  70% { opacity: 0.16; }
+  100% { transform: translateX(165%) skewX(-18deg); opacity: 0; }
+}
+
+@keyframes velvetRise {
+  0% { opacity: 0; transform: translateY(16px) scale(0.985); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes luxuryCardFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes royalPulse {
+  0%, 100% { box-shadow: 0 12px 30px rgba(10, 46, 130, 0.24); }
+  50% { box-shadow: 0 16px 40px rgba(212, 175, 55, 0.22); }
+}
+
+@keyframes headerGleam {
+  0%, 100% { text-shadow: 0 3px 12px rgba(6, 21, 61, 0.2); }
+  50% { text-shadow: 0 5px 18px rgba(212, 175, 55, 0.35); }
+}
+
+/* Smooth rich motion on major sections */
+.hero-section,
+.content-wrap.section-gap,
+.content-wrap.form-layout.section-gap-bottom {
+  background-size: 140% 140%, 130% 130%, 180% 180%;
+  animation: royalGradientShift 18s ease-in-out infinite;
+}
+
+/* Refined reveal animation for cards */
+.info-card,
+.frame-card,
+.event-card,
+.form-card,
+.side-card,
+.modal-card,
+.timeline-content,
+.dashboard-list-item,
+.message-item,
+.countdown-card {
+  animation: velvetRise 700ms cubic-bezier(0.19, 1, 0.22, 1) both;
+}
+
+.info-card,
+.frame-card,
+.event-card,
+.side-card,
+.dashboard-list-item,
+.message-item,
+.countdown-card {
+  animation:
+    velvetRise 700ms cubic-bezier(0.19, 1, 0.22, 1) both,
+    luxuryCardFloat 6.5s ease-in-out infinite;
+}
+
+.info-card:nth-child(2n),
+.frame-card:nth-child(2n),
+.event-card:nth-child(2n),
+.side-card:nth-child(2n),
+.dashboard-list-item:nth-child(2n),
+.message-item:nth-child(2n),
+.countdown-card:nth-child(2n) {
+  animation-delay: 120ms, 1.2s;
+}
+
+.info-card:nth-child(3n),
+.frame-card:nth-child(3n),
+.event-card:nth-child(3n),
+.side-card:nth-child(3n),
+.dashboard-list-item:nth-child(3n),
+.message-item:nth-child(3n),
+.countdown-card:nth-child(3n) {
+  animation-delay: 200ms, 2.1s;
+}
+
+/* Stagger card reveals for a curated feel */
+.event-card:nth-child(1) { animation-delay: 40ms; }
+.event-card:nth-child(2) { animation-delay: 90ms; }
+.event-card:nth-child(3) { animation-delay: 140ms; }
+.event-card:nth-child(4) { animation-delay: 190ms; }
+.side-stack .side-card:nth-child(1) { animation-delay: 70ms; }
+.side-stack .side-card:nth-child(2) { animation-delay: 120ms; }
+.side-stack .side-card:nth-child(3) { animation-delay: 170ms; }
+
+/* Gold shimmer pass on premium surfaces */
+.pill,
+.primary-btn,
+.send-btn,
+button,
+.event-card,
+.form-card,
+.side-card,
+.modal-card {
+  isolation: isolate;
+}
+
+.pill::before,
+.primary-btn::before,
+.send-btn::before,
+button::before,
+.event-card::before,
+.form-card::before,
+.side-card::before,
+.modal-card::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  left: -35%;
+  width: 40%;
+  height: 140%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(241, 216, 138, 0.3) 45%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+  animation: goldSweep 6.5s ease-in-out infinite;
+}
+
+.hero-copy h1,
+.section-header h2 {
+  animation: headerGleam 5.5s ease-in-out infinite;
+}
+
+.floating-rsvp-btn,
+.floating-download-btn,
+.music-toggle {
+  animation: royalPulse 3.6s ease-in-out infinite;
+}
+
+.event-card:hover,
+.side-card:hover,
+.form-card:hover,
+.countdown-card:hover,
+.dashboard-list-item:hover,
+.message-item:hover {
+  transform: translateY(-7px) scale(1.01);
+  transition: transform 280ms ease, box-shadow 280ms ease;
+}
+
+/* Keep motion elegant on small screens and for accessibility */
+@media (max-width: 768px) {
+  .hero-section,
+  .content-wrap.section-gap,
+  .content-wrap.form-layout.section-gap-bottom {
+    animation-duration: 24s;
+  }
+
+  .pill::before,
+  .primary-btn::before,
+  .send-btn::before,
+  button::before,
+  .event-card::before,
+  .form-card::before,
+  .side-card::before,
+  .modal-card::before {
+    animation-duration: 8.5s;
+    opacity: 0.7;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-section,
+  .content-wrap.section-gap,
+  .content-wrap.form-layout.section-gap-bottom,
+  .hero-copy h1,
+  .section-header h2,
+  .floating-rsvp-btn,
+  .floating-download-btn,
+  .music-toggle,
+  .info-card,
+  .frame-card,
+  .event-card,
+  .form-card,
+  .side-card,
+  .modal-card,
+  .timeline-content,
+  .dashboard-list-item,
+  .message-item,
+  .countdown-card,
+  .pill::before,
+  .primary-btn::before,
+  .send-btn::before,
+  button::before,
+  .event-card::before,
+  .form-card::before,
+  .side-card::before,
+  .modal-card::before {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Section-level royal backgrounds */
+.hero-section,
+.content-wrap.section-gap,
+.content-wrap.form-layout.section-gap-bottom {
+  position: relative;
+  border-radius: 28px;
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  box-shadow: 0 18px 46px rgba(6, 21, 61, 0.18);
+  overflow: hidden;
+}
+
+.hero-section {
+  background:
+    radial-gradient(circle at 15% 20%, rgba(212, 175, 55, 0.2) 0%, transparent 38%),
+    radial-gradient(circle at 84% 16%, rgba(10, 46, 130, 0.35) 0%, transparent 42%),
+    linear-gradient(145deg, rgba(6, 21, 61, 0.84), rgba(10, 46, 130, 0.76), rgba(212, 175, 55, 0.24));
+}
+
+.content-wrap.section-gap {
+  margin-top: 14px;
+  padding: 28px;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(212, 175, 55, 0.18) 0%, transparent 35%),
+    radial-gradient(circle at 90% 82%, rgba(18, 63, 154, 0.2) 0%, transparent 38%),
+    linear-gradient(140deg, rgba(10, 46, 130, 0.88), rgba(12, 38, 104, 0.88), rgba(6, 21, 61, 0.86));
+}
+
+.content-wrap.form-layout.section-gap-bottom {
+  margin-top: 18px;
+  padding: 30px;
+  background:
+    radial-gradient(circle at 88% 18%, rgba(212, 175, 55, 0.18) 0%, transparent 32%),
+    radial-gradient(circle at 8% 84%, rgba(18, 63, 154, 0.22) 0%, transparent 38%),
+    linear-gradient(145deg, rgba(6, 21, 61, 0.9), rgba(10, 46, 130, 0.84));
+}
+
+.content-wrap.section-gap::before,
+.content-wrap.form-layout.section-gap-bottom::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(45deg, rgba(212, 175, 55, 0.07) 0 2px, transparent 2px 14px),
+    repeating-linear-gradient(-45deg, rgba(241, 216, 138, 0.05) 0 2px, transparent 2px 14px);
+  opacity: 0.45;
+  z-index: 0;
+}
+
+.content-wrap.section-gap > *,
+.content-wrap.form-layout.section-gap-bottom > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Keep decorative floating accents in blue/gold family */
+.page-shell::before,
+.content-wrap::after,
+.form-layout::before {
+  background: radial-gradient(circle at 30% 30%, rgba(10, 46, 130, 0.78) 0%, transparent 56%);
+  filter: drop-shadow(0 0 10px rgba(10, 46, 130, 0.45));
+}
+
+.page-shell::after,
+.content-wrap::before,
+.event-grid::after,
+.form-layout::after {
+  background: radial-gradient(circle at 35% 35%, rgba(212, 175, 55, 0.78) 0%, transparent 56%);
+  filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.45));
+}
+
+@media (max-width: 768px) {
+  .content-wrap.section-gap,
+  .content-wrap.form-layout.section-gap-bottom {
+    padding: 20px 16px;
+    border-radius: 22px;
+  }
+}
+
+/* Royal card background + corner accents for all cards */
+.info-card,
+.frame-card,
+.event-card,
+.form-card,
+.side-card,
+.modal-card,
+.timeline-content,
+.dashboard-list-item,
+.message-item,
+.countdown-card {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(165deg, rgba(255, 255, 255, 0.95), rgba(246, 239, 216, 0.9) 45%, rgba(226, 235, 255, 0.86) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.34);
+  box-shadow: 0 16px 42px rgba(10, 46, 130, 0.14);
+}
+
+.info-card::before,
+.frame-card::before,
+.event-card::before,
+.form-card::before,
+.side-card::before,
+.modal-card::before,
+.timeline-content::before,
+.dashboard-list-item::before,
+.message-item::before,
+.countdown-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 1;
+  transition: none;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(212, 175, 55, 0.34) 0 14%, transparent 32%),
+    radial-gradient(circle at 100% 100%, rgba(10, 46, 130, 0.28) 0 14%, transparent 34%);
+}
+
+.info-card::after,
+.frame-card::after,
+.event-card::after,
+.form-card::after,
+.side-card::after,
+.modal-card::after,
+.timeline-content::after,
+.dashboard-list-item::after,
+.message-item::after,
+.countdown-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    linear-gradient(135deg, rgba(212, 175, 55, 0.7), rgba(212, 175, 55, 0)) top left / 42px 42px no-repeat,
+    linear-gradient(315deg, rgba(10, 46, 130, 0.7), rgba(10, 46, 130, 0)) top right / 42px 42px no-repeat,
+    linear-gradient(45deg, rgba(10, 46, 130, 0.7), rgba(10, 46, 130, 0)) bottom left / 42px 42px no-repeat,
+    linear-gradient(225deg, rgba(212, 175, 55, 0.75), rgba(212, 175, 55, 0)) bottom right / 42px 42px no-repeat;
+}
+
+.info-card > *,
+.frame-card > *,
+.event-card > *,
+.form-card > *,
+.side-card > *,
+.modal-card > *,
+.timeline-content > *,
+.dashboard-list-item > *,
+.message-item > *,
+.countdown-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Keep selected event image cards visible while retaining royal corners */
+.event-card-selected {
+  background: transparent;
+}
+
+/* Global gold typography */
+:root {
+  --text-gold: #d4af37;
+  --text-gold-soft: #f1d88a;
+}
+
+body,
+p,
+label,
+span,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.hero-subtitle,
+.info-label,
+.info-value,
+.event-meta,
+.event-note,
+.submit-hint,
+.side-card p,
+.timeline-content p,
+.message-text,
+.message-time,
+.no-messages {
+  color: var(--text-gold) !important;
+}
+
+input,
+textarea,
+::placeholder {
+  color: var(--text-gold-soft);
+}
+
+/* ===== FINAL LUXURY POLISH ===== */
+body {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  letter-spacing: 0.02em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.pill,
+button {
+  font-family: 'Cinzel', Georgia, serif;
+  letter-spacing: 0.04em;
+}
+
+/* Gold-foil typography effect for premium headings */
+.hero-copy h1,
+.section-header h2,
+.pill,
+.audio-title {
+  background-image:
+    linear-gradient(
+      120deg,
+      #f8e7b5 0%,
+      #d4af37 22%,
+      #fff4d6 38%,
+      #c59b2b 52%,
+      #f4de9f 70%,
+      #d4af37 100%
+    );
+  background-size: 220% 220%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+  animation: royalGradientShift 9s ease-in-out infinite;
+}
+
+.hero-copy h1 {
+  filter: drop-shadow(0 2px 10px rgba(6, 21, 61, 0.38));
+}
+
+/* Hero sparkle field */
+.hero-sparkle-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+@keyframes sparkleFloat {
+  0%, 100% { transform: translateY(0) scale(0.9); opacity: 0.2; }
+  40% { transform: translateY(-14px) scale(1.15); opacity: 0.8; }
+  70% { transform: translateY(-6px) scale(0.95); opacity: 0.45; }
+}
+
+.hero-sparkle {
+  position: absolute;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 35% 35%, rgba(255, 248, 224, 0.95) 0%, rgba(241, 216, 138, 0.72) 45%, rgba(241, 216, 138, 0) 100%);
+  box-shadow: 0 0 14px rgba(241, 216, 138, 0.62);
+  animation-name: sparkleFloat;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.hero-section .content-wrap {
+  position: relative;
+  z-index: 1;
+}
+
+/* Luxury audio control bar */
+.luxury-audio-bar {
+  position: fixed;
+  left: 22px;
+  bottom: 24px;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 12px 10px 14px;
+  border-radius: 18px;
+  border: 1px solid rgba(212, 175, 55, 0.48);
+  background:
+    linear-gradient(140deg, rgba(8, 29, 81, 0.92), rgba(12, 43, 113, 0.84)),
+    radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.2), transparent 50%);
+  box-shadow: 0 10px 30px rgba(6, 21, 61, 0.35);
+  backdrop-filter: blur(8px);
+}
+
+.audio-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #f1d88a;
+}
+
+.audio-title {
+  font-size: 0.76rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.audio-status {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 0.72rem;
+  color: #f1d88a;
+  opacity: 0.9;
+}
+
+.luxury-audio-bar .music-toggle {
+  position: static;
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  border-radius: 12px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  right: auto;
+  bottom: auto;
+  font-size: 0;
+  box-shadow: 0 8px 20px rgba(6, 21, 61, 0.4);
+}
+
+/* Section reveal choreography */
+.reveal-section {
+  will-change: transform, opacity;
+  transform-origin: center top;
+}
+
+/* Tune expensive hover motion */
+.event-card:hover,
+.side-card:hover,
+.form-card:hover,
+.countdown-card:hover,
+.dashboard-list-item:hover,
+.message-item:hover {
+  box-shadow: 0 18px 44px rgba(6, 21, 61, 0.24);
+}
+
+/* Mobile/perf balance */
+@media (max-width: 768px) {
+  .hero-glow {
+    filter: blur(55px);
+    opacity: 0.3;
+    animation-duration: 9s;
+  }
+
+  .hero-sparkle:nth-child(n + 9) {
+    display: none;
+  }
+
+  .floating-balloon {
+    animation-duration: 9s !important;
+  }
+
+  .luxury-audio-bar {
+    left: 12px;
+    bottom: 14px;
+    padding: 8px 9px 8px 10px;
+    gap: 8px;
+  }
+
+  .audio-title {
+    font-size: 0.68rem;
+  }
+
+  .audio-status {
+    font-size: 0.62rem;
+  }
+
+  .luxury-audio-bar .music-toggle {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+  }
+}
+
+/* ===== RICH ROYAL BLUE + GOLD FINAL OVERRIDE ===== */
+@keyframes luxeTextShine {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+body {
+  background:
+    radial-gradient(circle at 12% 10%, rgba(241, 216, 138, 0.32) 0%, rgba(241, 216, 138, 0) 34%),
+    radial-gradient(circle at 90% 12%, rgba(108, 17, 41, 0.4) 0%, rgba(108, 17, 41, 0) 36%),
+    radial-gradient(circle at 78% 80%, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0) 30%),
+    linear-gradient(145deg, #1a0610 0%, #4c1026 40%, #6b1730 72%, #14050b 100%);
+  background-attachment: fixed;
+}
+
+.hero-section,
+.content-wrap.section-gap,
+.content-wrap.form-layout.section-gap-bottom {
+  background:
+    radial-gradient(circle at 20% 12%, rgba(248, 231, 181, 0.2) 0%, rgba(248, 231, 181, 0) 36%),
+    radial-gradient(circle at 84% 80%, rgba(212, 175, 55, 0.18) 0%, rgba(212, 175, 55, 0) 34%),
+    linear-gradient(140deg, rgba(34, 7, 17, 0.95), rgba(82, 17, 40, 0.92), rgba(45, 9, 22, 0.95)) !important;
+  border-color: rgba(241, 216, 138, 0.55);
+  box-shadow: 0 24px 60px rgba(2, 8, 25, 0.5), inset 0 1px 0 rgba(248, 231, 181, 0.15);
+}
+
+.info-card,
+.frame-card,
+.event-card,
+.form-card,
+.side-card,
+.modal-card,
+.timeline-content,
+.dashboard-list-item,
+.message-item,
+.countdown-card {
+  background:
+    linear-gradient(165deg, rgba(55, 12, 28, 0.86), rgba(99, 24, 50, 0.8) 45%, rgba(68, 15, 34, 0.86) 100%) !important;
+  border: 1px solid rgba(241, 216, 138, 0.45) !important;
+  box-shadow: 0 14px 34px rgba(25, 6, 14, 0.36), inset 0 1px 0 rgba(248, 231, 181, 0.12) !important;
+  backdrop-filter: blur(10px);
+}
+
+.hero-copy h1,
+.section-header h2,
+.pill,
+h3,
+h4,
+label,
+p,
+span,
+.info-value,
+.info-label,
+.event-meta,
+.event-note,
+.submit-hint,
+.message-text,
+.message-time,
+.countdown-number,
+.countdown-label,
+.timeline-year,
+.list-item-number {
+  background-image: linear-gradient(120deg, #fff4d6 0%, #f4de9f 16%, #d4af37 42%, #fff0c8 58%, #c89f2f 76%, #f7e4a3 100%);
+  background-size: 220% 220%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+  animation: luxeTextShine 9s ease-in-out infinite;
+}
+
+.info-card::before,
+.frame-card::before,
+.event-card::before,
+.form-card::before,
+.side-card::before,
+.modal-card::before,
+.timeline-content::before,
+.dashboard-list-item::before,
+.message-item::before,
+.countdown-card::before {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(241, 216, 138, 0.2) 0 14%, transparent 36%),
+    radial-gradient(circle at 100% 100%, rgba(90, 20, 44, 0.22) 0 16%, transparent 38%) !important;
+}
+
+.info-card::after,
+.frame-card::after,
+.event-card::after,
+.form-card::after,
+.side-card::after,
+.modal-card::after,
+.timeline-content::after,
+.dashboard-list-item::after,
+.message-item::after,
+.countdown-card::after {
+  background:
+    linear-gradient(135deg, rgba(241, 216, 138, 0.45), rgba(241, 216, 138, 0)) top left / 36px 36px no-repeat,
+    linear-gradient(315deg, rgba(120, 30, 60, 0.45), rgba(120, 30, 60, 0)) top right / 36px 36px no-repeat,
+    linear-gradient(45deg, rgba(120, 30, 60, 0.45), rgba(120, 30, 60, 0)) bottom left / 36px 36px no-repeat,
+    linear-gradient(225deg, rgba(241, 216, 138, 0.45), rgba(241, 216, 138, 0)) bottom right / 36px 36px no-repeat !important;
+}
+
+.event-card .event-header h3,
+.event-card .event-meta,
+.event-card .event-note,
+.info-card .info-label,
+.info-card .info-value,
+.side-card h3,
+.side-card p,
+.dashboard-list-item h4,
+.dashboard-list-item .list-item-number,
+.timeline-content h4,
+.timeline-content p,
+.message-text,
+.message-time {
+  background-image: none !important;
+  color: #f8e7b5 !important;
+  -webkit-text-fill-color: #f8e7b5 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.28);
+}
+
+input,
+textarea,
+::placeholder {
+  color: #f7e4a3 !important;
+}
+
+input,
+textarea {
+  background: rgba(44, 9, 23, 0.58) !important;
+  border-color: rgba(241, 216, 138, 0.38) !important;
+}
+
+@media (max-width: 768px) {
+  .hero-copy h1,
+  .section-header h2,
+  .pill,
+  h3,
+  h4,
+  label,
+  p,
+  span,
+  .info-value,
+  .info-label,
+  .event-meta,
+  .event-note,
+  .submit-hint,
+  .message-text,
+  .message-time,
+  .countdown-number,
+  .countdown-label,
+  .timeline-year,
+  .list-item-number {
+    animation-duration: 12s;
+  }
+}
+
+/* ===== ELEGANT INDIAN WEDDING BACKGROUNDS ===== */
+body {
+  background:
+    radial-gradient(circle at 16% 10%, rgba(245, 214, 133, 0.3) 0%, rgba(245, 214, 133, 0) 34%),
+    radial-gradient(circle at 86% 12%, rgba(122, 22, 50, 0.34) 0%, rgba(122, 22, 50, 0) 38%),
+    conic-gradient(
+      from 180deg at 50% 50%,
+      rgba(212, 175, 55, 0.04) 0deg 25deg,
+      transparent 25deg 65deg,
+      rgba(212, 175, 55, 0.04) 65deg 90deg,
+      transparent 90deg 130deg,
+      rgba(212, 175, 55, 0.04) 130deg 155deg,
+      transparent 155deg 195deg,
+      rgba(212, 175, 55, 0.04) 195deg 220deg,
+      transparent 220deg 260deg,
+      rgba(212, 175, 55, 0.04) 260deg 285deg,
+      transparent 285deg 325deg,
+      rgba(212, 175, 55, 0.04) 325deg 360deg
+    ),
+    linear-gradient(150deg, #1a0610 0%, #4a1025 36%, #6f1a36 64%, #250911 100%) !important;
+  background-size: auto, auto, 220px 220px, auto;
+  background-attachment: fixed;
+}
+
+.hero-section,
+.content-wrap.section-gap,
+.content-wrap.form-layout.section-gap-bottom {
+  background:
+    radial-gradient(circle at 18% 18%, rgba(248, 231, 181, 0.16) 0%, rgba(248, 231, 181, 0) 38%),
+    radial-gradient(circle at 82% 78%, rgba(212, 175, 55, 0.13) 0%, rgba(212, 175, 55, 0) 36%),
+    repeating-linear-gradient(
+      45deg,
+      rgba(241, 216, 138, 0.06) 0px,
+      rgba(241, 216, 138, 0.06) 1px,
+      transparent 1px,
+      transparent 12px
+    ),
+    linear-gradient(145deg, rgba(39, 8, 19, 0.95), rgba(88, 18, 42, 0.92), rgba(48, 10, 24, 0.95)) !important;
+  border: 1px solid rgba(241, 216, 138, 0.46) !important;
+  box-shadow: 0 26px 58px rgba(20, 4, 10, 0.5), inset 0 1px 0 rgba(255, 238, 191, 0.14) !important;
+}
+
+.hero-section::after,
+.content-wrap.section-gap::after,
+.content-wrap.form-layout.section-gap-bottom::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 12% 88%, rgba(241, 216, 138, 0.1) 0%, rgba(241, 216, 138, 0) 22%),
+    radial-gradient(circle at 88% 12%, rgba(241, 216, 138, 0.1) 0%, rgba(241, 216, 138, 0) 24%),
+    radial-gradient(circle at 50% 50%, rgba(241, 216, 138, 0.06) 0%, rgba(241, 216, 138, 0) 44%);
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 6%;
+  right: 6%;
+  height: 8px;
+  border-radius: 0 0 10px 10px;
+  background: linear-gradient(90deg, rgba(212, 175, 55, 0), rgba(241, 216, 138, 0.8), rgba(212, 175, 55, 0));
+  box-shadow: 0 6px 20px rgba(241, 216, 138, 0.25);
+  z-index: 2;
+}
+
+.hero-section .content-wrap,
+.content-wrap.section-gap > *,
+.content-wrap.form-layout.section-gap-bottom > * {
+  position: relative;
+  z-index: 1;
+}
+
+.info-card,
+.frame-card,
+.event-card,
+.form-card,
+.side-card,
+.modal-card,
+.timeline-content,
+.dashboard-list-item,
+.message-item,
+.countdown-card {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(241, 216, 138, 0.08) 0%, rgba(241, 216, 138, 0) 44%),
+    radial-gradient(circle at 0% 100%, rgba(124, 24, 53, 0.08) 0%, rgba(124, 24, 53, 0) 44%),
+    linear-gradient(168deg, rgba(54, 11, 27, 0.88), rgba(95, 22, 47, 0.82), rgba(65, 14, 32, 0.88)) !important;
+}
+
+/* Deity watermark background layer for traditional look */
+.page-shell {
+  position: relative;
+}
+
+.page-shell::before,
+.page-shell::after {
+  content: '';
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.15;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 10px 26px rgba(212, 175, 55, 0.2));
+}
+
+.page-shell::before {
+  width: 420px;
+  height: 420px;
+  left: 24px;
+  top: 90px;
+  background-image: url('/photos/ganesha-watermark.svg');
+}
+
+.page-shell::after {
+  width: 470px;
+  height: 470px;
+  right: 26px;
+  bottom: 70px;
+  background-image: url('/photos/rama-sita-watermark.svg');
+}
+
+.hero-section,
+.content-wrap.section-gap,
+.content-wrap.form-layout.section-gap-bottom {
+  z-index: 1;
+}
+
+@media (max-width: 900px) {
+  .page-shell::before,
+  .page-shell::after {
+    opacity: 0.09;
+    transform: scale(0.88);
+  }
+}
+
+@media (max-width: 640px) {
+  .page-shell::before {
+    width: 280px;
+    height: 280px;
+    left: -34px;
+    top: 120px;
+    opacity: 0.07;
+  }
+
+  .page-shell::after {
+    width: 300px;
+    height: 300px;
+    right: -40px;
+    bottom: 110px;
+    opacity: 0.07;
+  }
+}
+
+/* ===== RAMAYAN THEME (RAMA - SITA) ===== */
+.ramayan-theme {
+  background:
+    radial-gradient(circle at 10% 12%, rgba(255, 228, 149, 0.24) 0%, rgba(255, 228, 149, 0) 34%),
+    radial-gradient(circle at 88% 10%, rgba(121, 22, 47, 0.35) 0%, rgba(121, 22, 47, 0) 40%),
+    linear-gradient(150deg, #1a060f 0%, #4d1026 44%, #722039 74%, #2a0813 100%);
+}
+
+.ramayan-theme .hero-section,
+.ramayan-theme .content-wrap.section-gap,
+.ramayan-theme .content-wrap.form-layout.section-gap-bottom {
+  background:
+    radial-gradient(circle at 16% 18%, rgba(248, 231, 181, 0.18) 0%, rgba(248, 231, 181, 0) 36%),
+    radial-gradient(circle at 86% 80%, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0) 34%),
+    repeating-linear-gradient(
+      45deg,
+      rgba(241, 216, 138, 0.05) 0px,
+      rgba(241, 216, 138, 0.05) 1px,
+      transparent 1px,
+      transparent 14px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(241, 216, 138, 0.045) 0px,
+      rgba(241, 216, 138, 0.045) 1px,
+      transparent 1px,
+      transparent 14px
+    ),
+    linear-gradient(145deg, rgba(39, 8, 19, 0.96), rgba(94, 20, 45, 0.92), rgba(48, 10, 24, 0.96)) !important;
+  border-color: rgba(241, 216, 138, 0.52) !important;
+  box-shadow: 0 24px 56px rgba(17, 3, 8, 0.5), inset 0 1px 0 rgba(255, 236, 188, 0.14) !important;
+}
+
+.ramayan-theme .hero-section::before {
+  content: '';
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 0;
+  height: 10px;
+  border-radius: 0 0 14px 14px;
+  background: linear-gradient(90deg, rgba(212, 175, 55, 0), rgba(248, 231, 181, 0.9), rgba(212, 175, 55, 0));
+  box-shadow: 0 8px 20px rgba(241, 216, 138, 0.2);
+  z-index: 2;
+}
+
+.ramayan-theme .hero-section::after {
+  content: '';
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 280px;
+  height: 130px;
+  background: url('/photos/rama-sita-watermark.svg') center / contain no-repeat;
+  opacity: 0.24;
+  filter: drop-shadow(0 8px 18px rgba(212, 175, 55, 0.2));
+  z-index: 2;
+  pointer-events: none;
+}
+
+.ramayan-theme.page-shell::before {
+  width: 460px;
+  height: 460px;
+  left: 16px;
+  top: 74px;
+  opacity: 0.25;
+  background-image: url('/photos/rama-sita-watermark.svg');
+}
+
+.ramayan-theme.page-shell::after {
+  width: 450px;
+  height: 450px;
+  right: 14px;
+  bottom: 56px;
+  opacity: 0.22;
+  background-image: url('/photos/rama-sita-watermark.svg');
+  transform: scaleX(-1);
+}
+
+.ramayan-theme .pill {
+  background:
+    radial-gradient(circle at 84% 18%, rgba(248, 231, 181, 0.22) 0%, rgba(248, 231, 181, 0) 44%),
+    linear-gradient(145deg, rgba(50, 10, 24, 0.94), rgba(100, 24, 48, 0.88), rgba(62, 13, 29, 0.94)) !important;
+  border: 1px solid rgba(241, 216, 138, 0.62) !important;
+  box-shadow: 0 12px 28px rgba(20, 4, 10, 0.34), inset 0 1px 0 rgba(255, 238, 191, 0.14) !important;
+  color: #f8e7b5 !important;
+  -webkit-text-fill-color: #f8e7b5 !important;
+  background-clip: border-box !important;
+  -webkit-background-clip: border-box !important;
+}
+
+.ramayan-theme .soft-pill {
+  background:
+    radial-gradient(circle at 85% 18%, rgba(248, 231, 181, 0.2) 0%, rgba(248, 231, 181, 0) 46%),
+    linear-gradient(145deg, rgba(50, 10, 24, 0.92), rgba(96, 22, 46, 0.86), rgba(62, 13, 29, 0.92)) !important;
+  border: 1px solid rgba(241, 216, 138, 0.56) !important;
+  color: #f8e7b5 !important;
+  box-shadow: 0 10px 24px rgba(20, 4, 10, 0.32), inset 0 1px 0 rgba(255, 238, 191, 0.12) !important;
+  -webkit-text-fill-color: #f8e7b5 !important;
+  background-clip: border-box !important;
+  -webkit-background-clip: border-box !important;
+}
+
+.ramayan-theme .hero-copy h1,
+.ramayan-theme .section-header h2,
+.ramayan-theme h3,
+.ramayan-theme h4,
+.ramayan-theme p,
+.ramayan-theme label,
+.ramayan-theme span,
+.ramayan-theme .event-meta,
+.ramayan-theme .event-note,
+.ramayan-theme .info-label,
+.ramayan-theme .info-value {
+  color: #f8e7b5 !important;
+  -webkit-text-fill-color: #f8e7b5 !important;
+}
+
+/* Alternate card style: temple-arch inspired */
+.ramayan-theme .info-card,
+.ramayan-theme .frame-card,
+.ramayan-theme .event-card,
+.ramayan-theme .form-card,
+.ramayan-theme .side-card,
+.ramayan-theme .modal-card,
+.ramayan-theme .timeline-content,
+.ramayan-theme .dashboard-list-item,
+.ramayan-theme .message-item,
+.ramayan-theme .countdown-card {
+  border-radius: 26px !important;
+  background:
+    radial-gradient(circle at 50% -20%, rgba(248, 231, 181, 0.24) 0%, rgba(248, 231, 181, 0) 48%),
+    linear-gradient(165deg, rgba(61, 14, 31, 0.92), rgba(92, 21, 46, 0.88), rgba(70, 16, 35, 0.92)) !important;
+  border: 1px solid rgba(241, 216, 138, 0.52) !important;
+  box-shadow:
+    0 16px 34px rgba(19, 3, 9, 0.42),
+    inset 0 1px 0 rgba(255, 240, 200, 0.16) !important;
+}
+
+.ramayan-theme .info-card::before,
+.ramayan-theme .frame-card::before,
+.ramayan-theme .event-card::before,
+.ramayan-theme .form-card::before,
+.ramayan-theme .side-card::before,
+.ramayan-theme .modal-card::before,
+.ramayan-theme .timeline-content::before,
+.ramayan-theme .dashboard-list-item::before,
+.ramayan-theme .message-item::before,
+.ramayan-theme .countdown-card::before {
+  background:
+    linear-gradient(180deg, rgba(248, 231, 181, 0.15), rgba(248, 231, 181, 0)) top/100% 36% no-repeat,
+    radial-gradient(circle at 0 100%, rgba(241, 216, 138, 0.14) 0%, rgba(241, 216, 138, 0) 42%),
+    radial-gradient(circle at 100% 100%, rgba(121, 22, 47, 0.22) 0%, rgba(121, 22, 47, 0) 44%) !important;
+}
+
+.ramayan-theme .info-card::after,
+.ramayan-theme .frame-card::after,
+.ramayan-theme .event-card::after,
+.ramayan-theme .form-card::after,
+.ramayan-theme .side-card::after,
+.ramayan-theme .modal-card::after,
+.ramayan-theme .timeline-content::after,
+.ramayan-theme .dashboard-list-item::after,
+.ramayan-theme .message-item::after,
+.ramayan-theme .countdown-card::after {
+  background:
+    linear-gradient(135deg, rgba(241, 216, 138, 0.46), rgba(241, 216, 138, 0)) top left/30px 30px no-repeat,
+    linear-gradient(225deg, rgba(241, 216, 138, 0.42), rgba(241, 216, 138, 0)) bottom right/30px 30px no-repeat !important;
+}
+
+.ramayan-theme .event-card {
+  border-radius: 30px !important;
+}
+
+.ramayan-theme .event-card .event-topbar {
+  height: 12px;
+  border-radius: 16px 16px 0 0;
+  box-shadow: inset 0 -1px 0 rgba(255, 240, 200, 0.2);
+}
+
+/* Different corner styles per card group */
+.ramayan-theme .event-card::after {
+  background:
+    radial-gradient(circle at 0 0, rgba(241, 216, 138, 0.58) 0 18px, transparent 19px) top left/42px 42px no-repeat,
+    radial-gradient(circle at 100% 100%, rgba(241, 216, 138, 0.52) 0 18px, transparent 19px) bottom right/42px 42px no-repeat !important;
+}
+
+.ramayan-theme .info-card::after,
+.ramayan-theme .dashboard-list-item::after {
+  background:
+    linear-gradient(135deg, rgba(241, 216, 138, 0.62), rgba(241, 216, 138, 0)) top left/34px 34px no-repeat,
+    linear-gradient(315deg, rgba(121, 22, 47, 0.46), rgba(121, 22, 47, 0)) top right/34px 34px no-repeat !important;
+}
+
+.ramayan-theme .form-card::after {
+  background:
+    linear-gradient(135deg, rgba(241, 216, 138, 0.55), rgba(241, 216, 138, 0)) top left/26px 26px no-repeat,
+    linear-gradient(225deg, rgba(241, 216, 138, 0.5), rgba(241, 216, 138, 0)) bottom right/26px 26px no-repeat,
+    linear-gradient(45deg, rgba(241, 216, 138, 0.32), rgba(241, 216, 138, 0)) bottom left/16px 16px no-repeat,
+    linear-gradient(315deg, rgba(241, 216, 138, 0.32), rgba(241, 216, 138, 0)) top right/16px 16px no-repeat !important;
+}
+
+.ramayan-theme .side-card::after,
+.ramayan-theme .timeline-content::after,
+.ramayan-theme .modal-card::after {
+  background:
+    conic-gradient(from 90deg at 0 0, rgba(241, 216, 138, 0.48), rgba(241, 216, 138, 0) 35%) top left/36px 36px no-repeat,
+    conic-gradient(from 270deg at 100% 100%, rgba(241, 216, 138, 0.48), rgba(241, 216, 138, 0) 35%) bottom right/36px 36px no-repeat !important;
+}
+
+.ramayan-theme .countdown-card::after,
+.ramayan-theme .message-item::after {
+  background:
+    linear-gradient(135deg, rgba(241, 216, 138, 0.55), rgba(241, 216, 138, 0)) top left/22px 22px no-repeat,
+    linear-gradient(225deg, rgba(121, 22, 47, 0.52), rgba(121, 22, 47, 0)) bottom right/22px 22px no-repeat !important;
+}
+
+/* Section-level corner styles (all major sections) */
+.ramayan-theme .hero-section::after {
+  background:
+    radial-gradient(circle at 0 0, rgba(241, 216, 138, 0.5) 0 24px, transparent 25px) top left/56px 56px no-repeat,
+    radial-gradient(circle at 100% 0, rgba(241, 216, 138, 0.42) 0 20px, transparent 21px) top right/50px 50px no-repeat,
+    radial-gradient(circle at 0 100%, rgba(121, 22, 47, 0.32) 0 20px, transparent 21px) bottom left/50px 50px no-repeat,
+    radial-gradient(circle at 100% 100%, rgba(241, 216, 138, 0.5) 0 24px, transparent 25px) bottom right/56px 56px no-repeat !important;
+}
+
+.ramayan-theme .content-wrap.section-gap::after {
+  background:
+    conic-gradient(from 90deg at 0 0, rgba(241, 216, 138, 0.48), rgba(241, 216, 138, 0) 35%) top left/48px 48px no-repeat,
+    conic-gradient(from 180deg at 100% 0, rgba(121, 22, 47, 0.42), rgba(121, 22, 47, 0) 35%) top right/44px 44px no-repeat,
+    conic-gradient(from 0deg at 0 100%, rgba(121, 22, 47, 0.38), rgba(121, 22, 47, 0) 35%) bottom left/44px 44px no-repeat,
+    conic-gradient(from 270deg at 100% 100%, rgba(241, 216, 138, 0.48), rgba(241, 216, 138, 0) 35%) bottom right/48px 48px no-repeat !important;
+}
+
+.ramayan-theme .content-wrap.form-layout.section-gap-bottom::after {
+  background:
+    linear-gradient(135deg, rgba(241, 216, 138, 0.52), rgba(241, 216, 138, 0)) top left/42px 42px no-repeat,
+    linear-gradient(315deg, rgba(121, 22, 47, 0.46), rgba(121, 22, 47, 0)) top right/42px 42px no-repeat,
+    linear-gradient(45deg, rgba(121, 22, 47, 0.4), rgba(121, 22, 47, 0)) bottom left/36px 36px no-repeat,
+    linear-gradient(225deg, rgba(241, 216, 138, 0.52), rgba(241, 216, 138, 0)) bottom right/42px 42px no-repeat !important;
+}
+
+/* Elegant border system */
+.ramayan-theme .hero-section,
+.ramayan-theme .content-wrap.section-gap,
+.ramayan-theme .content-wrap.form-layout.section-gap-bottom {
+  border: 1px solid rgba(241, 216, 138, 0.58) !important;
+  box-shadow:
+    0 0 0 1px rgba(255, 238, 191, 0.22) inset,
+    0 0 0 5px rgba(121, 22, 47, 0.18) inset,
+    0 24px 56px rgba(17, 3, 8, 0.46) !important;
+}
+
+.ramayan-theme .hero-section::before,
+.ramayan-theme .content-wrap.section-gap::before,
+.ramayan-theme .content-wrap.form-layout.section-gap-bottom::before {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border-radius: inherit;
+  border: 1px solid rgba(248, 231, 181, 0.26);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.ramayan-theme .info-card,
+.ramayan-theme .frame-card,
+.ramayan-theme .event-card,
+.ramayan-theme .form-card,
+.ramayan-theme .side-card,
+.ramayan-theme .modal-card,
+.ramayan-theme .timeline-content,
+.ramayan-theme .dashboard-list-item,
+.ramayan-theme .message-item,
+.ramayan-theme .countdown-card {
+  border: 1px solid rgba(241, 216, 138, 0.56) !important;
+  box-shadow:
+    0 0 0 1px rgba(255, 240, 200, 0.2) inset,
+    0 0 0 4px rgba(121, 22, 47, 0.14) inset,
+    0 16px 34px rgba(19, 3, 9, 0.4) !important;
+}
+
+.ramayan-theme .info-card::before,
+.ramayan-theme .frame-card::before,
+.ramayan-theme .event-card::before,
+.ramayan-theme .form-card::before,
+.ramayan-theme .side-card::before,
+.ramayan-theme .modal-card::before,
+.ramayan-theme .timeline-content::before,
+.ramayan-theme .dashboard-list-item::before,
+.ramayan-theme .message-item::before,
+.ramayan-theme .countdown-card::before {
+  background:
+    linear-gradient(180deg, rgba(255, 240, 200, 0.16), rgba(255, 240, 200, 0)) top/100% 30% no-repeat,
+    linear-gradient(0deg, rgba(212, 175, 55, 0.08), rgba(212, 175, 55, 0)) bottom/100% 25% no-repeat,
+    radial-gradient(circle at 0 100%, rgba(241, 216, 138, 0.12) 0%, rgba(241, 216, 138, 0) 42%),
+    radial-gradient(circle at 100% 100%, rgba(121, 22, 47, 0.18) 0%, rgba(121, 22, 47, 0) 44%) !important;
+}
+
+/* Enforce selected event background transition visibility */
+.event-card {
+  isolation: isolate;
+}
+
+.event-card-bg {
+  z-index: 1 !important;
+  opacity: 0;
+  transform: none;
+  transition: opacity 0.45s ease-in-out !important;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.event-card-selected .event-card-bg {
+  opacity: 1 !important;
+  transform: none;
+}
+
+.event-card[data-event="engagement"] .event-card-bg {
+  background-image: url('https://i.pinimg.com/originals/71/d7/e1/71d7e153f5b1ea803896a9494719d52d.jpg');
+}
+
+.event-card[data-event="haldi"] .event-card-bg {
+  background-image: url('https://i.pinimg.com/originals/c5/48/7f/c5487f67a9bc83f6983a218126e39048.jpg');
+}
+
+.event-card[data-event="marriage"] .event-card-bg {
+  background-image: url('https://i.pinimg.com/originals/25/a2/c7/25a2c7dd7e2c168bc718fd719f172c8f.jpg');
+}
+
+.event-card[data-event="cocktail"] .event-card-bg {
+  background-image: url('https://i.pinimg.com/originals/b7/67/7d/b7677d0a5b16f15bc5a88d3b06fa3709.jpg');
+}
+
+.event-card::before,
+.event-card::after {
+  content: none !important;
+}
+
+.event-card > *:not(.event-card-bg) {
+  z-index: 3 !important;
+}
+
+.ramayan-theme .event-card,
+.ramayan-theme .form-card,
+.ramayan-theme .side-card {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(241, 216, 138, 0.1) 0%, rgba(241, 216, 138, 0) 44%),
+    radial-gradient(circle at 0% 100%, rgba(121, 22, 47, 0.1) 0%, rgba(121, 22, 47, 0) 44%),
+    linear-gradient(168deg, rgba(53, 11, 26, 0.9), rgba(101, 23, 49, 0.84), rgba(66, 14, 31, 0.9)) !important;
+}
+
+/* Keep event cards minimal for smooth selected-image transitions */
+.ramayan-theme .event-card {
+  background: linear-gradient(168deg, rgba(53, 11, 26, 0.88), rgba(88, 20, 43, 0.84), rgba(62, 13, 30, 0.88)) !important;
+  border-radius: 22px !important;
+  box-shadow: 0 10px 24px rgba(17, 3, 8, 0.32) !important;
+}
+
+/* Ensure selected event image is controlled by .event-card-bg only */
+.event-card-selected[data-event="engagement"],
+.event-card-selected[data-event="haldi"],
+.event-card-selected[data-event="marriage"],
+.event-card-selected[data-event="cocktail"] {
+  background-image: none !important;
+}
+
+@media (max-width: 768px) {
+  .ramayan-theme.page-shell::before {
+    width: 320px;
+    height: 320px;
+    left: -20px;
+    top: 110px;
+    opacity: 0.14;
+  }
+
+  .ramayan-theme.page-shell::after {
+    width: 320px;
+    height: 320px;
+    right: -26px;
+    bottom: 105px;
+    opacity: 0.12;
+  }
+
+  .ramayan-theme .hero-section::after {
+    width: 210px;
+    height: 96px;
+    top: 14px;
+    opacity: 0.18;
+  }
+}
+
+/* Ramayan theme fix for countdown + RSVP status block */
+.ramayan-theme .section-header-with-countdown .inline-countdown,
+.ramayan-theme .section-header-with-countdown .dashboard-section,
+.ramayan-theme .countdown-card,
+.ramayan-theme .marriage-countdown {
+  background:
+    radial-gradient(circle at 82% 18%, rgba(248, 231, 181, 0.16) 0%, rgba(248, 231, 181, 0) 42%),
+    linear-gradient(160deg, rgba(50, 10, 24, 0.92), rgba(95, 22, 46, 0.86), rgba(61, 13, 29, 0.92)) !important;
+  border: 1px solid rgba(241, 216, 138, 0.5) !important;
+  box-shadow: 0 12px 30px rgba(20, 4, 10, 0.38), inset 0 1px 0 rgba(255, 238, 191, 0.12) !important;
+}
+
+.ramayan-theme .countdown-label-text,
+.ramayan-theme .countdown-card h4,
+.ramayan-theme .countdown-label {
+  color: #f1d88a !important;
+  background-image: none !important;
+  -webkit-text-fill-color: #f1d88a !important;
+}
+
+.ramayan-theme .countdown-item {
+  background: linear-gradient(150deg, rgba(34, 7, 17, 0.7), rgba(73, 16, 36, 0.66)) !important;
+  border: 1px solid rgba(241, 216, 138, 0.32);
+  box-shadow: 0 4px 12px rgba(20, 4, 10, 0.28);
+}
+
+.ramayan-theme .countdown-number {
+  background-image: linear-gradient(120deg, #fff4d6 0%, #f4de9f 18%, #d4af37 45%, #fff0c8 62%, #c89f2f 84%, #f7e4a3 100%) !important;
+  background-size: 220% 220%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+}
+
+/* ===== FLORAL PINK THEME ===== */
+.floral-theme {
+  background:
+    radial-gradient(circle at 10% 10%, rgba(255, 182, 193, 0.35) 0%, rgba(255, 182, 193, 0) 34%),
+    radial-gradient(circle at 90% 12%, rgba(244, 114, 182, 0.3) 0%, rgba(244, 114, 182, 0) 36%),
+    radial-gradient(circle at 80% 84%, rgba(251, 207, 232, 0.28) 0%, rgba(251, 207, 232, 0) 32%),
+    linear-gradient(145deg, #fff5fa 0%, #ffe8f3 42%, #ffd9ec 76%, #ffeef7 100%);
+  color: #5b2140;
+}
+
+.floral-theme.page-shell::before,
+.floral-theme.page-shell::after {
+  opacity: 0.12;
+  filter: drop-shadow(0 8px 18px rgba(236, 72, 153, 0.18));
+}
+
+.floral-theme .hero-section,
+.floral-theme .content-wrap.section-gap,
+.floral-theme .content-wrap.form-layout.section-gap-bottom {
+  background:
+    radial-gradient(circle at 14% 16%, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 36%),
+    radial-gradient(circle at 84% 80%, rgba(244, 114, 182, 0.16) 0%, rgba(244, 114, 182, 0) 34%),
+    repeating-linear-gradient(
+      45deg,
+      rgba(244, 114, 182, 0.045) 0px,
+      rgba(244, 114, 182, 0.045) 1px,
+      transparent 1px,
+      transparent 12px
+    ),
+    linear-gradient(150deg, rgba(255, 248, 252, 0.92), rgba(255, 236, 246, 0.9), rgba(255, 226, 241, 0.92)) !important;
+  border: 1px solid rgba(244, 114, 182, 0.34) !important;
+  box-shadow: 0 20px 44px rgba(190, 24, 93, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.7) !important;
+}
+
+.floral-theme .info-card,
+.floral-theme .frame-card,
+.floral-theme .event-card,
+.floral-theme .form-card,
+.floral-theme .side-card,
+.floral-theme .modal-card,
+.floral-theme .timeline-content,
+.floral-theme .dashboard-list-item,
+.floral-theme .message-item,
+.floral-theme .countdown-card {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(251, 207, 232, 0.22) 0%, rgba(251, 207, 232, 0) 44%),
+    linear-gradient(165deg, rgba(255, 255, 255, 0.96), rgba(255, 239, 248, 0.94), rgba(255, 230, 243, 0.96)) !important;
+  border: 1px solid rgba(244, 114, 182, 0.36) !important;
+  box-shadow: 0 14px 30px rgba(190, 24, 93, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+}
+
+.floral-theme .hero-copy h1,
+.floral-theme .section-header h2 {
+  background-image: linear-gradient(120deg, #be185d 0%, #e11d74 28%, #f472b6 58%, #be185d 100%) !important;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+.floral-theme .pill,
+.floral-theme .soft-pill {
+  background:
+    radial-gradient(circle at 84% 16%, rgba(251, 207, 232, 0.3) 0%, rgba(251, 207, 232, 0) 45%),
+    linear-gradient(140deg, rgba(255, 255, 255, 0.96), rgba(255, 232, 244, 0.95), rgba(255, 220, 239, 0.95)) !important;
+  border: 1px solid rgba(244, 114, 182, 0.45) !important;
+  color: #8a1247 !important;
+  -webkit-text-fill-color: #8a1247 !important;
+}
+
+.floral-theme h3,
+.floral-theme h4,
+.floral-theme p,
+.floral-theme label,
+.floral-theme span,
+.floral-theme .event-meta,
+.floral-theme .event-note,
+.floral-theme .info-label,
+.floral-theme .info-value,
+.floral-theme .submit-hint,
+.floral-theme .countdown-label,
+.floral-theme .countdown-label-text {
+  color: #5b2140 !important;
+  -webkit-text-fill-color: #5b2140 !important;
+  background-image: none !important;
+}
+
+.floral-theme .countdown-number,
+.floral-theme .list-item-number {
+  background-image: linear-gradient(120deg, #be185d 0%, #ec4899 50%, #be185d 100%) !important;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+}
+
+.floral-theme .dashboard-list-item .list-item-number {
+  color: #5b2140 !important;
+  -webkit-text-fill-color: #5b2140 !important;
+  background-image: none !important;
+}
+
+.floral-theme .event-card .event-header h3 {
+  color: #db2777 !important;
+  -webkit-text-fill-color: #db2777 !important;
+  background-image: none !important;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.35);
+}
+
+.floral-theme .event-card-selected .event-header h3 {
+  color: #f472b6 !important;
+  -webkit-text-fill-color: #f472b6 !important;
+}
+
+.floral-theme input,
+.floral-theme textarea {
+  background: rgba(255, 255, 255, 0.92) !important;
+  border: 1px solid rgba(244, 114, 182, 0.36) !important;
+  color: #5b2140 !important;
+}
+
+.floral-theme input::placeholder,
+.floral-theme textarea::placeholder {
+  color: #9d4b70 !important;
+}
+
+/* Remove residual blue/gold combinations from legacy classes */
+.floral-theme .hero-glow-one,
+.floral-theme .hero-glow-two,
+.floral-theme .hero-glow-three,
+.floral-theme .hero-glow-four {
+  background: linear-gradient(45deg, rgba(236, 72, 153, 0.65), rgba(244, 114, 182, 0.6), rgba(251, 113, 133, 0.58)) !important;
+}
+
+.floral-theme .theme-rose,
+.floral-theme .theme-haldi,
+.floral-theme .theme-marriage,
+.floral-theme .theme-cocktail {
+  background: linear-gradient(90deg, #be185d, #db2777, #ec4899, #f472b6) !important;
+  color: #fff !important;
+}
+
+.floral-theme .rose-text,
+.floral-theme .amber-text,
+.floral-theme .violet-text {
+  color: #db2777 !important;
+}
+
+.floral-theme .music-toggle,
+.floral-theme .floating-rsvp-btn,
+.floral-theme .floating-download-btn,
+.floral-theme button,
+.floral-theme .send-btn,
+.floral-theme .primary-btn {
+  background: linear-gradient(135deg, #be185d, #db2777, #ec4899, #f472b6) !important;
+  box-shadow: 0 12px 28px rgba(190, 24, 93, 0.25) !important;
+}
+
+.floral-theme .select-row,
+.floral-theme .countdown-card,
+.floral-theme .marriage-countdown,
+.floral-theme .dashboard-section {
+  background: linear-gradient(135deg, rgba(251, 207, 232, 0.42), rgba(244, 114, 182, 0.22)) !important;
+  border: 1px solid rgba(236, 72, 153, 0.32) !important;
+  box-shadow: 0 6px 18px rgba(190, 24, 93, 0.14) !important;
+}
+
+.floral-theme .countdown-label-text,
+.floral-theme .countdown-card h4,
+.floral-theme .countdown-label {
+  color: #8a1247 !important;
+  -webkit-text-fill-color: #8a1247 !important;
+  background-image: none !important;
+}
+
+.floral-theme .countdown-item {
+  background: rgba(255, 255, 255, 0.8) !important;
+  border: 1px solid rgba(236, 72, 153, 0.2);
+}
+
+/* Match `new` branch event-selection transition model */
+.floral-theme .event-card-bg {
+  display: none !important;
+}
+
+.floral-theme .event-card::before {
+  content: '' !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+  background-size: 30px 30px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.floral-theme .event-card:hover::before {
+  opacity: 1;
+}
+
+.floral-theme .event-card.event-card-selected[data-event='engagement'] {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url('https://i.pinimg.com/originals/71/d7/e1/71d7e153f5b1ea803896a9494719d52d.jpg') !important;
+  background-size: cover !important;
+  background-position: center !important;
+}
+
+.floral-theme .event-card.event-card-selected[data-event='haldi'] {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url('https://i.pinimg.com/originals/c5/48/7f/c5487f67a9bc83f6983a218126e39048.jpg') !important;
+  background-size: cover !important;
+  background-position: center !important;
+}
+
+.floral-theme .event-card.event-card-selected[data-event='marriage'] {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url('https://i.pinimg.com/originals/25/a2/c7/25a2c7dd7e2c168bc718fd719f172c8f.jpg') !important;
+  background-size: cover !important;
+  background-position: center !important;
+}
+
+.floral-theme .event-card.event-card-selected[data-event='cocktail'] {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url('https://i.pinimg.com/originals/b7/67/7d/b7677d0a5b16f15bc5a88d3b06fa3709.jpg') !important;
+  background-size: cover !important;
+  background-position: center !important;
+}
+
+/* Match `new` branch font transition behavior on event selection */
+.floral-theme .event-card .event-header h3,
+.floral-theme .event-card .event-meta,
+.floral-theme .event-card .event-note,
+.floral-theme .event-card .select-row,
+.floral-theme .event-card .info-label,
+.floral-theme .event-card .select-row span {
+  transition: color 0.35s ease, text-shadow 0.35s ease;
+}
+
+.floral-theme .event-card.event-card-selected[data-event='engagement'] .event-header h3,
+.floral-theme .event-card.event-card-selected[data-event='engagement'] .event-meta,
+.floral-theme .event-card.event-card-selected[data-event='engagement'] .event-note,
+.floral-theme .event-card.event-card-selected[data-event='engagement'] .select-row,
+.floral-theme .event-card.event-card-selected[data-event='engagement'] .info-label,
+.floral-theme .event-card.event-card-selected[data-event='engagement'] .select-row span {
+  color: #ffb6d9 !important;
+  -webkit-text-fill-color: #ffb6d9 !important;
+}
+
+.floral-theme .event-card.event-card-selected[data-event='haldi'] .event-header h3,
+.floral-theme .event-card.event-card-selected[data-event='haldi'] .event-meta,
+.floral-theme .event-card.event-card-selected[data-event='haldi'] .event-note,
+.floral-theme .event-card.event-card-selected[data-event='haldi'] .select-row,
+.floral-theme .event-card.event-card-selected[data-event='haldi'] .info-label,
+.floral-theme .event-card.event-card-selected[data-event='haldi'] .select-row span {
+  color: #fbbf24 !important;
+  -webkit-text-fill-color: #fbbf24 !important;
+}
+
+.floral-theme .event-card.event-card-selected[data-event='marriage'] .event-header h3,
+.floral-theme .event-card.event-card-selected[data-event='marriage'] .event-meta,
+.floral-theme .event-card.event-card-selected[data-event='marriage'] .event-note,
+.floral-theme .event-card.event-card-selected[data-event='marriage'] .select-row,
+.floral-theme .event-card.event-card-selected[data-event='marriage'] .info-label,
+.floral-theme .event-card.event-card-selected[data-event='marriage'] .select-row span {
+  color: #f4de9f !important;
+  -webkit-text-fill-color: #f4de9f !important;
+}
+
+.floral-theme .event-card.event-card-selected[data-event='cocktail'] .event-header h3,
+.floral-theme .event-card.event-card-selected[data-event='cocktail'] .event-meta,
+.floral-theme .event-card.event-card-selected[data-event='cocktail'] .event-note,
+.floral-theme .event-card.event-card-selected[data-event='cocktail'] .select-row,
+.floral-theme .event-card.event-card-selected[data-event='cocktail'] .info-label,
+.floral-theme .event-card.event-card-selected[data-event='cocktail'] .select-row span {
+  color: #93c5fd !important;
+  -webkit-text-fill-color: #93c5fd !important;
+}
+
+/* Floral corner ornaments */
+.floral-theme .hero-section::after,
+.floral-theme .content-wrap.section-gap::after,
+.floral-theme .content-wrap.form-layout.section-gap-bottom::after,
+.floral-theme .info-card::after,
+.floral-theme .frame-card::after,
+.floral-theme .event-card::after,
+.floral-theme .form-card::after,
+.floral-theme .side-card::after,
+.floral-theme .modal-card::after,
+.floral-theme .timeline-content::after,
+.floral-theme .dashboard-list-item::after,
+.floral-theme .message-item::after,
+.floral-theme .countdown-card::after {
+  background:
+    radial-gradient(circle at 0 0, rgba(236, 72, 153, 0.28) 0 12px, transparent 13px) top left/46px 46px no-repeat,
+    radial-gradient(circle at 100% 0, rgba(236, 72, 153, 0.28) 0 12px, transparent 13px) top right/46px 46px no-repeat,
+    radial-gradient(circle at 0 100%, rgba(236, 72, 153, 0.28) 0 12px, transparent 13px) bottom left/46px 46px no-repeat,
+    radial-gradient(circle at 100% 100%, rgba(236, 72, 153, 0.28) 0 12px, transparent 13px) bottom right/46px 46px no-repeat,
+    linear-gradient(135deg, rgba(251, 207, 232, 0.55), rgba(251, 207, 232, 0)) top left/22px 22px no-repeat,
+    linear-gradient(225deg, rgba(251, 207, 232, 0.55), rgba(251, 207, 232, 0)) bottom right/22px 22px no-repeat !important;
+  opacity: 0.75;
+}
+
+/* Floral theme: richer floating flower layer */
+.floral-theme .floating-flower-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+@keyframes floralFloatLift {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(0.9);
+    opacity: 0;
+  }
+  18% {
+    opacity: 0.38;
+  }
+  50% {
+    transform: translate3d(14px, -24px, 0) rotate(11deg) scale(1.05);
+    opacity: 0.54;
+  }
+  82% {
+    opacity: 0.34;
+  }
+  100% {
+    transform: translate3d(-10px, -48px, 0) rotate(18deg) scale(0.92);
+    opacity: 0;
+  }
+}
+
+.floral-theme .floating-flower {
+  position: absolute;
+  border-radius: 999px;
+  will-change: transform, opacity;
+  animation-name: floralFloatLift;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  filter: drop-shadow(0 4px 10px rgba(219, 39, 119, 0.25));
+}
+
+.floral-theme .floating-flower::before,
+.floral-theme .floating-flower::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+}
+
+.floral-theme .floating-flower::before {
+  transform: rotate(45deg) scale(0.88);
+  opacity: 0.9;
+}
+
+.floral-theme .floating-flower::after {
+  transform: rotate(-38deg) scale(0.82);
+  opacity: 0.74;
+}
+
+.floral-theme .flower-type-0 {
+  background: radial-gradient(circle at 38% 36%, rgba(255, 255, 255, 0.95) 0%, rgba(255, 182, 217, 0.88) 34%, rgba(244, 114, 182, 0.28) 72%, transparent 100%);
+}
+
+.floral-theme .flower-type-0::before {
+  background: radial-gradient(circle at 64% 38%, rgba(255, 241, 247, 0.8) 0%, rgba(251, 113, 133, 0.52) 58%, transparent 100%);
+}
+
+.floral-theme .flower-type-0::after {
+  background: radial-gradient(circle at 44% 66%, rgba(255, 223, 238, 0.7) 0%, rgba(236, 72, 153, 0.36) 56%, transparent 100%);
+}
+
+.floral-theme .flower-type-1 {
+  background: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.92) 0%, rgba(251, 207, 232, 0.86) 34%, rgba(244, 114, 182, 0.28) 70%, transparent 100%);
+}
+
+.floral-theme .flower-type-1::before {
+  background: radial-gradient(circle at 68% 42%, rgba(255, 245, 250, 0.82) 0%, rgba(244, 114, 182, 0.5) 60%, transparent 100%);
+}
+
+.floral-theme .flower-type-1::after {
+  background: radial-gradient(circle at 42% 70%, rgba(255, 228, 243, 0.7) 0%, rgba(219, 39, 119, 0.33) 56%, transparent 100%);
+}
+
+.floral-theme .flower-type-2 {
+  background: radial-gradient(circle at 36% 32%, rgba(255, 255, 255, 0.95) 0%, rgba(254, 205, 211, 0.84) 34%, rgba(251, 113, 133, 0.25) 72%, transparent 100%);
+}
+
+.floral-theme .flower-type-2::before {
+  background: radial-gradient(circle at 62% 36%, rgba(255, 245, 250, 0.82) 0%, rgba(244, 114, 182, 0.48) 60%, transparent 100%);
+}
+
+.floral-theme .flower-type-2::after {
+  background: radial-gradient(circle at 46% 68%, rgba(255, 223, 238, 0.68) 0%, rgba(236, 72, 153, 0.32) 58%, transparent 100%);
+}
+
+@media (max-width: 900px) {
+  .floral-theme .floating-flower-layer {
+    opacity: 0.75;
+  }
+
+  .floral-theme .floating-flower:nth-child(2n) {
+    transform: scale(0.82);
+  }
+
+  .floral-theme .floating-flower:nth-child(n + 20) {
+    display: none;
   }
 }

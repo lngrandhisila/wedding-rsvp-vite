@@ -12,7 +12,6 @@ import {
   Users,
   Download,
   Send,
-  ChevronRight,
 } from 'lucide-react'
 import { appsScriptUrl, weddingConfig } from './config'
 
@@ -40,7 +39,6 @@ function App() {
     meal: '',
     note: '',
   })
-  const [musicPlaying, setMusicPlaying] = useState(false)
   const [status, setStatus] = useState({ state: 'idle', message: '' })
   const [fieldErrors, setFieldErrors] = useState({})
   const [showCardDownload, setShowCardDownload] = useState(false)
@@ -108,17 +106,32 @@ function App() {
     return () => clearInterval(interval)
   }, [])
 
-  const toggleMusic = () => {
-    const audio = document.getElementById('background-music')
-    if (musicPlaying) {
-      audio.pause()
-    } else {
-      audio.play().catch(err => console.log('Audio play failed:', err))
-    }
-    setMusicPlaying(!musicPlaying)
-  }
-
   const selectedCount = useMemo(() => selectedEvents.length, [selectedEvents])
+  const floatingFlowers = useMemo(
+    () =>
+      Array.from({ length: 30 }, (_, index) => ({
+        id: index,
+        left: `${(index * 17 + 9) % 100}%`,
+        top: `${(index * 23 + 13) % 100}%`,
+        size: `${22 + (index % 5) * 8}px`,
+        delay: `${(index % 7) * 0.5}s`,
+        duration: `${7 + (index % 6) * 1.1}s`,
+        type: index % 3,
+      })),
+    [],
+  )
+  const heroSparkles = useMemo(
+    () =>
+      Array.from({ length: 16 }, (_, index) => ({
+        id: index,
+        left: `${(index * 13 + 7) % 100}%`,
+        top: `${(index * 17 + 11) % 78}%`,
+        size: `${10 + (index % 4) * 4}px`,
+        delay: `${(index % 8) * 0.45}s`,
+        duration: `${3.2 + (index % 5) * 0.8}s`,
+      })),
+    [],
+  )
   const eventTitleById = useMemo(
     () => Object.fromEntries(weddingConfig.events.map((item) => [item.id, item.title])),
     [],
@@ -184,40 +197,273 @@ function App() {
     })
   }
 
-  const downloadWeddingCard = () => {
+  const loadImage = (src) =>
+    new Promise((resolve, reject) => {
+      const img = new Image()
+      img.crossOrigin = 'anonymous'
+      img.onload = () => resolve(img)
+      img.onerror = reject
+      img.src = src
+    })
+
+  const drawWrappedText = (ctx, text, x, y, maxWidth, lineHeight) => {
+    const words = String(text || '').split(' ')
+    let line = ''
+    let currentY = y
+
+    words.forEach((word) => {
+      const testLine = `${line}${word} `
+      const width = ctx.measureText(testLine).width
+      if (width > maxWidth && line) {
+        ctx.fillText(line.trim(), x, currentY)
+        line = `${word} `
+        currentY += lineHeight
+      } else {
+        line = testLine
+      }
+    })
+
+    if (line) {
+      ctx.fillText(line.trim(), x, currentY)
+      currentY += lineHeight
+    }
+
+    return currentY
+  }
+
+  const buildInvitationFileName = () => {
+    const invitationTitle =
+      weddingConfig.invitationTitle ||
+      `${weddingConfig.coupleNames} Wedding Invitation`
+
+    const safeName = invitationTitle
+      .toLowerCase()
+      .replace(/&/g, ' and ')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+
+    return `${safeName || 'wedding-invitation'}.png`
+  }
+
+  const roundedRectPath = (ctx, x, y, width, height, radius) => {
+    const r = Math.min(radius, width / 2, height / 2)
+    ctx.beginPath()
+    ctx.moveTo(x + r, y)
+    ctx.lineTo(x + width - r, y)
+    ctx.quadraticCurveTo(x + width, y, x + width, y + r)
+    ctx.lineTo(x + width, y + height - r)
+    ctx.quadraticCurveTo(x + width, y + height, x + width - r, y + height)
+    ctx.lineTo(x + r, y + height)
+    ctx.quadraticCurveTo(x, y + height, x, y + height - r)
+    ctx.lineTo(x, y + r)
+    ctx.quadraticCurveTo(x, y, x + r, y)
+    ctx.closePath()
+  }
+
+  const downloadWeddingCard = async () => {
     const canvas = document.createElement('canvas')
-    canvas.width = 1080
-    canvas.height = 1350
+    canvas.width = 1500
+    canvas.height = 2350
     const ctx = canvas.getContext('2d')
 
-    // Create gradient background
-    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height)
-    gradient.addColorStop(0, '#ff6b9d')
-    gradient.addColorStop(1, '#c2185b')
-    ctx.fillStyle = gradient
+    if (!ctx) return
+
+    const bg = ctx.createLinearGradient(0, 0, canvas.width, canvas.height)
+    bg.addColorStop(0, '#040d2b')
+    bg.addColorStop(0.35, '#0a2e82')
+    bg.addColorStop(0.72, '#132f73')
+    bg.addColorStop(1, '#040d2b')
+    ctx.fillStyle = bg
     ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-    // Add text
-    ctx.fillStyle = '#ffffff'
-    ctx.font = 'bold 60px Comic Sans MS'
+    const topGlow = ctx.createRadialGradient(canvas.width * 0.5, 260, 80, canvas.width * 0.5, 260, 700)
+    topGlow.addColorStop(0, 'rgba(241, 216, 138, 0.35)')
+    topGlow.addColorStop(1, 'rgba(241, 216, 138, 0)')
+    ctx.fillStyle = topGlow
+    ctx.fillRect(0, 0, canvas.width, 900)
+
+    const vignette = ctx.createRadialGradient(canvas.width / 2, canvas.height / 2, 450, canvas.width / 2, canvas.height / 2, 1300)
+    vignette.addColorStop(0, 'rgba(255, 255, 255, 0)')
+    vignette.addColorStop(1, 'rgba(0, 0, 0, 0.42)')
+    ctx.fillStyle = vignette
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+    ctx.strokeStyle = '#d4af37'
+    ctx.lineWidth = 8
+    roundedRectPath(ctx, 34, 34, canvas.width - 68, canvas.height - 68, 28)
+    ctx.stroke()
+
+    ctx.strokeStyle = 'rgba(241, 216, 138, 0.9)'
+    ctx.lineWidth = 2
+    roundedRectPath(ctx, 58, 58, canvas.width - 116, canvas.height - 116, 22)
+    ctx.stroke()
+
+    ctx.fillStyle = 'rgba(212, 175, 55, 0.82)'
+    ctx.fillRect(90, 90, 90, 4)
+    ctx.fillRect(canvas.width - 180, 90, 90, 4)
+    ctx.fillRect(90, canvas.height - 94, 90, 4)
+    ctx.fillRect(canvas.width - 180, canvas.height - 94, 90, 4)
+
+    roundedRectPath(ctx, 120, 120, canvas.width - 240, 360, 30)
+    const heroPanelGradient = ctx.createLinearGradient(120, 120, canvas.width - 120, 480)
+    heroPanelGradient.addColorStop(0, 'rgba(5, 20, 60, 0.76)')
+    heroPanelGradient.addColorStop(1, 'rgba(10, 35, 95, 0.62)')
+    ctx.fillStyle = heroPanelGradient
+    ctx.fill()
+    ctx.strokeStyle = 'rgba(212, 175, 55, 0.55)'
+    ctx.lineWidth = 2
+    ctx.stroke()
+
     ctx.textAlign = 'center'
-    ctx.fillText('Together Forever', canvas.width / 2, 200)
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.35)'
+    ctx.shadowBlur = 16
+    ctx.fillStyle = '#f8e7b5'
+    ctx.font = '700 66px Georgia'
+    ctx.fillText("Grandhisila Family's Wedding Invitation", canvas.width / 2, 204)
+    ctx.font = '700 92px Georgia'
+    ctx.fillStyle = '#ffe6a8'
+    ctx.fillText(weddingConfig.coupleNames, canvas.width / 2, 302)
 
-    ctx.font = '40px Comic Sans MS'
-    ctx.fillText('Our Wedding Celebration', canvas.width / 2, 280)
+    ctx.shadowBlur = 0
+    ctx.font = '500 34px Georgia'
+    ctx.fillStyle = '#f1d88a'
+    drawWrappedText(ctx, weddingConfig.subtitle, canvas.width / 2, 368, 1060, 42)
 
-    ctx.font = '30px Comic Sans MS'
-    ctx.fillText('May 7-9, 2026', canvas.width / 2, 500)
-    ctx.fillText('Dallas, Texas', canvas.width / 2, 580)
+    ctx.font = '700 35px Georgia'
+    ctx.fillStyle = '#f8e7b5'
+    ctx.fillText(`${weddingConfig.datesLabel}  |  ${weddingConfig.cityLabel}`, canvas.width / 2, 456)
 
-    ctx.font = '28px Comic Sans MS'
-    ctx.fillText('You are cordially invited', canvas.width / 2, 700)
+    const photos = await Promise.all(
+      weddingConfig.heroPhotos.map((src) => loadImage(src).catch(() => null)),
+    )
 
-    const link = document.createElement('a')
-    link.href = canvas.toDataURL('image/png')
-    link.download = 'wedding-card.png'
-    link.click()
-    setShowCardDownload(false)
+    const photoY = 540
+    const cardWidth = 410
+    const cardHeight = 280
+    const gap = 45
+    const startX = (canvas.width - cardWidth * 3 - gap * 2) / 2
+    photos.forEach((img, index) => {
+      const x = startX + index * (cardWidth + gap)
+      roundedRectPath(ctx, x - 10, photoY - 10, cardWidth + 20, cardHeight + 20, 24)
+      const frameGradient = ctx.createLinearGradient(x - 10, photoY - 10, x + cardWidth + 10, photoY + cardHeight + 10)
+      frameGradient.addColorStop(0, 'rgba(248, 231, 181, 0.75)')
+      frameGradient.addColorStop(1, 'rgba(212, 175, 55, 0.4)')
+      ctx.fillStyle = frameGradient
+      ctx.fill()
+
+      roundedRectPath(ctx, x, photoY, cardWidth, cardHeight, 20)
+      ctx.save()
+      ctx.clip()
+      if (img) {
+        ctx.drawImage(img, x, photoY, cardWidth, cardHeight)
+      } else {
+        ctx.fillStyle = 'rgba(255,255,255,0.2)'
+        ctx.fillRect(x, photoY, cardWidth, cardHeight)
+      }
+      const photoOverlay = ctx.createLinearGradient(x, photoY, x, photoY + cardHeight)
+      photoOverlay.addColorStop(0, 'rgba(255, 255, 255, 0.06)')
+      photoOverlay.addColorStop(1, 'rgba(0, 0, 0, 0.35)')
+      ctx.fillStyle = photoOverlay
+      ctx.fillRect(x, photoY, cardWidth, cardHeight)
+      ctx.restore()
+
+      ctx.strokeStyle = '#d4af37'
+      ctx.lineWidth = 2
+      roundedRectPath(ctx, x, photoY, cardWidth, cardHeight, 20)
+      ctx.stroke()
+    })
+
+    roundedRectPath(ctx, 120, 870, canvas.width - 240, 96, 18)
+    const titleBand = ctx.createLinearGradient(120, 870, canvas.width - 120, 966)
+    titleBand.addColorStop(0, 'rgba(212, 175, 55, 0.35)')
+    titleBand.addColorStop(1, 'rgba(241, 216, 138, 0.2)')
+    ctx.fillStyle = titleBand
+    ctx.fill()
+    ctx.strokeStyle = 'rgba(248, 231, 181, 0.6)'
+    ctx.stroke()
+
+    ctx.fillStyle = '#f8e7b5'
+    ctx.font = '700 58px Georgia'
+    ctx.fillText('Event Schedule', canvas.width / 2, 934)
+
+    const badgeColors = {
+      engagement: '#eab7ff',
+      haldi: '#ffd56b',
+      marriage: '#ff9bb2',
+      cocktail: '#9ec4ff',
+    }
+
+    let currentY = 1010
+    weddingConfig.events.forEach((event, index) => {
+      const boxX = 95
+      const boxW = canvas.width - 190
+      const boxH = 292
+
+      roundedRectPath(ctx, boxX, currentY, boxW, boxH, 22)
+      const eventGradient = ctx.createLinearGradient(boxX, currentY, boxX + boxW, currentY + boxH)
+      eventGradient.addColorStop(0, 'rgba(8, 30, 82, 0.88)')
+      eventGradient.addColorStop(1, 'rgba(7, 20, 58, 0.85)')
+      ctx.fillStyle = eventGradient
+      ctx.fill()
+
+      ctx.strokeStyle = 'rgba(212, 175, 55, 0.75)'
+      ctx.lineWidth = 2
+      ctx.stroke()
+
+      const accent = badgeColors[event.id] || '#f1d88a'
+      ctx.fillStyle = accent
+      ctx.fillRect(boxX + 20, currentY + 20, 8, boxH - 40)
+
+      ctx.textAlign = 'left'
+      ctx.fillStyle = '#f8e7b5'
+      ctx.font = '700 48px Georgia'
+      ctx.fillText(event.title, boxX + 48, currentY + 64)
+
+      ctx.font = '700 28px Georgia'
+      ctx.fillStyle = '#f1d88a'
+      ctx.fillText(`${event.day}  |  ${event.time}`, boxX + 48, currentY + 110)
+
+      ctx.font = '600 30px Georgia'
+      ctx.fillStyle = '#ffe6a8'
+      drawWrappedText(ctx, event.venue, boxX + 48, currentY + 156, boxW - 96, 34)
+
+      ctx.font = '500 27px Georgia'
+      ctx.fillStyle = 'rgba(248, 231, 181, 0.95)'
+      drawWrappedText(ctx, event.note, boxX + 48, currentY + 206, boxW - 96, 33)
+
+      const rightBadgeX = boxX + boxW - 138
+      roundedRectPath(ctx, rightBadgeX, currentY + 20, 118, 42, 12)
+      ctx.fillStyle = 'rgba(212, 175, 55, 0.18)'
+      ctx.fill()
+      ctx.strokeStyle = 'rgba(212, 175, 55, 0.55)'
+      ctx.lineWidth = 1.5
+      ctx.stroke()
+      ctx.textAlign = 'center'
+      ctx.fillStyle = '#f1d88a'
+      ctx.font = '600 22px Georgia'
+      ctx.fillText(`Event ${index + 1}`, rightBadgeX + 59, currentY + 49)
+
+      currentY += boxH + 26
+    })
+
+    ctx.textAlign = 'center'
+    ctx.fillStyle = '#f1d88a'
+    ctx.font = '600 32px Georgia'
+    ctx.fillText('We look forward to celebrating with you', canvas.width / 2, canvas.height - 110)
+    ctx.font = '500 24px Georgia'
+    ctx.fillStyle = 'rgba(248, 231, 181, 0.85)'
+    ctx.fillText('With Love, Grandhisila Family', canvas.width / 2, canvas.height - 70)
+
+    try {
+      const link = document.createElement('a')
+      link.href = canvas.toDataURL('image/png')
+      link.download = buildInvitationFileName()
+      link.click()
+      setShowCardDownload(false)
+    } catch (err) {
+      console.error('Card download failed:', err)
+      setStatus({ state: 'error', message: 'Could not generate card image. Please try again.' })
+    }
   }
 
  const generateICalendar = (eventId) => {
@@ -326,28 +572,49 @@ END:VCALENDAR`
     return
   }
 
-  // Check for duplicate event submissions based on name and phone (case-insensitive)
-  const submissionKey = `rsvp_${form.name.toLowerCase().trim()}_${form.phone.toLowerCase().trim()}`
-  const previousSubmissions = JSON.parse(localStorage.getItem(submissionKey) || '[]')
-  
-  // Find if any of the selected events were already submitted
-  const duplicateEvents = selectedEvents.filter(eventId => 
-    previousSubmissions.includes(eventId)
-  )
-  
-  if (duplicateEvents.length > 0) {
-    const duplicateEventNames = duplicateEvents
-      .map(id => weddingConfig.events.find(e => e.id === id)?.title)
-      .filter(Boolean)
-      .join(', ')
-    setStatus({ 
-      state: 'error', 
-      message: `You have already submitted an RSVP for: ${duplicateEventNames}. Please select different events.` 
+  // Check duplicates from Google Sheet (phone OR name+phone OR name+email)
+  try {
+    if (appsScriptUrl) {
+      const duplicateResponse = await fetch(appsScriptUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8',
+        },
+        body: JSON.stringify({
+          action: 'checkDuplicateRsvp',
+          guestName: form.name,
+          email: form.email,
+          phone: form.phone,
+          events: selectedEvents,
+        }),
+      })
+
+      const duplicateResult = await duplicateResponse.json()
+      if (duplicateResult.isDuplicate) {
+        const duplicateEventNames = (duplicateResult.duplicateEvents || [])
+          .map((id) => weddingConfig.events.find((event) => event.id === id)?.title)
+          .filter(Boolean)
+          .join(', ')
+        const reasons = (duplicateResult.reasons || []).join(', ')
+
+        setStatus({
+          state: 'error',
+          message: `Duplicate RSVP found in sheet for: ${duplicateEventNames}. Matched by ${reasons}.`,
+        })
+        return
+      }
+    }
+  } catch (duplicateError) {
+    console.error('Duplicate check failed:', duplicateError)
+    setStatus({
+      state: 'error',
+      message: 'Could not verify duplicates from Google Sheets. Please try again.',
     })
     return
   }
 
   const payload = {
+    action: 'submitRsvp',
     guestName: form.name,
     email: form.email,
     phone: form.phone,
@@ -360,7 +627,7 @@ END:VCALENDAR`
   setStatus({ state: 'loading', message: '' })
 
   try {
-    const response = await fetch(import.meta.env.VITE_APPS_SCRIPT_URL, {
+    const response = await fetch(appsScriptUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'text/plain;charset=utf-8',
@@ -371,10 +638,6 @@ END:VCALENDAR`
     const result = await response.json();
 
     if (result.success) {
-      // Store this submission in localStorage to prevent future duplicates
-      const updatedSubmissions = [...previousSubmissions, ...selectedEvents]
-      localStorage.setItem(submissionKey, JSON.stringify(updatedSubmissions))
-      
       // Update RSVP stats
       handleUpdateStats()
       
@@ -409,16 +672,23 @@ END:VCALENDAR`
 
 
   return (
-    <div className="page-shell wedding-scene">
-      <audio id="background-music" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg" />
-        Your browser does not support the audio element.
-      </audio>
-      
-      <button className="music-toggle" onClick={toggleMusic} title="Toggle background music">
-        {musicPlaying ? '🔊' : '🔇'}
-      </button>
-
+    <div className="page-shell wedding-scene floral-theme">
+      <div className="floating-flower-layer" aria-hidden="true">
+        {floatingFlowers.map((flower) => (
+          <span
+            key={flower.id}
+            className={`floating-flower flower-type-${flower.type}`}
+            style={{
+              left: flower.left,
+              top: flower.top,
+              width: flower.size,
+              height: flower.size,
+              animationDelay: flower.delay,
+              animationDuration: flower.duration,
+            }}
+          />
+        ))}
+      </div>
       {/* Floating RSVP Button */}
       <motion.button
         onClick={() => document.querySelector('.form-card')?.scrollIntoView({ behavior: 'smooth' })}
@@ -472,7 +742,29 @@ END:VCALENDAR`
         </motion.div>
       )}
 
-      <section className="hero-section wedding-mandap">
+      <motion.section
+        className="hero-section wedding-mandap reveal-section"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.25 }}
+        transition={{ duration: 0.8, ease: 'easeOut' }}
+      >
+        <div className="hero-sparkle-layer" aria-hidden="true">
+          {heroSparkles.map((sparkle) => (
+            <span
+              key={sparkle.id}
+              className="hero-sparkle"
+              style={{
+                left: sparkle.left,
+                top: sparkle.top,
+                width: sparkle.size,
+                height: sparkle.size,
+                animationDelay: sparkle.delay,
+                animationDuration: sparkle.duration,
+              }}
+            />
+          ))}
+        </div>
         <div className="hero-glow hero-glow-one" />
         <div className="hero-glow hero-glow-two" />
         <div className="hero-glow hero-glow-three" />
@@ -484,7 +776,7 @@ END:VCALENDAR`
             transition={{ duration: 0.5 }}
             className="hero-copy"
           >
-            <div className="pill"> Grandhisila Family's Wedding Invitation </div>
+            <div className="pill"> Grandhisila & Manchikanti Family's Wedding Invitation </div>
             <h1>{weddingConfig.coupleNames}</h1>
             <p className="hero-subtitle">{weddingConfig.subtitle}</p>
 
@@ -518,21 +810,21 @@ END:VCALENDAR`
             className="hero-gallery"
           >
             <motion.div 
-              className="gallery-large frame-card"
+              className="gallery-large gallery-featured frame-card"
               animate={{ y: [0, -20, 0], rotate: [0, 2, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
             >
               <img src={weddingConfig.heroPhotos[0]} alt="Couple portrait 1" />
             </motion.div>
             <motion.div 
-              className="gallery-small frame-card"
+              className="gallery-small gallery-portrait-left frame-card"
               animate={{ y: [0, -15, 0], rotate: [0, -2, 0] }}
               transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
             >
               <img src={weddingConfig.heroPhotos[1]} alt="Couple portrait 2" />
             </motion.div>
             <motion.div 
-              className="gallery-small frame-card"
+              className="gallery-small gallery-portrait-right frame-card"
               animate={{ y: [0, -18, 0], rotate: [0, 3, 0] }}
               transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
             >
@@ -540,9 +832,15 @@ END:VCALENDAR`
             </motion.div>
           </motion.div>
         </div>
-      </section>
+      </motion.section>
 
-      <section className="content-wrap section-gap">
+      <motion.section
+        className="content-wrap section-gap reveal-section"
+        initial={{ opacity: 0, y: 28 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.15 }}
+        transition={{ duration: 0.85, ease: 'easeOut' }}
+      >
         <div className="section-header-with-countdown">
           <div>
             <h2>Event Schedule</h2>
@@ -696,9 +994,15 @@ END:VCALENDAR`
           })}
         </div>
         {fieldErrors.events ? <div className="status-box error">{fieldErrors.events}</div> : null}
-      </section>
+      </motion.section>
 
-      <section className="content-wrap form-layout section-gap-bottom flower-garlands">
+      <motion.section
+        className="content-wrap form-layout section-gap-bottom flower-garlands reveal-section"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.12 }}
+        transition={{ duration: 0.9, ease: 'easeOut' }}
+      >
         <div className="form-card traditional-motif rama-sita-motif wedding-symbols">
           <div className="section-header no-space">
             <div>
@@ -888,7 +1192,7 @@ END:VCALENDAR`
             <p className="messages-count">+{guestMessages.length - 10} more wishes</p>
           )}
         </div>
-      </section>
+      </motion.section>
     </div>
   )
 }
