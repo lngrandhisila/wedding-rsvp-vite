@@ -1,13 +1,282 @@
 :root {
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: 'Comic Sans MS', 'Trebuchet MS', cursive, sans-serif;
   color: #1f2937;
-  background: linear-gradient(180deg, #fff8fb 0%, #fffaf0 50%, #ffffff 100%);
+  background:
+    /* Traditional Indian wedding scene with Rama and Sita */
+    radial-gradient(ellipse at center, rgba(255, 215, 0, 0.12) 0%, rgba(255, 107, 157, 0.1) 25%, rgba(240, 147, 251, 0.08) 50%, rgba(167, 139, 250, 0.06) 75%, rgba(255, 255, 255, 0.95) 100%),
+    /* Rama and Sita wedding mandap patterns */
+    linear-gradient(45deg, rgba(255, 215, 0, 0.06) 25%, transparent 25%, transparent 75%, rgba(255, 107, 157, 0.06) 75%),
+    linear-gradient(-45deg, rgba(240, 147, 251, 0.06) 25%, transparent 25%, transparent 75%, rgba(167, 139, 250, 0.06) 75%),
+    /* Traditional rangoli for wedding ceremony */
+    radial-gradient(circle at 20% 20%, rgba(255, 215, 0, 0.08) 2px, transparent 2px),
+    radial-gradient(circle at 80% 20%, rgba(255, 107, 157, 0.08) 2px, transparent 2px),
+    radial-gradient(circle at 20% 80%, rgba(240, 147, 251, 0.08) 2px, transparent 2px),
+    radial-gradient(circle at 80% 80%, rgba(167, 139, 250, 0.08) 2px, transparent 2px),
+    /* Sacred wedding fire and auspicious symbols */
+    radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.1) 3px, transparent 3px),
+    radial-gradient(circle at 30% 70%, rgba(255, 107, 157, 0.06) 2px, transparent 2px),
+    radial-gradient(circle at 70% 70%, rgba(240, 147, 251, 0.06) 2px, transparent 2px);
+  background-size:
+    100% 100%,
+    60px 60px,
+    60px 60px,
+    80px 80px,
+    80px 80px,
+    80px 80px,
+    80px 80px,
+    100px 100px,
+    60px 60px,
+    60px 60px;
+  background-position:
+    0 0,
+    0 0,
+    30px 30px,
+    0 0,
+    0 0,
+    0 0,
+    0 0,
+    0 0,
+    0 0,
+    0 0;
   line-height: 1.5;
   font-weight: 400;
 }
 
 * {
   box-sizing: border-box;
+}
+
+/* Animated Floral Theme */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.6; }
+  50% { transform: translateY(-20px) rotate(10deg); opacity: 0.9; }
+}
+
+@keyframes floatAlt {
+  0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.5; }
+  50% { transform: translateY(-25px) rotate(-15deg); opacity: 0.8; }
+}
+
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.4; }
+  50% { transform: translateY(-15px) rotate(8deg); opacity: 0.7; }
+}
+
+@keyframes sway {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
+}
+
+@keyframes bloom {
+  0% { transform: scale(0.8); opacity: 0; }
+  50% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.8; }
+}
+
+@keyframes spiral {
+  0% { transform: rotate(0deg) translateX(30px); }
+  100% { transform: rotate(360deg) translateX(30px); }
+}
+
+@keyframes floatPicture {
+  0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+  25% { transform: translateY(-20px) rotate(3deg) scale(1.05); }
+  50% { transform: translateY(0px) rotate(-2deg) scale(1); }
+  75% { transform: translateY(-15px) rotate(2deg) scale(1.02); }
+}
+
+@keyframes floatPictureAlt {
+  0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+  25% { transform: translateY(-15px) rotate(-3deg) scale(1.03); }
+  50% { transform: translateY(0px) rotate(3deg) scale(1.05); }
+  75% { transform: translateY(-20px) rotate(-2deg) scale(1); }
+}
+
+@keyframes floatPictureSlowWave {
+  0%, 100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+  25% { transform: translateY(-25px) translateX(10px) rotate(2deg); }
+  50% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+  75% { transform: translateY(-20px) translateX(-10px) rotate(-2deg); }
+}
+
+/* Floating Balloon Animation for Event Grid */
+.floating-balloon {
+  will-change: transform;
+}
+
+/* Animated Floral Decorations */
+.page-shell::before {
+  content: '';
+  position: fixed;
+  top: 5%;
+  left: 3%;
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle at 30% 30%, #ff69b4 0%, transparent 50%);
+  border-radius: 50%;
+  animation: float 6s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+  filter: drop-shadow(0 0 10px rgba(255, 105, 180, 0.4));
+}
+
+.page-shell::after {
+  content: '';
+  position: fixed;
+  bottom: 10%;
+  right: 3%;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle at 40% 40%, #ffd700 0%, transparent 50%);
+  border-radius: 50%;
+  animation: float 8s ease-in-out infinite reverse;
+  pointer-events: none;
+  z-index: 1;
+  filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.5));
+}
+
+/* Additional floral corner decorations using box-shadow patterns */
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: -30px;
+  right: 5%;
+  width: 120px;
+  height: 120px;
+  background: 
+    radial-gradient(circle at 25% 25%, #ff1493 0%, transparent 40%),
+    radial-gradient(circle at 75% 25%, #ff69b4 0%, transparent 40%),
+    radial-gradient(circle at 25% 75%, #ffb6d9 0%, transparent 40%),
+    radial-gradient(circle at 75% 75%, #ff69b4 0%, transparent 40%);
+  border-radius: 50%;
+  animation: bloom 5s ease-in-out infinite;
+  filter: drop-shadow(0 0 12px rgba(255, 20, 147, 0.5));
+  z-index: 0;
+}
+
+.form-card::before {
+  content: '';
+  position: absolute;
+  top: -40px;
+  left: -40px;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle at 50% 50%, #ffa500 0%, transparent 50%);
+  border-radius: 50%;
+  animation: sway 4s ease-in-out infinite;
+  filter: drop-shadow(0 0 10px rgba(255, 165, 0, 0.4));
+  pointer-events: none;
+}
+
+.form-card::after {
+  content: '';
+  position: absolute;
+  bottom: -50px;
+  right: -30px;
+  width: 90px;
+  height: 90px;
+  background: radial-gradient(circle at 50% 50%, #ff69b4 0%, transparent 50%);
+  border-radius: 50%;
+  animation: sway 5s ease-in-out infinite reverse;
+  filter: drop-shadow(0 0 10px rgba(255, 105, 180, 0.4));
+  pointer-events: none;
+}
+
+/* Additional floating flowers at various positions */
+.content-wrap::before {
+  content: '';
+  position: fixed;
+  top: 20%;
+  right: 5%;
+  width: 70px;
+  height: 70px;
+  background: radial-gradient(circle at 40% 40%, #ffa500 0%, transparent 50%);
+  border-radius: 50%;
+  animation: floatAlt 7s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+  filter: drop-shadow(0 0 12px rgba(255, 165, 0, 0.5));
+}
+
+.content-wrap::after {
+  content: '';
+  position: fixed;
+  bottom: 25%;
+  left: 4%;
+  width: 85px;
+  height: 85px;
+  background: radial-gradient(circle at 35% 35%, #ff1493 0%, transparent 50%);
+  border-radius: 50%;
+  animation: floatSlow 8s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+  filter: drop-shadow(0 0 14px rgba(255, 20, 147, 0.5));
+}
+
+/* Floating flowers in event section */
+.event-grid::before {
+  content: '';
+  position: fixed;
+  top: 35%;
+  left: 10%;
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle at 50% 50%, #ffb6d9 0%, transparent 50%);
+  border-radius: 50%;
+  animation: floatAlt 9s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+  filter: drop-shadow(0 0 10px rgba(255, 182, 217, 0.4));
+}
+
+.event-grid::after {
+  content: '';
+  position: fixed;
+  top: 50%;
+  right: 8%;
+  width: 75px;
+  height: 75px;
+  background: radial-gradient(circle at 45% 45%, #ffd700 0%, transparent 50%);
+  border-radius: 50%;
+  animation: float 6.5s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+  filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.5));
+}
+
+/* Form section floating flowers */
+.form-layout {
+  position: relative;
+}
+
+.form-layout::before {
+  content: '';
+  position: fixed;
+  bottom: 15%;
+  right: 3%;
+  width: 65px;
+  height: 65px;
+  background: radial-gradient(circle at 50% 50%, #ff69b4 0%, transparent 50%);
+  border-radius: 50%;
+  animation: floatSlow 10s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+  filter: drop-shadow(0 0 11px rgba(255, 105, 180, 0.5));
+}
+
+.form-layout::after {
+  content: '';
+  position: fixed;
+  bottom: 30%;
+  left: 5%;
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle at 40% 40%, #ffa500 0%, transparent 50%);
+  border-radius: 50%;
+  animation: floatAlt 7.5s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+  filter: drop-shadow(0 0 13px rgba(255, 165, 0, 0.5));
 }
 
 html, body, #root {
@@ -26,6 +295,32 @@ img {
 
 .page-shell {
   min-height: 100vh;
+  position: relative;
+}
+
+.music-toggle {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, #ff6b9d, #f093fb);
+  font-size: 28px;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(255, 107, 157, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  z-index: 999;
+}
+
+.music-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 12px 32px rgba(255, 107, 157, 0.6);
+}
+
+.music-toggle:active {
+  transform: scale(0.95);
 }
 
 .content-wrap {
@@ -33,10 +328,41 @@ img {
   margin: 0 auto;
 }
 
+/* Enhanced Traditional Indian Background Patterns */
 .hero-section {
   position: relative;
   overflow: hidden;
   padding: 48px 0 28px;
+  background-image:
+    /* Traditional wedding mandap decorations */
+    radial-gradient(circle at 10% 20%, rgba(255, 215, 0, 0.15) 2px, transparent 2px),
+    radial-gradient(circle at 90% 80%, rgba(255, 107, 157, 0.15) 2px, transparent 2px),
+    radial-gradient(circle at 50% 50%, rgba(240, 147, 251, 0.15) 1px, transparent 1px),
+    /* Sacred wedding fire patterns */
+    radial-gradient(circle at 50% 80%, rgba(255, 215, 0, 0.2) 4px, rgba(255, 107, 157, 0.1) 8px, transparent 12px),
+    /* Traditional lattice for mandap */
+    linear-gradient(45deg, rgba(255, 107, 157, 0.08) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(240, 147, 251, 0.08) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(255, 215, 0, 0.08) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(167, 139, 250, 0.08) 75%);
+  background-size:
+    60px 60px,
+    80px 80px,
+    40px 40px,
+    100px 100px,
+    30px 30px,
+    30px 30px,
+    30px 30px,
+    30px 30px;
+  background-position:
+    0 0,
+    0 0,
+    0 0,
+    0 0,
+    0 0,
+    15px 15px,
+    15px 15px,
+    0 0;
 }
 
 .hero-grid {
@@ -52,6 +378,13 @@ img {
   border-radius: 999px;
   filter: blur(70px);
   opacity: 0.45;
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-10px) rotate(120deg); }
+  66% { transform: translateY(10px) rotate(240deg); }
 }
 
 .hero-glow-one {
@@ -59,7 +392,7 @@ img {
   height: 320px;
   top: -40px;
   right: 5%;
-  background: rgba(244, 114, 182, 0.45);
+  background: linear-gradient(45deg, #ff6b9d, #c44569, #f093fb);
 }
 
 .hero-glow-two {
@@ -67,16 +400,36 @@ img {
   height: 280px;
   left: 5%;
   top: 60px;
-  background: rgba(251, 191, 36, 0.4);
+  background: linear-gradient(45deg, #ffd89b, #19547b, #a8e6cf);
+}
+
+.hero-glow-three {
+  width: 200px;
+  height: 200px;
+  bottom: 20px;
+  right: 20%;
+  background: linear-gradient(45deg, #667eea, #764ba2, #f093fb);
+}
+
+.hero-glow-four {
+  width: 180px;
+  height: 180px;
+  top: 40%;
+  left: 15%;
+  background: linear-gradient(45deg, #ffecd2, #fcb69f, #ff9a9e);
 }
 
 .hero-copy h1 {
   margin: 16px 0 14px;
   font-size: clamp(2.7rem, 5vw, 4.8rem);
   line-height: 1.05;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  color: #111827;
+  font-weight: 800;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, #ff6b9d, #f093fb, #f5576c, #4facfe);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 10px rgba(255, 107, 157, 0.2);
 }
 
 .hero-subtitle {
@@ -99,15 +452,17 @@ img {
 }
 
 .pill {
-  background: rgba(255, 255, 255, 0.85);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 107, 157, 0.1));
   color: #e11d48;
-  box-shadow: 0 14px 35px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 14px 35px rgba(255, 107, 157, 0.15);
+  border: 1px solid rgba(255, 107, 157, 0.2);
 }
 
 .soft-pill {
-  background: rgba(255, 255, 255, 0.9);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(240, 147, 251, 0.1));
   color: #374151;
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+  box-shadow: 0 8px 24px rgba(240, 147, 251, 0.1);
+  border: 1px solid rgba(240, 147, 251, 0.2);
 }
 
 .dark-pill {
@@ -134,8 +489,10 @@ img {
 .event-card,
 .form-card,
 .side-card {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.95);
   border: 1px solid rgba(255, 255, 255, 0.6);
+  position: relative;
+  overflow: hidden;
   box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
 }
 
@@ -207,6 +564,69 @@ img {
   margin-bottom: 24px;
 }
 
+.section-header-with-countdown {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.section-header-with-countdown > div:first-child {
+  flex: 1;
+  min-width: 250px;
+}
+
+.section-header-with-countdown > div:nth-child(2) {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.countdown-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.countdown-label-text {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: #ff6b9d;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.section-header-with-countdown .inline-countdown {
+  flex-shrink: 0;
+  margin: 0 !important;
+}
+
+.section-header-with-countdown .dashboard-section {
+  padding: 16px 20px;
+  border-radius: 16px;
+  grid-column: auto;
+  background: linear-gradient(135deg, rgba(255, 107, 157, 0.15), rgba(240, 147, 251, 0.15)) !important;
+  border: 2px solid rgba(255, 107, 157, 0.4) !important;
+  backdrop-filter: blur(10px) !important;
+  box-shadow: 0 4px 16px rgba(255, 107, 157, 0.12) !important;
+  position: relative;
+}
+
+.section-header-with-countdown .dashboard-section::before {
+  display: none !important;
+}
+
+.section-header-with-countdown .dashboard-section h3 {
+  margin: 0 0 10px 0;
+  font-size: 0.95rem;
+}
+
 .section-header.no-space {
   margin-bottom: 18px;
 }
@@ -214,7 +634,10 @@ img {
 .section-header h2 {
   margin: 0;
   font-size: 2rem;
-  color: #111827;
+  background: linear-gradient(135deg, #ff6b9d, #f093fb, #f5576c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .section-header p {
@@ -231,26 +654,373 @@ img {
 .event-card {
   border-radius: 30px;
   overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, outline 0.2s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, outline 0.3s ease;
+  position: relative;
+  color: #d90429 !important; /* Vivid red for all events */
+}
+
+.event-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 30px 30px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.event-card:hover::before {
+  opacity: 1;
 }
 
 .event-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(255, 107, 157, 0.15);
 }
 
 .event-card-selected {
-  outline: 2px solid #fb7185;
-  box-shadow: 0 24px 50px rgba(244, 63, 94, 0.18);
+  outline: 3px solid #ff6b9d;
+  box-shadow: 0 24px 50px rgba(255, 107, 157, 0.25), 0 0 0 6px rgba(240, 147, 251, 0.1);
+}
+
+/* Text contrast improvements for selected event cards */
+.event-card-selected .event-body {
+  position: relative;
+  z-index: 2;
+}
+
+.event-card-selected .event-header h3,
+.event-card-selected .event-meta,
+.event-card-selected .event-note,
+.event-card-selected .select-row,
+.event-card-selected .info-label {
+  text-shadow: none;
+}
+
+
+
+/* Pink font for engagement */
+.event-card-selected[data-event="engagement"] {
+  background-image:
+    /* Dark overlay for contrast */
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    /* Engagement event background image */
+    url('/photos/engagement-event-bg.jpg'),
+    /* Traditional engagement rangoli with floral patterns */
+    radial-gradient(circle at 25% 25%, rgba(255, 107, 157, 0.15) 2px, transparent 2px),
+    radial-gradient(circle at 75% 25%, rgba(240, 147, 251, 0.15) 2px, transparent 2px),
+    radial-gradient(circle at 25% 75%, rgba(255, 107, 157, 0.15) 2px, transparent 2px),
+    radial-gradient(circle at 75% 75%, rgba(240, 147, 251, 0.15) 2px, transparent 2px),
+    /* Rama's bow pattern - diagonal lines representing strength */
+    linear-gradient(45deg, rgba(255, 107, 157, 0.08) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(240, 147, 251, 0.08) 25%, transparent 25%),
+    /* Sacred engagement fire */
+    radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.1) 3px, transparent 3px),
+    /* Traditional diya patterns for blessings */
+    radial-gradient(circle at 20% 80%, rgba(255, 107, 157, 0.08) 2px, transparent 2px),
+    radial-gradient(circle at 80% 80%, rgba(240, 147, 251, 0.08) 2px, transparent 2px);
+  background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px, 40px 40px, 40px 40px, 20px 20px, 20px 20px, 60px 60px, 30px 30px, 30px 30px;
+  background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0;
+}
+
+.event-card-selected[data-event="engagement"] .event-header h3,
+.event-card-selected[data-event="engagement"] .event-meta,
+.event-card-selected[data-event="engagement"] .event-note,
+.event-card-selected[data-event="engagement"] .select-row,
+.event-card-selected[data-event="engagement"] .info-label {
+  color: #ffb6d9 !important;
+}
+
+/* Yellow font for haldi */
+.event-card-selected[data-event="haldi"] .event-header h3,
+.event-card-selected[data-event="haldi"] .event-meta,
+.event-card-selected[data-event="haldi"] .event-note,
+.event-card-selected[data-event="haldi"] .select-row,
+.event-card-selected[data-event="haldi"] .info-label {
+  color: #fbbf24 !important;
+}
+
+/* Bright orange font for marriage */
+.event-card-selected[data-event="marriage"] .event-header h3,
+.event-card-selected[data-event="marriage"] .event-meta,
+.event-card-selected[data-event="marriage"] .event-note,
+.event-card-selected[data-event="marriage"] .select-row,
+.event-card-selected[data-event="marriage"] .info-label {
+  color: #ff6b7a !important;
+}
+
+/* Blue font for cocktail */
+.event-card-selected[data-event="cocktail"] .event-header h3,
+.event-card-selected[data-event="cocktail"] .event-meta,
+.event-card-selected[data-event="cocktail"] .event-note,
+.event-card-selected[data-event="cocktail"] .select-row,
+.event-card-selected[data-event="cocktail"] .info-label {
+  color: #3b82f6 !important;
+}
+
+.event-card-selected[data-event="haldi"] {
+  background-image:
+    /* Dark overlay for contrast */
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    /* Haldi event background image */
+    url('/photos/haldi-event-bg.jpg'),
+    /* Golden mandala for haldi ceremony - representing purity and blessings */
+    repeating-conic-gradient(from 0deg at 50% 50%, rgba(255, 215, 0, 0.15) 0deg, rgba(251, 191, 36, 0.15) 30deg, rgba(245, 158, 11, 0.15) 60deg, rgba(217, 119, 6, 0.15) 90deg, rgba(255, 215, 0, 0.15) 120deg),
+    /* Turmeric powder dots - traditional haldi ceremony */
+    radial-gradient(circle at 30% 30%, rgba(255, 215, 0, 0.12) 3px, transparent 3px),
+    radial-gradient(circle at 70% 30%, rgba(251, 191, 36, 0.12) 2px, transparent 2px),
+    radial-gradient(circle at 30% 70%, rgba(245, 158, 11, 0.12) 2px, transparent 2px),
+    radial-gradient(circle at 70% 70%, rgba(217, 119, 6, 0.12) 2px, transparent 2px),
+    /* Traditional blessing patterns - family and friends applying haldi */
+    linear-gradient(45deg, rgba(255, 215, 0, 0.06) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(251, 191, 36, 0.06) 25%, transparent 25%),
+    /* Sacred turmeric circles */
+    radial-gradient(circle at 50% 20%, rgba(255, 215, 0, 0.08) 2px, transparent 2px),
+    radial-gradient(circle at 20% 50%, rgba(251, 191, 36, 0.08) 2px, transparent 2px),
+    radial-gradient(circle at 80% 50%, rgba(245, 158, 11, 0.08) 2px, transparent 2px),
+    radial-gradient(circle at 50% 80%, rgba(217, 119, 6, 0.08) 2px, transparent 2px);
+  background-size: 100% 100%, 100% 100%, 60px 60px, 50px 50px, 50px 50px, 50px 50px, 50px 50px, 25px 25px, 25px 25px, 40px 40px, 35px 35px, 45px 45px, 38px 38px;
+  background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0;
+}
+
+.event-card-selected[data-event="marriage"] {
+  background-image:
+    /* Dark overlay for contrast */
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    /* Marriage event background image */
+    url('https://i.pinimg.com/736x/25/a2/c7/25a2c7dd7e2c168bc718fd719f172c8f.jpg'),
+    /* Sacred wedding patterns - representing Rama and Sita's eternal union */
+    linear-gradient(45deg, rgba(255, 107, 157, 0.12) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(255, 107, 157, 0.12) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(236, 72, 153, 0.12) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(236, 72, 153, 0.12) 75%),
+    /* Rama and Sita's sacred fire - center of wedding ceremony */
+    radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.15) 4px, rgba(255, 107, 157, 0.1) 8px, transparent 12px),
+    /* Auspicious symbols at corners - representing eternal love */
+    radial-gradient(circle at 20% 20%, rgba(255, 215, 0, 0.1) 2px, transparent 2px),
+    radial-gradient(circle at 80% 20%, rgba(240, 147, 251, 0.1) 2px, transparent 2px),
+    radial-gradient(circle at 20% 80%, rgba(167, 139, 250, 0.1) 2px, transparent 2px),
+    radial-gradient(circle at 80% 80%, rgba(255, 107, 157, 0.1) 2px, transparent 2px),
+    /* Traditional wedding garlands - symbolizing marital bond */
+    radial-gradient(circle at 50% 20%, rgba(255, 107, 157, 0.08) 1px, transparent 1px),
+    radial-gradient(circle at 20% 50%, rgba(240, 147, 251, 0.08) 1px, transparent 1px),
+    radial-gradient(circle at 80% 50%, rgba(167, 139, 250, 0.08) 1px, transparent 1px),
+    radial-gradient(circle at 50% 80%, rgba(255, 215, 0, 0.08) 1px, transparent 1px),
+    /* Sacred wedding knots - representing seven vows */
+    linear-gradient(0deg, rgba(255, 107, 157, 0.06) 25%, transparent 25%),
+    linear-gradient(90deg, rgba(240, 147, 251, 0.06) 25%, transparent 25%);
+  background-size: 100% 100%, 100% 100%, 20px 20px, 20px 20px, 20px 20px, 20px 20px, 80px 80px, 30px 30px, 30px 30px, 30px 30px, 30px 30px, 40px 40px, 35px 35px, 45px 45px, 38px 38px, 15px 15px, 15px 15px;
+  background-position: 0 0, 0 0, 0 10px, 10px -10px, -10px 0px, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0;
+}
+
+.event-card-selected[data-event="cocktail"] {
+  background-image:
+    /* Dark overlay for contrast */
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    /* Cocktail party event background image */
+    url('/photos/cocktail-event-bg.jpg'),
+    /* Celebration patterns with traditional Indian motifs */
+    radial-gradient(circle at 50% 50%, rgba(167, 139, 250, 0.12) 1px, transparent 1px),
+    radial-gradient(circle at 25% 25%, rgba(139, 92, 246, 0.12) 1px, transparent 1px),
+    radial-gradient(circle at 75% 75%, rgba(79, 70, 229, 0.12) 1px, transparent 1px),
+    /* Festive dots representing celebration and dance */
+    radial-gradient(circle at 10% 90%, rgba(255, 107, 157, 0.1) 2px, transparent 2px),
+    radial-gradient(circle at 90% 10%, rgba(240, 147, 251, 0.1) 2px, transparent 2px),
+    radial-gradient(circle at 50% 10%, rgba(255, 215, 0, 0.1) 2px, transparent 2px),
+    radial-gradient(circle at 10% 50%, rgba(167, 139, 250, 0.1) 2px, transparent 2px),
+    radial-gradient(circle at 90% 50%, rgba(255, 107, 157, 0.1) 2px, transparent 2px),
+    radial-gradient(circle at 50% 90%, rgba(240, 147, 251, 0.1) 2px, transparent 2px),
+    /* Traditional celebration lattice - representing festive energy */
+    linear-gradient(45deg, rgba(167, 139, 250, 0.06) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(139, 92, 246, 0.06) 25%, transparent 25%),
+    /* Dancing patterns - representing bhangra and traditional dances */
+    radial-gradient(circle at 30% 30%, rgba(255, 107, 157, 0.08) 1px, transparent 1px),
+    radial-gradient(circle at 70% 30%, rgba(240, 147, 251, 0.08) 1px, transparent 1px),
+    radial-gradient(circle at 30% 70%, rgba(167, 139, 250, 0.08) 1px, transparent 1px),
+    radial-gradient(circle at 70% 70%, rgba(255, 215, 0, 0.08) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 30px 30px, 45px 45px, 60px 60px, 40px 40px, 50px 50px, 35px 35px, 45px 45px, 55px 55px, 40px 40px, 25px 25px, 25px 25px, 20px 20px, 20px 20px, 20px 20px, 20px 20px;
+  background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0;
+}
+.traditional-border {
+  position: relative;
+}
+
+.traditional-border::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background:
+    repeating-linear-gradient(45deg, rgba(255, 107, 157, 0.1) 0px, rgba(255, 107, 157, 0.1) 2px, transparent 2px, transparent 10px),
+    repeating-linear-gradient(-45deg, rgba(240, 147, 251, 0.1) 0px, rgba(240, 147, 251, 0.1) 2px, transparent 2px, transparent 10px);
+  border-radius: 20px;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.mandala-pattern {
+  background-image:
+    radial-gradient(circle at 50% 50%, rgba(255, 107, 157, 0.05) 1px, transparent 1px),
+    radial-gradient(circle at 50% 50%, rgba(240, 147, 251, 0.05) 0.5px, transparent 0.5px);
+  background-size: 40px 40px, 20px 20px;
+  background-position: 0 0, 10px 10px;
+}
+
+.paisley-accent {
+  position: relative;
+}
+
+.paisley-accent::after {
+  content: '🪔';
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  font-size: 1.5rem;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* Traditional Indian Wedding Scene Elements */
+.wedding-scene {
+  position: relative;
+}
+
+.wedding-scene::before {
+  content: '🏹💐';
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 2.5rem;
+  opacity: 0.15;
+  transform: rotate(-15deg);
+  letter-spacing: 10px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.wedding-scene::after {
+  content: '🪔🔥';
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  font-size: 2rem;
+  opacity: 0.15;
+  transform: rotate(15deg);
+  letter-spacing: 8px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Rama and Sita Wedding Mandap */
+.wedding-mandap {
+  position: relative;
+}
+
+.wedding-mandap::before {
+  content: '⛩️';
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 3rem;
+  opacity: 0.1;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.wedding-mandap::after {
+  content: '🌺🍃';
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.5rem;
+  opacity: 0.12;
+  letter-spacing: 15px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+@keyframes flicker {
+  0% { opacity: 0.15; transform: translateX(-50%) scale(1); }
+  50% { opacity: 0.25; transform: translateX(-50%) scale(1.05); }
+  100% { opacity: 0.15; transform: translateX(-50%) scale(1); }
+}
+
+.flower-garlands {
+  position: relative;
+}
+
+.flower-garlands::before {
+  content: '🌸🌺🌼';
+  position: absolute;
+  top: 15px;
+  left: 10px;
+  font-size: 1.5rem;
+  opacity: 0.12;
+  letter-spacing: 8px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.flower-garlands::after {
+  content: '🌺🌸🌼';
+  position: absolute;
+  bottom: 15px;
+  right: 10px;
+  font-size: 1.5rem;
+  opacity: 0.12;
+  letter-spacing: 8px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Auspicious Symbols */
+.auspicious-symbols {
+  position: relative;
+}
+
+.auspicious-symbols::before {
+  content: '🐘';
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  font-size: 1.8rem;
+  opacity: 0.1;
+  transform: rotate(-10deg);
+  pointer-events: none;
+}
+
+.auspicious-symbols::after {
+  content: '🪔';
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  font-size: 1.5rem;
+  opacity: 0.1;
+  transform: rotate(10deg);
+  pointer-events: none;
 }
 
 .event-topbar {
   height: 10px;
 }
 
-.theme-rose { background: linear-gradient(90deg, #fb7185, #f472b6, #d946ef); color: white; }
-.theme-haldi { background: linear-gradient(90deg, #fde047, #fbbf24, #fb923c); color: white; }
-.theme-marriage { background: linear-gradient(90deg, #ef4444, #fb7185, #ec4899); color: white; }
-.theme-cocktail { background: linear-gradient(90deg, #a855f7, #8b5cf6, #4f46e5); color: white; }
+.theme-rose { background: linear-gradient(90deg, #ff6b9d, #f093fb, #f5576c, #4facfe); color: white; }
+.theme-haldi { background: linear-gradient(90deg, #ffd700, #ffed4e, #fbbf24, #f59e0b, #d97706); color: #92400e; }
+.theme-marriage { background: linear-gradient(90deg, #ff9a9e, #fecfef, #fecfef, #ff9a9e); color: white; }
+.theme-cocktail { background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #f5576c); color: white; }
 
 .event-body {
   padding: 24px;
@@ -258,15 +1028,19 @@ img {
 
 .event-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   gap: 12px;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .event-header h3 {
-  margin: 4px 0 0;
-  font-size: 1.65rem;
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: 1px;
   color: #111827;
+  text-align: center;
+  text-transform: uppercase;
 }
 
 .event-icon {
@@ -302,11 +1076,17 @@ img {
 .select-row {
   margin-top: 20px;
   padding: 14px 16px;
-  background: #f8fafc;
+  background: linear-gradient(135deg, #f8fafc, #e0f2fe, #fef3c7);
   border-radius: 18px;
   cursor: pointer;
   font-weight: 600;
   color: #374151;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.select-row:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(255, 107, 157, 0.1);
 }
 
 .select-row input {
@@ -324,6 +1104,25 @@ img {
 .form-card {
   border-radius: 32px;
   padding: 28px;
+  position: relative;
+  background-image:
+    /* Traditional kolam pattern */
+    linear-gradient(45deg, rgba(255, 107, 157, 0.08) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(255, 107, 157, 0.08) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(240, 147, 251, 0.08) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(240, 147, 251, 0.08) 75%),
+    /* Rangoli dots */
+    radial-gradient(circle at 20% 20%, rgba(255, 215, 0, 0.1) 2px, transparent 2px),
+    radial-gradient(circle at 80% 80%, rgba(167, 139, 250, 0.1) 2px, transparent 2px),
+    /* Auspicious symbols pattern */
+    radial-gradient(circle at 50% 10%, rgba(255, 107, 157, 0.05) 1px, transparent 1px),
+    radial-gradient(circle at 10% 50%, rgba(240, 147, 251, 0.05) 1px, transparent 1px),
+    radial-gradient(circle at 90% 50%, rgba(167, 139, 250, 0.05) 1px, transparent 1px),
+    radial-gradient(circle at 50% 90%, rgba(255, 215, 0, 0.05) 1px, transparent 1px);
+  background-size: 20px 20px, 20px 20px, 20px 20px, 20px 20px, 30px 30px, 25px 25px, 40px 40px, 35px 35px, 45px 45px, 38px 38px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px, 0 0, 0 0, 0 0, 0 0, 0 0;
+  border: 2px solid rgba(255, 107, 157, 0.15);
+  box-shadow: 0 20px 60px rgba(255, 107, 157, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 .rsvp-form {
@@ -363,8 +1162,8 @@ textarea {
 
 input:focus,
 textarea:focus {
-  border-color: #fb7185;
-  box-shadow: 0 0 0 4px rgba(251, 113, 133, 0.12);
+  border-color: #ff6b9d;
+  box-shadow: 0 0 0 4px rgba(255, 107, 157, 0.15), 0 0 0 8px rgba(240, 147, 251, 0.1);
 }
 
 textarea {
@@ -384,12 +1183,18 @@ button {
   border: 0;
   border-radius: 18px;
   padding: 15px 22px;
-  background: linear-gradient(135deg, #fb7185, #ec4899, #a855f7);
+  background: linear-gradient(135deg, #ff6b9d, #f093fb, #f5576c, #4facfe);
   color: white;
   font: inherit;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 16px 34px rgba(236, 72, 153, 0.2);
+  box-shadow: 0 16px 34px rgba(255, 107, 157, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 40px rgba(255, 107, 157, 0.4);
 }
 
 button:disabled {
@@ -434,6 +1239,21 @@ button:disabled {
 .side-card {
   border-radius: 28px;
   padding: 26px;
+  position: relative;
+}
+
+.side-card::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 107, 157, 0.1) 0px, rgba(255, 107, 157, 0.1) 3px, transparent 3px, transparent 15px),
+    repeating-linear-gradient(0deg, rgba(240, 147, 251, 0.1) 0px, rgba(240, 147, 251, 0.1) 3px, transparent 3px, transparent 15px);
+  border-radius: 30px;
+  z-index: -1;
 }
 
 .side-card h3 {
@@ -449,7 +1269,7 @@ button:disabled {
 }
 
 .gradient-card {
-  background: linear-gradient(135deg, #fb7185, #ec4899, #a855f7);
+  background: linear-gradient(135deg, #ff6b9d, #f093fb, #f5576c, #4facfe);
   color: white;
 }
 
@@ -501,5 +1321,895 @@ button:disabled {
   .frame-card,
   .info-card {
     border-radius: 24px;
+  }
+}
+
+/* ===== GLASSMORPHISM DESIGN ===== */
+.glassmorphic {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+}
+
+/* ===== FLOATING RSVP BUTTON ===== */
+.floating-rsvp-btn {
+  position: fixed;
+  bottom: 100px;
+  right: 30px;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff6b9d, #f093fb);
+  border: none;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 8px 32px rgba(255, 107, 157, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 12px;
+  gap: 2px;
+  z-index: 998;
+  transition: all 0.3s ease;
+}
+
+.floating-rsvp-btn:hover {
+  box-shadow: 0 12px 40px rgba(255, 107, 157, 0.6);
+  transform: translateY(-4px);
+}
+
+/* ===== FLOATING DOWNLOAD BUTTON ===== */
+.floating-download-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  border: none;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 8px 32px rgba(59, 130, 246, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 997;
+  transition: all 0.3s ease;
+}
+
+.floating-download-btn:hover {
+  box-shadow: 0 12px 40px rgba(59, 130, 246, 0.6);
+  transform: translateY(-4px);
+}
+
+/* ===== MODAL STYLES ===== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.modal-card {
+  background: white;
+  padding: 40px;
+  border-radius: 24px;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.modal-card h3 {
+  margin-bottom: 10px;
+  color: #ff6b9d;
+}
+
+.modal-card p {
+  margin-bottom: 25px;
+  color: #666;
+}
+
+.primary-btn {
+  background: linear-gradient(135deg, #ff6b9d, #f093fb);
+  color: white;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-bottom: 10px;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 107, 157, 0.3);
+}
+
+.secondary-btn {
+  background: #f0f0f0;
+  color: #333;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.secondary-btn:hover {
+  background: #e0e0e0;
+}
+
+/* ===== PHOTO CAROUSEL ===== */
+
+/* ===== INDIAN TRADITIONAL WEDDING SCENE ===== */
+.indian-wedding-scene {
+  padding: 60px 20px;
+  background: linear-gradient(180deg, rgba(255, 215, 0, 0.08) 0%, rgba(255, 107, 157, 0.05) 100%);
+  border-radius: 20px;
+  margin: 40px 0;
+}
+
+/* ===== MOBILE-FIRST RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+  :root {
+    font-size: 14px;
+  }
+
+  .page-shell {
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  .content-wrap {
+    padding: 20px 16px;
+  }
+
+  .hero-section {
+    padding: 20px 16px;
+    min-height: 80vh;
+  }
+
+  .hero-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .hero-copy h1 {
+    font-size: 28px;
+  }
+
+  .hero-copy {
+    text-align: center;
+  }
+
+  .hero-gallery {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .gallery-large,
+  .gallery-small {
+    width: 100%;
+    height: 250px;
+  }
+
+  .event-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .event-card {
+    margin: 10px 0;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .submit-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .submit-row button {
+    width: 100%;
+  }
+
+  .floating-rsvp-btn {
+    width: 60px;
+    height: 60px;
+    bottom: 90px;
+    right: 16px;
+    font-size: 10px;
+  }
+
+  .floating-download-btn {
+    width: 55px;
+    height: 55px;
+    bottom: 16px;
+    right: 16px;
+  }
+
+  .modal-card {
+    padding: 30px 20px;
+    width: 95%;
+  }
+
+  .section-header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .side-card {
+    padding: 20px;
+  }
+
+  .form-card {
+    padding: 20px;
+  }
+
+  .submit-hint {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    font-size: 12px;
+  }
+
+  .hero-copy h1 {
+    font-size: 24px;
+  }
+
+  .hero-copy p {
+    font-size: 14px;
+  }
+
+  .floating-rsvp-btn {
+    width: 55px;
+    height: 55px;
+    bottom: 75px;
+    font-size: 9px;
+  }
+
+  .floating-download-btn {
+    width: 50px;
+    height: 50px;
+  }
+
+  .event-card {
+    padding: 15px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+
+  .pill {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+}
+
+/* ===== COUNTDOWN TIMERS ===== */
+.countdown-section {
+  grid-column: 1 / -1;
+  width: auto;
+}
+
+.floating-countdown {
+  position: sticky;
+  top: 20px;
+  z-index: 90;
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
+  margin: 0 0 20px 0;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.countdown-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.countdown-card {
+  background: linear-gradient(135deg, rgba(255, 107, 157, 0.15), rgba(240, 147, 251, 0.15));
+  border: 2px solid rgba(255, 107, 157, 0.4);
+  border-radius: 14px;
+  padding: 12px 14px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 16px rgba(255, 107, 157, 0.12);
+  width: fit-content;
+}
+
+.countdown-card:hover {
+  border-color: rgba(255, 107, 157, 0.8);
+  box-shadow: 0 6px 24px rgba(255, 107, 157, 0.2);
+  transform: translateY(-2px);
+}
+
+.marriage-countdown {
+  padding: 10px 12px;
+  background: linear-gradient(135deg, rgba(255, 107, 157, 0.2), rgba(240, 147, 251, 0.2));
+  border: 2px solid rgba(255, 107, 157, 0.5);
+  width: fit-content;
+}
+
+.marriage-countdown:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 157, 0.2);
+}
+
+.countdown-card h4 {
+  margin: 0 0 6px 0;
+  font-size: 12px;
+  color: #ff6b9d;
+  font-weight: 700;
+}
+
+.countdown-display {
+  display: flex;
+  justify-content: flex-start;
+  gap: 6px;
+  flex-wrap: nowrap;
+}
+
+.countdown-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 6px;
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 2px 8px rgba(255, 107, 157, 0.08);
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.countdown-item:hover {
+  background: rgba(255, 255, 255, 0.9);
+  transform: scale(1.08);
+  box-shadow: 0 3px 12px rgba(255, 107, 157, 0.15);
+}
+
+.countdown-number {
+  font-size: 14px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #ff6b9d, #f093fb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: block;
+  line-height: 1;
+}
+
+.countdown-label {
+  font-size: 6px;
+  color: #ff6b9d;
+  text-transform: uppercase;
+  margin-top: 1px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.event-passed {
+  color: #999;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .countdown-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .marriage-countdown {
+    padding: 25px;
+  }
+
+  .countdown-display {
+    gap: 15px;
+  }
+
+  .countdown-number {
+    font-size: 22px;
+  }
+
+  .countdown-label {
+    font-size: 10px;
+  }
+}
+
+/* ===== TIMELINE ===== */
+.timeline-section {
+  grid-column: 1 / -1;
+}
+
+.timeline {
+  position: relative;
+  padding: 20px 0;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, #ff6b9d, #f093fb);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 30px;
+  padding-left: 80px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.timeline-item:hover {
+  transform: translateX(5px);
+}
+
+.timeline-marker {
+  position: absolute;
+  left: 8px;
+  top: 5px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff6b9d, #f093fb);
+  border: 4px solid white;
+  box-shadow: 0 0 0 2px #ff6b9d;
+  transition: all 0.3s ease;
+}
+
+.timeline-item:hover .timeline-marker {
+  transform: scale(1.2);
+  box-shadow: 0 0 10px rgba(255, 107, 157, 0.6);
+}
+
+.timeline-content {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 15px;
+  border-radius: 10px;
+  border-left: 3px solid #ff6b9d;
+  backdrop-filter: blur(10px);
+}
+
+.timeline-year {
+  font-size: 12px;
+  color: #ff6b9d;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.timeline-content h4 {
+  margin: 5px 0 10px 0;
+  font-size: 16px;
+  color: #1f2937;
+}
+
+.timeline-content p {
+  margin: 10px 0 0 0;
+  font-size: 14px;
+  color: #666;
+}
+
+/* ===== RSVP DASHBOARD ===== */
+.dashboard-section {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, rgba(255, 107, 157, 0.15), rgba(240, 147, 251, 0.15)) !important;
+  border: 2px solid rgba(255, 107, 157, 0.4) !important;
+  backdrop-filter: blur(10px) !important;
+  box-shadow: 0 4px 16px rgba(255, 107, 157, 0.12) !important;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.dashboard-list {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.dashboard-list-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.8));
+  padding: 10px 12px;
+  border-radius: 11px;
+  border: 2px solid rgba(255, 107, 157, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 3px 12px rgba(255, 107, 157, 0.08);
+  min-width: 70px;
+  text-align: center;
+}
+
+.dashboard-list-item:hover {
+  border-color: rgba(255, 107, 157, 0.6);
+  box-shadow: 0 4px 16px rgba(255, 107, 157, 0.15);
+  transform: translateY(-2px);
+}
+
+.stat-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  flex-shrink: 0;
+}
+
+.dashboard-list-item:hover .stat-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.list-item-content {
+  flex: 1;
+}
+
+.list-item-content h4 {
+  margin: 0;
+  font-size: 11px;
+  color: #1f2937;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.list-item-subtitle {
+  margin: 0;
+  font-size: 9px;
+  color: #bbb;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  display: none;
+}
+
+.list-item-number {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #ff6b9d, #f093fb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+
+@media (max-width: 768px) {
+  .countdown-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .marriage-countdown {
+    padding: 16px 14px;
+  }
+
+  .countdown-display {
+    gap: 8px;
+  }
+
+  .countdown-number {
+    font-size: 16px;
+  }
+
+  .countdown-label {
+    font-size: 7px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .dashboard-stat {
+    min-height: 130px;
+  }
+
+  .stat-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .stat-content h4 {
+    font-size: 9px;
+  }
+
+  .stat-number {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 480px) {
+  .countdown-display {
+    gap: 6px;
+  }
+
+  .countdown-item {
+    width: 45px;
+    height: 45px;
+    padding: 6px;
+  }
+
+  .countdown-number {
+    font-size: 16px;
+  }
+
+  .countdown-label {
+    font-size: 6px;
+    margin-top: 1px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .dashboard-stat {
+    padding: 12px;
+    gap: 6px;
+    min-height: 120px;
+  }
+
+  .stat-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .stat-content h4 {
+    font-size: 8px;
+  }
+
+  .stat-number {
+    font-size: 20px;
+  }
+}
+
+/* ===== GUEST BOOK ===== */
+.guestbook-section {
+  grid-column: 1 / -1;
+}
+
+.guestbook-input {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.guestbook-input textarea {
+  width: 100%;
+  padding: 15px;
+  border: 2px solid rgba(255, 107, 157, 0.3);
+  border-radius: 12px;
+  font-family: 'Comic Sans MS', cursive;
+  font-size: 14px;
+  resize: none;
+  background: rgba(255, 255, 255, 0.9);
+  transition: all 0.3s ease;
+}
+
+.guestbook-input textarea:focus {
+  outline: none;
+  border-color: #ff6b9d;
+  box-shadow: 0 0 0 3px rgba(255, 107, 157, 0.1);
+}
+
+.send-btn {
+  background: linear-gradient(135deg, #ff6b9d, #f093fb);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  font-family: 'Comic Sans MS', cursive;
+  font-size: 14px;
+}
+
+.send-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 107, 157, 0.3);
+}
+
+.guestbook-messages {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.no-messages {
+  text-align: center;
+  color: #999;
+  font-style: italic;
+  padding: 20px;
+}
+
+.message-item {
+  background: linear-gradient(135deg, rgba(255, 107, 157, 0.08), rgba(240, 147, 251, 0.08));
+  padding: 15px;
+  border-radius: 12px;
+  border-left: 4px solid #ff6b9d;
+  transition: all 0.3s ease;
+}
+
+.message-item:hover {
+  transform: translateX(5px);
+  box-shadow: 0 4px 12px rgba(255, 107, 157, 0.15);
+}
+
+.message-text {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  color: #1f2937;
+  line-height: 1.6;
+}
+
+.message-time {
+  margin: 0;
+  font-size: 11px;
+  color: #999;
+  font-style: italic;
+}
+
+.messages-count {
+  text-align: center;
+  color: #ff6b9d;
+  font-size: 12px;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+/* Scrollbar styling for messages */
+.guestbook-messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.guestbook-messages::-webkit-scrollbar-track {
+  background: rgba(255, 107, 157, 0.1);
+  border-radius: 3px;
+}
+
+.guestbook-messages::-webkit-scrollbar-thumb {
+  background: rgba(255, 107, 157, 0.4);
+  border-radius: 3px;
+}
+
+.guestbook-messages::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 107, 157, 0.6);
+}
+
+@media (max-width: 768px) {
+  .guestbook-messages {
+    max-height: 300px;
+  }
+
+  .message-item {
+    padding: 12px;
+  }
+
+  .dashboard-list {
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .dashboard-list-item {
+    padding: 12px 14px;
+    gap: 12px;
+  }
+
+  .stat-icon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .list-item-content h4 {
+    font-size: 12px;
+  }
+
+  .list-item-subtitle {
+    font-size: 10px;
+  }
+
+  .list-item-number {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-list {
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .dashboard-list-item {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+
+  .stat-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .list-item-content h4 {
+    font-size: 11px;
+  }
+
+  .list-item-subtitle {
+    font-size: 9px;
+    letter-spacing: 0.2px;
+  }
+
+  .list-item-number {
+    font-size: 18px;
   }
 }

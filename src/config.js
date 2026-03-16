@@ -18,6 +18,7 @@ export const weddingConfig = {
       venue: 'The Bliss at Aubrey – Hall A',
       note: 'Join us for a beautiful evening celebrating the beginning of our forever.',
       theme: 'rose',
+      color: '#ff6b9d',
     },
     {
       id: 'haldi',
@@ -27,6 +28,7 @@ export const weddingConfig = {
       venue: 'The Bliss at Aubrey – Hall B',
       note: 'A joyful Haldi ceremony filled with blessings, laughter, and color.',
       theme: 'haldi',
+      color: '#ffd700',
     },
     {
       id: 'marriage',
@@ -36,6 +38,7 @@ export const weddingConfig = {
       venue: 'The Prism at Irving',
       note: 'We would be honored to have you join us as we exchange vows.',
       theme: 'marriage',
+      color: '#ff1493',
     },
     {
       id: 'cocktail',
@@ -45,6 +48,7 @@ export const weddingConfig = {
       venue: 'The Bliss at Aubrey – Hall C',
       note: 'Celebrate with us over music, dinner, and a memorable evening.',
       theme: 'cocktail',
+      color: '#a78bfa',
     },
   ],
 }
