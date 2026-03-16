@@ -1320,6 +1320,15 @@ button:disabled {
   line-height: 1.8;
 }
 
+.venue-map-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+  vertical-align: middle;
+  line-height: 0;
+}
+
 .gradient-card {
   background: linear-gradient(135deg, #ff6b9d, #f093fb, #f5576c, #4facfe);
   color: white;

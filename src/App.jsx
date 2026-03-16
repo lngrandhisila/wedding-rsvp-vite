@@ -140,6 +140,17 @@ function App() {
     () => selectedEvents.map((eventId) => eventTitleById[eventId]).filter(Boolean),
     [selectedEvents, eventTitleById],
   )
+  const eventVenues = useMemo(
+    () =>
+      weddingConfig.events
+        .map((eventItem) => ({
+          id: eventItem.id,
+          title: eventItem.title,
+          venue: eventItem.venue,
+        }))
+        .filter((eventItem) => eventItem.title && eventItem.venue),
+    [],
+  )
 
   const validate = (currentForm, currentSelectedEvents) => {
     const errors = {}
@@ -1127,10 +1138,25 @@ END:VCALENDAR`
 
         <div className="side-card gradient-card traditional-motif">
           <h3>Event Venues</h3>
-          <p><b>Engagement:</b> The Bliss at Aubrey – Hall A</p>
-          <p><b>Haldi:</b> The Bliss at Aubrey – Hall B</p>
-          <p><b>Marriage:</b> The Prism at Irving</p>
-          <p><b>Cocktail Party:</b> The Bliss at Aubrey – Hall C</p>
+          {eventVenues.map((eventItem) => (
+            <p key={eventItem.id}>
+              <b>{eventItem.title}:</b> {eventItem.venue}
+              {eventItem.venue ? (
+                <a
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(eventItem.venue)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="venue-map-link"
+                  aria-label={`Open ${eventItem.title} venue in Google Maps`}
+                >
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#4285F4"/>
+                    <circle cx="12" cy="9" r="2.5" fill="#34A853"/>
+                  </svg>
+                </a>
+              ) : null}
+            </p>
+          ))}
         </div>
 
         <div className="side-card auspicious-symbols">
