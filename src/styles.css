@@ -479,7 +479,7 @@ img {
 
 .info-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 16px;
   margin-top: 28px;
 }
@@ -514,6 +514,19 @@ img {
   color: #111827;
   font-weight: 600;
   margin-top: 4px;
+}
+
+.hero-highlight-card {
+  padding: 24px;
+}
+
+.hero-highlight-label {
+  font-size: 1.02rem;
+}
+
+.hero-highlight-value {
+  font-size: 1.18rem;
+  font-weight: 700;
 }
 
 .rose-text { color: #f43f5e; }
@@ -2165,6 +2178,59 @@ button:disabled {
   padding: 10px;
 }
 
+.guestbook-chat {
+  gap: 10px;
+  padding: 10px 6px 10px 8px;
+}
+
+.message-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.message-row-right {
+  justify-content: flex-end;
+}
+
+.message-row-left {
+  justify-content: flex-start;
+}
+
+.message-avatar {
+  min-width: 44px;
+  height: 28px;
+  border-radius: 999px;
+  padding: 0 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #9d174d;
+  background: linear-gradient(135deg, rgba(251, 207, 232, 0.82), rgba(244, 114, 182, 0.38));
+  border: 1px solid rgba(236, 72, 153, 0.3);
+}
+
+.message-bubble {
+  max-width: min(84%, 620px);
+  position: relative;
+  border-left: none;
+  border-radius: 16px;
+  padding: 12px 14px 10px;
+}
+
+.message-row-right .message-bubble {
+  border-top-right-radius: 6px;
+  background: linear-gradient(135deg, rgba(236, 72, 153, 0.16), rgba(251, 113, 133, 0.12));
+}
+
+.message-row-left .message-bubble {
+  border-top-left-radius: 6px;
+  background: linear-gradient(135deg, rgba(244, 114, 182, 0.14), rgba(236, 72, 153, 0.08));
+}
+
 .no-messages {
   text-align: center;
   color: #999;
@@ -2192,11 +2258,19 @@ button:disabled {
   line-height: 1.6;
 }
 
+.message-author {
+  margin: 0 0 4px 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: #9d174d;
+}
+
 .message-time {
   margin: 0;
   font-size: 11px;
   color: #999;
   font-style: italic;
+  text-align: right;
 }
 
 .messages-count {

@@ -16,7 +16,7 @@ export const weddingConfig = {
       day: 'Day 1',
       time: '9:00 AM onwards',
       venue: 'The Bliss at Aubrey – Ranch House',
-      note: 'Join us for a beautiful evening celebrating the beginning of our forever.',
+      note: 'Join us for a beautiful celebrating the beginning of our forever.',
       theme: 'rose',
       color: '#ff6b9d',
       backgroundImage: 'https://i.pinimg.com/originals/71/d7/e1/71d7e153f5b1ea803896a9494719d52d.jpg',

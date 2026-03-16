@@ -9,7 +9,6 @@ import {
   MapPin,
   PartyPopper,
   Flower2,
-  Users,
   Download,
   Send,
 } from 'lucide-react'
@@ -27,6 +26,20 @@ const themeClassMap = {
   haldi: 'theme-haldi',
   marriage: 'theme-marriage',
   cocktail: 'theme-cocktail',
+}
+
+const eventDateMap = {
+  engagement: '20260507',
+  haldi: '20260508',
+  marriage: '20260509',
+  cocktail: '20260509',
+}
+
+const eventTimeMap = {
+  engagement: '180000',
+  haldi: '100000',
+  marriage: '090000',
+  cocktail: '200000',
 }
 
 function App() {
@@ -91,7 +104,7 @@ function App() {
   useEffect(() => {
     const interval = setInterval(() => {
       const now = new Date()
-      const marriageDate = new Date('2026-04-22')
+      const marriageDate = new Date('2026-05-09T09:00:00')
       
       const diff = marriageDate - now
       if (diff > 0) {
@@ -100,6 +113,8 @@ function App() {
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
         const seconds = Math.floor((diff % (1000 * 60)) / 1000)
         setCountdownTimes({ days, hours, minutes, seconds })
+      } else {
+        setCountdownTimes({})
       }
     }, 1000)
 
@@ -140,6 +155,27 @@ function App() {
     () => selectedEvents.map((eventId) => eventTitleById[eventId]).filter(Boolean),
     [selectedEvents, eventTitleById],
   )
+  const eventDateLabelById = useMemo(() => {
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    })
+
+    return Object.fromEntries(
+      weddingConfig.events.map((eventItem) => {
+        const rawDate = eventDateMap[eventItem.id]
+        if (!rawDate || rawDate.length !== 8) {
+          return [eventItem.id, '']
+        }
+        const year = Number(rawDate.slice(0, 4))
+        const month = Number(rawDate.slice(4, 6)) - 1
+        const day = Number(rawDate.slice(6, 8))
+        const date = new Date(year, month, day)
+        return [eventItem.id, formatter.format(date)]
+      }),
+    )
+  }, [])
   const eventVenues = useMemo(
     () =>
       weddingConfig.events
@@ -271,45 +307,107 @@ function App() {
     ctx.closePath()
   }
 
+  const drawImageCover = (ctx, img, x, y, width, height) => {
+    if (!img) return
+
+    const imgRatio = img.width / img.height
+    const boxRatio = width / height
+
+    let drawWidth = width
+    let drawHeight = height
+    let drawX = x
+    let drawY = y
+
+    if (imgRatio > boxRatio) {
+      drawWidth = height * imgRatio
+      drawX = x - (drawWidth - width) / 2
+    } else {
+      drawHeight = width / imgRatio
+      drawY = y - (drawHeight - height) / 2
+    }
+
+    ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight)
+  }
+
+  const ensureInvitationFontsLoaded = async () => {
+    if (typeof document === 'undefined' || !document.fonts || !document.fonts.load) {
+      return
+    }
+
+    try {
+      await Promise.all([
+        document.fonts.load('700 40px "Cinzel"'),
+        document.fonts.load('600 24px "Cormorant Garamond"'),
+      ])
+    } catch (error) {
+      console.warn('Could not preload invitation fonts:', error)
+    }
+  }
+
   const downloadWeddingCard = async () => {
+    await ensureInvitationFontsLoaded()
+
+    const eventStartY = 1010
+    const eventBoxH = 292
+    const eventGap = 26
+    const eventCount = weddingConfig.events.length
+    const eventsBottomY =
+      eventStartY +
+      eventCount * eventBoxH +
+      Math.max(0, eventCount - 1) * eventGap
+    const footerTopY = eventsBottomY + 90
+
+    const invitationHeading =
+      weddingConfig.invitationTitle || "Grandhisila & Manchikanti Family's Wedding Invitation"
+    const hostFamilyLine = invitationHeading.replace(/\s*wedding invitation\s*$/i, '').trim()
+
     const canvas = document.createElement('canvas')
     canvas.width = 1500
-    canvas.height = 2350
+    canvas.height = Math.max(2450, footerTopY + 140)
     const ctx = canvas.getContext('2d')
 
     if (!ctx) return
 
     const bg = ctx.createLinearGradient(0, 0, canvas.width, canvas.height)
-    bg.addColorStop(0, '#040d2b')
-    bg.addColorStop(0.35, '#0a2e82')
-    bg.addColorStop(0.72, '#132f73')
-    bg.addColorStop(1, '#040d2b')
+    bg.addColorStop(0, '#fff8fc')
+    bg.addColorStop(0.34, '#ffe8f4')
+    bg.addColorStop(0.72, '#ffddec')
+    bg.addColorStop(1, '#fff3f9')
     ctx.fillStyle = bg
     ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-    const topGlow = ctx.createRadialGradient(canvas.width * 0.5, 260, 80, canvas.width * 0.5, 260, 700)
-    topGlow.addColorStop(0, 'rgba(241, 216, 138, 0.35)')
-    topGlow.addColorStop(1, 'rgba(241, 216, 138, 0)')
+    const topGlow = ctx.createRadialGradient(canvas.width * 0.5, 260, 80, canvas.width * 0.5, 260, 760)
+    topGlow.addColorStop(0, 'rgba(236, 72, 153, 0.26)')
+    topGlow.addColorStop(1, 'rgba(236, 72, 153, 0)')
     ctx.fillStyle = topGlow
     ctx.fillRect(0, 0, canvas.width, 900)
 
+    for (let i = 0; i < 380; i += 1) {
+      const x = (i * 47) % canvas.width
+      const y = (i * 79) % canvas.height
+      ctx.fillStyle = i % 3 === 0 ? 'rgba(236, 72, 153, 0.08)' : 'rgba(251, 113, 133, 0.06)'
+      ctx.beginPath()
+      ctx.arc(x, y, 2 + (i % 2), 0, Math.PI * 2)
+      ctx.fill()
+    }
+
     const vignette = ctx.createRadialGradient(canvas.width / 2, canvas.height / 2, 450, canvas.width / 2, canvas.height / 2, 1300)
     vignette.addColorStop(0, 'rgba(255, 255, 255, 0)')
-    vignette.addColorStop(1, 'rgba(0, 0, 0, 0.42)')
+    vignette.addColorStop(1, 'rgba(80, 10, 52, 0.2)')
     ctx.fillStyle = vignette
     ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-    ctx.strokeStyle = '#d4af37'
+    ctx.strokeStyle = '#f472b6'
     ctx.lineWidth = 8
     roundedRectPath(ctx, 34, 34, canvas.width - 68, canvas.height - 68, 28)
     ctx.stroke()
 
-    ctx.strokeStyle = 'rgba(241, 216, 138, 0.9)'
+    ctx.strokeStyle = 'rgba(190, 24, 93, 0.4)'
     ctx.lineWidth = 2
     roundedRectPath(ctx, 58, 58, canvas.width - 116, canvas.height - 116, 22)
     ctx.stroke()
 
-    ctx.fillStyle = 'rgba(212, 175, 55, 0.82)'
+    ctx.fillStyle = 'rgba(244, 114, 182, 0.56)'
     ctx.fillRect(90, 90, 90, 4)
     ctx.fillRect(canvas.width - 180, 90, 90, 4)
     ctx.fillRect(90, canvas.height - 94, 90, 4)
@@ -317,32 +415,45 @@ function App() {
 
     roundedRectPath(ctx, 120, 120, canvas.width - 240, 360, 30)
     const heroPanelGradient = ctx.createLinearGradient(120, 120, canvas.width - 120, 480)
-    heroPanelGradient.addColorStop(0, 'rgba(5, 20, 60, 0.76)')
-    heroPanelGradient.addColorStop(1, 'rgba(10, 35, 95, 0.62)')
+    heroPanelGradient.addColorStop(0, 'rgba(255, 255, 255, 0.86)')
+    heroPanelGradient.addColorStop(1, 'rgba(255, 242, 249, 0.82)')
     ctx.fillStyle = heroPanelGradient
     ctx.fill()
-    ctx.strokeStyle = 'rgba(212, 175, 55, 0.55)'
+    ctx.strokeStyle = 'rgba(236, 72, 153, 0.3)'
     ctx.lineWidth = 2
     ctx.stroke()
 
     ctx.textAlign = 'center'
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.35)'
-    ctx.shadowBlur = 16
-    ctx.fillStyle = '#f8e7b5'
-    ctx.font = '700 66px Georgia'
-    ctx.fillText("Grandhisila Family's Wedding Invitation", canvas.width / 2, 204)
-    ctx.font = '700 92px Georgia'
-    ctx.fillStyle = '#ffe6a8'
-    ctx.fillText(weddingConfig.coupleNames, canvas.width / 2, 302)
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.18)'
+    ctx.shadowBlur = 8
+    ctx.fillStyle = '#be185d'
+    const headingMaxWidth = canvas.width - 340
+    let headingFontSize = 46
+    ctx.font = `700 ${headingFontSize}px "Cinzel", Georgia, serif`
+    while (ctx.measureText(invitationHeading).width > headingMaxWidth && headingFontSize > 28) {
+      headingFontSize -= 2
+      ctx.font = `700 ${headingFontSize}px "Cinzel", Georgia, serif`
+    }
+    ctx.fillText(invitationHeading, canvas.width / 2, 186)
+    ctx.font = '700 68px "Cinzel", Georgia, serif'
+    ctx.fillStyle = '#db2777'
+    ctx.fillText(weddingConfig.coupleNames, canvas.width / 2, 270)
 
     ctx.shadowBlur = 0
-    ctx.font = '500 34px Georgia'
-    ctx.fillStyle = '#f1d88a'
-    drawWrappedText(ctx, weddingConfig.subtitle, canvas.width / 2, 368, 1060, 42)
+    roundedRectPath(ctx, 250, 308, canvas.width - 500, 148, 20)
+    ctx.fillStyle = 'rgba(255, 247, 252, 0.9)'
+    ctx.fill()
+    ctx.strokeStyle = 'rgba(236, 72, 153, 0.26)'
+    ctx.lineWidth = 1.5
+    ctx.stroke()
 
-    ctx.font = '700 35px Georgia'
-    ctx.fillStyle = '#f8e7b5'
-    ctx.fillText(`${weddingConfig.datesLabel}  |  ${weddingConfig.cityLabel}`, canvas.width / 2, 456)
+    ctx.font = '600 25px "Cormorant Garamond", Georgia, serif'
+    ctx.fillStyle = '#6b2147'
+    const subtitleEndY = drawWrappedText(ctx, weddingConfig.subtitle, canvas.width / 2, 352, 860, 30)
+
+    ctx.font = '700 28px "Cinzel", Georgia, serif'
+    ctx.fillStyle = '#9d174d'
+    ctx.fillText(`${weddingConfig.datesLabel}  |  ${weddingConfig.cityLabel}`, canvas.width / 2, subtitleEndY + 14)
 
     const photos = await Promise.all(
       weddingConfig.heroPhotos.map((src) => loadImage(src).catch(() => null)),
@@ -357,8 +468,8 @@ function App() {
       const x = startX + index * (cardWidth + gap)
       roundedRectPath(ctx, x - 10, photoY - 10, cardWidth + 20, cardHeight + 20, 24)
       const frameGradient = ctx.createLinearGradient(x - 10, photoY - 10, x + cardWidth + 10, photoY + cardHeight + 10)
-      frameGradient.addColorStop(0, 'rgba(248, 231, 181, 0.75)')
-      frameGradient.addColorStop(1, 'rgba(212, 175, 55, 0.4)')
+      frameGradient.addColorStop(0, 'rgba(251, 207, 232, 0.9)')
+      frameGradient.addColorStop(1, 'rgba(244, 114, 182, 0.38)')
       ctx.fillStyle = frameGradient
       ctx.fill()
 
@@ -366,7 +477,7 @@ function App() {
       ctx.save()
       ctx.clip()
       if (img) {
-        ctx.drawImage(img, x, photoY, cardWidth, cardHeight)
+        drawImageCover(ctx, img, x, photoY, cardWidth, cardHeight)
       } else {
         ctx.fillStyle = 'rgba(255,255,255,0.2)'
         ctx.fillRect(x, photoY, cardWidth, cardHeight)
@@ -378,7 +489,7 @@ function App() {
       ctx.fillRect(x, photoY, cardWidth, cardHeight)
       ctx.restore()
 
-      ctx.strokeStyle = '#d4af37'
+      ctx.strokeStyle = '#ec4899'
       ctx.lineWidth = 2
       roundedRectPath(ctx, x, photoY, cardWidth, cardHeight, 20)
       ctx.stroke()
@@ -386,15 +497,15 @@ function App() {
 
     roundedRectPath(ctx, 120, 870, canvas.width - 240, 96, 18)
     const titleBand = ctx.createLinearGradient(120, 870, canvas.width - 120, 966)
-    titleBand.addColorStop(0, 'rgba(212, 175, 55, 0.35)')
-    titleBand.addColorStop(1, 'rgba(241, 216, 138, 0.2)')
+    titleBand.addColorStop(0, 'rgba(236, 72, 153, 0.28)')
+    titleBand.addColorStop(1, 'rgba(251, 207, 232, 0.2)')
     ctx.fillStyle = titleBand
     ctx.fill()
-    ctx.strokeStyle = 'rgba(248, 231, 181, 0.6)'
+    ctx.strokeStyle = 'rgba(236, 72, 153, 0.34)'
     ctx.stroke()
 
-    ctx.fillStyle = '#f8e7b5'
-    ctx.font = '700 58px Georgia'
+    ctx.fillStyle = '#9d174d'
+    ctx.font = '700 50px "Cinzel", Georgia, serif'
     ctx.fillText('Event Schedule', canvas.width / 2, 934)
 
     const badgeColors = {
@@ -404,7 +515,11 @@ function App() {
       cocktail: '#9ec4ff',
     }
 
-    let currentY = 1010
+    let currentY = eventStartY
+    const eventBackgrounds = await Promise.all(
+      weddingConfig.events.map((event) => loadImage(event.backgroundImage).catch(() => null)),
+    )
+
     weddingConfig.events.forEach((event, index) => {
       const boxX = 95
       const boxW = canvas.width - 190
@@ -412,12 +527,30 @@ function App() {
 
       roundedRectPath(ctx, boxX, currentY, boxW, boxH, 22)
       const eventGradient = ctx.createLinearGradient(boxX, currentY, boxX + boxW, currentY + boxH)
-      eventGradient.addColorStop(0, 'rgba(8, 30, 82, 0.88)')
-      eventGradient.addColorStop(1, 'rgba(7, 20, 58, 0.85)')
+      eventGradient.addColorStop(0, 'rgba(255, 255, 255, 0.92)')
+      eventGradient.addColorStop(1, 'rgba(255, 239, 248, 0.9)')
       ctx.fillStyle = eventGradient
       ctx.fill()
 
-      ctx.strokeStyle = 'rgba(212, 175, 55, 0.75)'
+      const eventBackground = eventBackgrounds[index]
+      if (eventBackground) {
+        ctx.save()
+        roundedRectPath(ctx, boxX, currentY, boxW, boxH, 22)
+        ctx.clip()
+        drawImageCover(ctx, eventBackground, boxX, currentY, boxW, boxH)
+        const eventOverlay = ctx.createLinearGradient(boxX, currentY, boxX, currentY + boxH)
+        eventOverlay.addColorStop(0, 'rgba(34, 7, 17, 0.7)')
+        eventOverlay.addColorStop(1, 'rgba(51, 12, 29, 0.78)')
+        ctx.fillStyle = eventOverlay
+        ctx.fillRect(boxX, currentY, boxW, boxH)
+        ctx.restore()
+      }
+
+      roundedRectPath(ctx, boxX + 34, currentY + 24, boxW - 180, boxH - 50, 16)
+      ctx.fillStyle = 'rgba(22, 6, 14, 0.56)'
+      ctx.fill()
+
+      ctx.strokeStyle = 'rgba(251, 207, 232, 0.75)'
       ctx.lineWidth = 2
       ctx.stroke()
 
@@ -426,44 +559,48 @@ function App() {
       ctx.fillRect(boxX + 20, currentY + 20, 8, boxH - 40)
 
       ctx.textAlign = 'left'
-      ctx.fillStyle = '#f8e7b5'
-      ctx.font = '700 48px Georgia'
-      ctx.fillText(event.title, boxX + 48, currentY + 64)
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.5)'
+      ctx.shadowBlur = 3
+      ctx.fillStyle = accent
+      ctx.font = '700 38px "Trebuchet MS", "Segoe UI", sans-serif'
+      ctx.fillText(event.title, boxX + 56, currentY + 66)
 
-      ctx.font = '700 28px Georgia'
-      ctx.fillStyle = '#f1d88a'
-      ctx.fillText(`${event.day}  |  ${event.time}`, boxX + 48, currentY + 110)
+      const eventDateLabel = eventDateLabelById[event.id] || ''
+      ctx.font = '700 22px "Trebuchet MS", "Segoe UI", sans-serif'
+      ctx.fillStyle = '#ffd8ea'
+      ctx.fillText(`${event.day}  |  ${eventDateLabel}  |  ${event.time}`, boxX + 56, currentY + 108)
 
-      ctx.font = '600 30px Georgia'
-      ctx.fillStyle = '#ffe6a8'
-      drawWrappedText(ctx, event.venue, boxX + 48, currentY + 156, boxW - 96, 34)
+      ctx.font = '600 23px "Trebuchet MS", "Segoe UI", sans-serif'
+      ctx.fillStyle = '#ffe9f5'
+      drawWrappedText(ctx, event.venue, boxX + 56, currentY + 148, boxW - 220, 30)
 
-      ctx.font = '500 27px Georgia'
-      ctx.fillStyle = 'rgba(248, 231, 181, 0.95)'
-      drawWrappedText(ctx, event.note, boxX + 48, currentY + 206, boxW - 96, 33)
+      ctx.font = '500 21px "Trebuchet MS", "Segoe UI", sans-serif'
+      ctx.fillStyle = '#ffd2e8'
+      drawWrappedText(ctx, event.note, boxX + 56, currentY + 202, boxW - 220, 28)
+      ctx.shadowBlur = 0
 
       const rightBadgeX = boxX + boxW - 138
       roundedRectPath(ctx, rightBadgeX, currentY + 20, 118, 42, 12)
-      ctx.fillStyle = 'rgba(212, 175, 55, 0.18)'
+      ctx.fillStyle = 'rgba(236, 72, 153, 0.28)'
       ctx.fill()
-      ctx.strokeStyle = 'rgba(212, 175, 55, 0.55)'
+      ctx.strokeStyle = 'rgba(251, 207, 232, 0.75)'
       ctx.lineWidth = 1.5
       ctx.stroke()
       ctx.textAlign = 'center'
-      ctx.fillStyle = '#f1d88a'
-      ctx.font = '600 22px Georgia'
+      ctx.fillStyle = '#6b2147'
+      ctx.font = '600 22px "Cormorant Garamond", Georgia, serif'
       ctx.fillText(`Event ${index + 1}`, rightBadgeX + 59, currentY + 49)
 
       currentY += boxH + 26
     })
 
     ctx.textAlign = 'center'
-    ctx.fillStyle = '#f1d88a'
-    ctx.font = '600 32px Georgia'
-    ctx.fillText('We look forward to celebrating with you', canvas.width / 2, canvas.height - 110)
+    ctx.fillStyle = '#9d174d'
+    ctx.font = '600 30px Georgia'
+    ctx.fillText('We look forward to celebrating with you', canvas.width / 2, footerTopY)
     ctx.font = '500 24px Georgia'
-    ctx.fillStyle = 'rgba(248, 231, 181, 0.85)'
-    ctx.fillText('With Love, Grandhisila Family', canvas.width / 2, canvas.height - 70)
+    ctx.fillStyle = 'rgba(107, 33, 71, 0.85)'
+    ctx.fillText(`With Love, ${hostFamilyLine}`, canvas.width / 2, footerTopY + 44)
 
     try {
       const link = document.createElement('a')
@@ -483,22 +620,8 @@ function App() {
 
     // Parse the date and time
     // Events are on May 7-9, 2026
-    const dateMap = {
-      engagement: '20260507',
-      haldi: '20260508',
-      marriage: '20260509',
-      cocktail: '20260509',
-    }
-
-    const timeMap = {
-      engagement: '180000',
-      haldi: '100000',
-      marriage: '090000',
-      cocktail: '200000',
-    }
-
-    const dateStr = dateMap[eventId]
-    const timeStr = timeMap[eventId]
+    const dateStr = eventDateMap[eventId]
+    const timeStr = eventTimeMap[eventId]
     const dtstart = `${dateStr}T${timeStr}Z`
     
     // End time is 2 hours after start
@@ -548,9 +671,15 @@ END:VCALENDAR`
 
   const handleAddGuestMessage = () => {
     if (!newMessage.trim()) return
+    const messageAuthor = form.name.trim()
+    if (!messageAuthor) {
+      setStatus({ state: 'error', message: 'Please enter your RSVP name before posting a guest-book message.' })
+      return
+    }
     
     const message = {
       id: Date.now(),
+      name: messageAuthor,
       text: newMessage,
       timestamp: new Date().toLocaleString(),
     }
@@ -796,20 +925,15 @@ END:VCALENDAR`
             </div>
 
             <div className="info-grid">
-              <div className="info-card">
+              <div className="info-card hero-highlight-card">
                 <CalendarDays className="info-icon rose-text" />
-                <div className="info-label">Celebration Dates</div>
-                <div className="info-value">{weddingConfig.datesLabel}</div>
+                <div className="info-label hero-highlight-label">Celebration Dates</div>
+                <div className="info-value hero-highlight-value">{weddingConfig.datesLabel}</div>
               </div>
-              <div className="info-card">
+              <div className="info-card hero-highlight-card">
                 <MapPin className="info-icon amber-text" />
-                <div className="info-label">Venue</div>
-                <div className="info-value">{weddingConfig.cityLabel}</div>
-              </div>
-              <div className="info-card">
-                <Users className="info-icon violet-text" />
-                <div className="info-label">Events</div>
-                <div className="info-value">4 memorable moments</div>
+                <div className="info-label hero-highlight-label">Venue</div>
+                <div className="info-value hero-highlight-value">{weddingConfig.cityLabel}</div>
               </div>
             </div>
           </motion.div>
@@ -968,6 +1092,7 @@ END:VCALENDAR`
                   </div>
 
                   <div className="event-meta">
+                    <div><CalendarDays size={16} /> {eventDateLabelById[eventItem.id]}</div>
                     <div><Clock3 size={16} /> {eventItem.time}</div>
                     <div>
                       <MapPin size={16} /> {eventItem.venue}
@@ -1197,19 +1322,23 @@ END:VCALENDAR`
             </motion.button>
           </div>
           
-          <div className="guestbook-messages">
+          <div className="guestbook-messages guestbook-chat">
             {guestMessages.length === 0 ? (
               <p className="no-messages">Be the first to share your wishes! ✨</p>
             ) : (
-              guestMessages.slice(0, 10).map((msg) => (
+              guestMessages.slice(0, 10).map((msg, index) => (
                 <motion.div 
                   key={msg.id}
-                  className="message-item"
+                  className={`message-row ${index % 2 === 0 ? 'message-row-right' : 'message-row-left'}`}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                 >
-                  <p className="message-text">{msg.text}</p>
-                  <p className="message-time">{msg.timestamp}</p>
+                  <div className="message-avatar">{msg.name || 'Guest'}</div>
+                  <div className="message-item message-bubble">
+                    <p className="message-author">{msg.name || 'Guest'}</p>
+                    <p className="message-text">{msg.text}</p>
+                    <p className="message-time">{msg.timestamp}</p>
+                  </div>
                 </motion.div>
               ))
             )}
