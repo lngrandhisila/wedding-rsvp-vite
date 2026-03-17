@@ -1,7 +1,7 @@
 export const weddingConfig = {
   coupleNames: 'Soumya & Sai Abhiram',
   subtitle:
-    'With joyful hearts, we invite you to celebrate our Engagement, Haldi, Marriage, and Cocktail Party over three beautiful days of love, laughter, and togetherness.',
+    'With joyful hearts, we invite you to celebrate our three beautiful days of love, laughter, and togetherness.',
   datesLabel: 'May 7–9, 2026',
   cityLabel: 'Aubrey, Texas & Irving, Texas',
   heroPhotos: [

@@ -358,7 +358,7 @@ function App() {
     const footerTopY = eventsBottomY + 90
 
     const invitationHeading =
-      weddingConfig.invitationTitle || "Grandhisila & Manchikanti Family's Wedding Invitation"
+      weddingConfig.invitationTitle || "Manchikanti & Grandhisila Family's Wedding Invitation"
     const hostFamilyLine = invitationHeading.replace(/\s*wedding invitation\s*$/i, '').trim()
 
     const canvas = document.createElement('canvas')
@@ -644,7 +644,7 @@ UID:${eventId}-${Date.now()}@wedding-rsvp.local
 DTSTAMP:${dtstamp}
 DTSTART:${dtstart}
 DTEND:${dtend}
-SUMMARY:${event.title} - Grandhisila Wedding
+SUMMARY:${event.title} - Manchikanti & Grandhisila Wedding
 DESCRIPTION:${event.note}
 LOCATION:${event.venue}
 STATUS:CONFIRMED
@@ -916,7 +916,7 @@ END:VCALENDAR`
             transition={{ duration: 0.5 }}
             className="hero-copy"
           >
-            <div className="pill"> Grandhisila & Manchikanti Family's Wedding Invitation </div>
+            <div className="pill"> Manchikanti & Grandhisila Family's Wedding Invitation </div>
             <h1>{weddingConfig.coupleNames}</h1>
             <p className="hero-subtitle">{weddingConfig.subtitle}</p>
 
