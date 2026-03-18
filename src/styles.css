@@ -5308,3 +5308,71 @@ body {
     min-height: 0 !important;
   }
 }
+
+/* Mobile layout lock to match current floral desktop structure */
+@media (max-width: 900px) {
+  .floral-theme .hero-section.hero-wallpaper {
+    padding: 0 !important;
+    min-height: 560px !important;
+  }
+
+  .floral-theme .hero-section.hero-wallpaper .hero-grid {
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
+    min-height: 560px !important;
+    padding-bottom: 0 !important;
+  }
+
+  .floral-theme .hero-section.hero-wallpaper .hero-invitation-heading {
+    top: 6px !important;
+    font-size: 0.72rem !important;
+    max-width: calc(100% - 24px) !important;
+  }
+
+  .floral-theme .hero-section.hero-wallpaper .hero-copy {
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    transform: none !important;
+    width: min(94%, 660px) !important;
+    padding: 8px 12px 6px !important;
+    margin: 0 auto -168px !important;
+  }
+
+  .floral-theme .hero-section.hero-wallpaper .hero-copy .info-grid {
+    display: flex !important;
+    width: calc(100vw - 28px) !important;
+    max-width: 760px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    gap: 10px !important;
+  }
+
+  .floral-theme .hero-section.hero-wallpaper .hero-copy .hero-highlight-card,
+  .floral-theme .hero-section.hero-wallpaper .hero-copy .info-card.hero-highlight-card {
+    width: calc(50% - 5px) !important;
+    min-width: 0 !important;
+    max-width: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .floral-theme .moments-strip {
+    padding: 16px 14px !important;
+  }
+
+  .floral-theme .moments-strip-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  .floral-theme .moments-photo-card {
+    min-height: 210px !important;
+  }
+
+  .floral-theme .moments-photo-card img {
+    min-height: 210px !important;
+  }
+}
