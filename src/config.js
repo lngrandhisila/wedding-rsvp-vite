@@ -1,8 +1,8 @@
 export const weddingConfig = {
   coupleNames: 'Soumya & Sai Abhiram',
   subtitle:
-    'With joyful hearts, we invite you to celebrate our three beautiful days of love, laughter, and togetherness.',
-  datesLabel: 'May 7–9, 2026',
+    'With joyful hearts, we invite you to celebrate our beautiful days of love, laughter, and togetherness.',
+  datesLabel: 'May 8-9, 2026',
   cityLabel: 'Aubrey, Texas & Irving, Texas',
   heroPhotos: [
     '/photos/couple-1.jpg',
@@ -11,20 +11,9 @@ export const weddingConfig = {
   ],
   events: [
     {
-      id: 'engagement',
-      title: 'Engagement',
-      day: 'Day 1',
-      time: '9:00 AM onwards',
-      venue: 'The Bliss at Aubrey – Ranch House',
-      note: 'Join us for a beautiful celebrating the beginning of our forever.',
-      theme: 'rose',
-      color: '#ff6b9d',
-      backgroundImage: 'https://i.pinimg.com/originals/71/d7/e1/71d7e153f5b1ea803896a9494719d52d.jpg',
-    },
-    {
       id: 'haldi',
       title: 'Haldi',
-      day: 'Day 2',
+      day: 'Day 1',
       time: '10:00 AM onwards',
       venue: 'The Bliss at Aubrey – Outdoors',
       note: 'A joyful Haldi ceremony filled with blessings, laughter, and color.',
@@ -35,7 +24,7 @@ export const weddingConfig = {
     {
       id: 'marriage',
       title: 'Marriage',
-      day: 'Day 3',
+      day: 'Day 2',
       time: '9:00 AM onwards',
       venue: 'The Prism at Irving',
       note: 'We would be honored to have you join us as we exchange vows.',
@@ -46,7 +35,7 @@ export const weddingConfig = {
     {
       id: 'cocktail',
       title: 'Cocktail Party',
-      day: 'Day 3',
+      day: 'Day 2',
       time: '8:00 PM onwards',
       venue: 'The Bliss at Aubrey – North Hall',
       note: 'Celebrate with us over music, dinner, and a memorable evening.',

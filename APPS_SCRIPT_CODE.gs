@@ -5,14 +5,12 @@ function getRsvpCounts() {
     const sheet = SpreadsheetApp.openById('1tHc8JCWCkjeRVI5mlYZ0IfgCSsg3Ciild9cj5UZD5wc');
     
     const eventMap = {
-      'Engagement': 'engagement',
       'Haldi': 'haldi',
       'Marriage': 'marriage',
       'Cocktail': 'cocktail'
     };
     
     const counts = {
-      engagement: 0,
       haldi: 0,
       marriage: 0,
       cocktail: 0
@@ -41,7 +39,7 @@ function getRsvpCounts() {
   } catch (error) {
     return ContentService
       .createTextOutput(JSON.stringify({
-        counts: { engagement: 0, haldi: 0, marriage: 0, cocktail: 0 },
+        counts: { haldi: 0, marriage: 0, cocktail: 0 },
         error: String(error)
       }))
       .setMimeType(ContentService.MimeType.JSON);
@@ -49,7 +47,11 @@ function getRsvpCounts() {
 }
 
 function normalizeName(value) {
-  return String(value || '').toLowerCase().trim().replace(/\s+/g, ' ');
+  return String(value || '')
+    .normalize('NFKC')
+    .toLocaleLowerCase('en-US')
+    .trim()
+    .replace(/\s+/g, ' ');
 }
 
 function normalizeEmail(value) {
@@ -218,7 +220,6 @@ function doPost(e) {
     allSheet.appendRow(row);
 
     const eventMap = {
-      engagement: 'Engagement',
       haldi: 'Haldi',
       marriage: 'Marriage',
       cocktail: 'Cocktail'
