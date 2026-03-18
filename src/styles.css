@@ -5311,6 +5311,12 @@ body {
 
 /* Mobile layout lock to match current floral desktop structure */
 @media (max-width: 900px) {
+  .floral-theme .hero-section.hero-wallpaper .content-wrap.hero-grid {
+    width: min(100% - 8px, 1200px) !important;
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+  }
+
   .floral-theme .hero-section.hero-wallpaper {
     padding: 0 !important;
     min-height: 560px !important;
@@ -5336,14 +5342,14 @@ body {
     right: auto !important;
     top: auto !important;
     transform: none !important;
-    width: min(94%, 660px) !important;
+    width: min(99%, 760px) !important;
     padding: 8px 12px 6px !important;
     margin: 0 auto -168px !important;
   }
 
   .floral-theme .hero-section.hero-wallpaper .hero-copy .info-grid {
     display: flex !important;
-    width: calc(100vw - 28px) !important;
+    width: calc(100vw - 12px) !important;
     max-width: 760px !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
