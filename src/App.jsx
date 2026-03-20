@@ -687,9 +687,11 @@ END:VCALENDAR`
 
   const handleUpdateStats = () => {
     // Update stats based on selected events
+    const guestsForThisRsvp = Math.max(1, Number.parseInt(form.guests, 10) || 1)
     const newStats = visibleEvents.reduce((acc, eventItem) => {
       acc[eventItem.id] =
-        Number(rsvpStats[eventItem.id] || 0) + (selectedEvents.includes(eventItem.id) ? 1 : 0)
+        Number(rsvpStats[eventItem.id] || 0) +
+        (selectedEvents.includes(eventItem.id) ? guestsForThisRsvp : 0)
       return acc
     }, {})
     
@@ -933,24 +935,24 @@ END:VCALENDAR`
             transition={{ duration: 0.5 }}
             className="hero-copy"
           >
-            <h1>{weddingConfig.coupleNames}</h1>
-            <p className="hero-subtitle">{weddingConfig.subtitle}</p>
-
-            <div className="pill-row">
-              <span className="soft-pill">3 Days of Celebration</span>
-            </div>
-
             <div className="info-grid">
-              <div className="info-card hero-highlight-card">
-                <CalendarDays className="info-icon rose-text" />
-                <div className="info-label hero-highlight-label">Celebration Dates</div>
-                <div className="info-value hero-highlight-value">{weddingConfig.datesLabel}</div>
-              </div>
               <div className="info-card hero-highlight-card">
                 <MapPin className="info-icon amber-text" />
                 <div className="info-label hero-highlight-label">Venue</div>
                 <div className="info-value hero-highlight-value">{weddingConfig.cityLabel}</div>
               </div>
+              <div className="info-card hero-highlight-card">
+                <CalendarDays className="info-icon rose-text" />
+                <div className="info-label hero-highlight-label">Celebration Dates</div>
+                <div className="info-value hero-highlight-value">{weddingConfig.datesLabel}</div>
+              </div>
+            </div>
+
+            <h1>{weddingConfig.coupleNames}</h1>
+            <p className="hero-subtitle">{weddingConfig.subtitle}</p>
+
+            <div className="pill-row">
+              <span className="soft-pill">3 Days of Celebration</span>
             </div>
           </motion.div>
 
@@ -1084,7 +1086,7 @@ END:VCALENDAR`
                     </div>
                     <div className="list-item-content">
                       <h4>{event.title}</h4>
-                      <p className="list-item-subtitle">Confirmed RSVPs</p>
+                      <p className="list-item-subtitle">Confirmed Guests</p>
                     </div>
                     <p className="list-item-number">{rsvpStats[event.id]}</p>
                   </motion.div>

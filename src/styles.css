@@ -4778,7 +4778,7 @@ body {
   background: transparent;
   border: none;
   backdrop-filter: none;
-  margin-bottom: -192px;
+  margin-bottom: -236px;
 }
 
 .floral-theme .hero-section.hero-wallpaper .hero-copy .pill-row,
@@ -4796,9 +4796,9 @@ body {
 }
 
 .floral-theme .hero-section.hero-wallpaper .hero-copy .info-grid {
-  display: flex !important;
-  justify-content: space-between;
-  flex-wrap: nowrap;
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  justify-items: center;
   align-items: stretch;
   gap: 14px;
   margin-top: 14px;
@@ -4816,9 +4816,9 @@ body {
   box-shadow: none !important;
   backdrop-filter: none !important;
   padding: 8px 8px !important;
-  width: auto;
-  min-width: 168px;
-  max-width: 250px;
+  width: min(340px, 96%);
+  min-width: 0;
+  max-width: 340px;
 }
 
 .floral-theme .hero-section.hero-wallpaper .hero-copy .hero-highlight-label {
@@ -4849,13 +4849,13 @@ body {
 }
 
 .floral-theme .hero-section.hero-wallpaper .hero-copy .hero-highlight-card:first-child {
-  text-align: left;
-  align-items: flex-start;
+  text-align: center;
+  align-items: center;
 }
 
 .floral-theme .hero-section.hero-wallpaper .hero-copy .hero-highlight-card:last-child {
-  text-align: right;
-  align-items: flex-end;
+  text-align: center;
+  align-items: center;
 }
 
 .floral-theme .hero-section.hero-wallpaper .hero-copy h1 {
@@ -4911,7 +4911,7 @@ body {
     top: auto;
     width: min(94%, 640px);
     padding: 14px 14px 12px;
-    margin-bottom: -50px;
+    margin-bottom: -86px;
   }
 
   .floral-theme .hero-section.hero-wallpaper .hero-copy .info-grid {
@@ -5344,11 +5344,13 @@ body {
     transform: none !important;
     width: min(99%, 760px) !important;
     padding: 8px 12px 6px !important;
-    margin: 0 auto -168px !important;
+    margin: 0 auto -214px !important;
   }
 
   .floral-theme .hero-section.hero-wallpaper .hero-copy .info-grid {
-    display: flex !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    justify-items: center !important;
     width: calc(100vw - 12px) !important;
     max-width: 760px !important;
     left: 50% !important;
@@ -5358,7 +5360,7 @@ body {
 
   .floral-theme .hero-section.hero-wallpaper .hero-copy .hero-highlight-card,
   .floral-theme .hero-section.hero-wallpaper .hero-copy .info-card.hero-highlight-card {
-    width: calc(50% - 5px) !important;
+    width: min(360px, 96%) !important;
     min-width: 0 !important;
     max-width: none !important;
   }
@@ -5380,5 +5382,38 @@ body {
 
   .floral-theme .moments-photo-card img {
     min-height: 210px !important;
+  }
+}
+
+/* Final force: wider and more separated hero info cards */
+.floral-theme .hero-section.hero-wallpaper .hero-copy .info-grid {
+  width: calc(100vw - 8px) !important;
+  max-width: none !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  justify-items: stretch !important;
+  gap: 34px !important;
+}
+
+.floral-theme .hero-section.hero-wallpaper .hero-copy .hero-highlight-card,
+.floral-theme .hero-section.hero-wallpaper .hero-copy .info-card.hero-highlight-card {
+  width: min(430px, 100%) !important;
+  max-width: 430px !important;
+  min-width: 0 !important;
+  padding: 10px 14px !important;
+}
+
+.floral-theme .hero-section.hero-wallpaper .hero-copy .hero-highlight-card:first-child {
+  justify-self: start !important;
+}
+
+.floral-theme .hero-section.hero-wallpaper .hero-copy .hero-highlight-card:last-child {
+  justify-self: end !important;
+}
+
+@media (max-width: 900px) {
+  .floral-theme .hero-section.hero-wallpaper .hero-copy .info-grid {
+    width: calc(100vw - 6px) !important;
+    max-width: none !important;
+    gap: 14px !important;
   }
 }

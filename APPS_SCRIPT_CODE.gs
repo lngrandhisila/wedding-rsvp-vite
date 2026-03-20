@@ -21,10 +21,16 @@ function getRsvpCounts() {
       try {
         const eventSheet = sheet.getSheetByName(sheetName);
         if (eventSheet) {
-          // Get all rows (excluding header)
+          // Sum Number of Guests from column E (excluding header row)
           const lastRow = eventSheet.getLastRow();
           if (lastRow > 1) {
-            counts[eventKey] = lastRow - 1;
+            const guestValues = eventSheet.getRange(2, 5, lastRow - 1, 1).getValues();
+            counts[eventKey] = guestValues.reduce(function(total, row) {
+              const raw = row && row[0];
+              const parsed = parseInt(raw, 10);
+              const guestCount = Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
+              return total + guestCount;
+            }, 0);
           }
         }
       } catch (err) {
