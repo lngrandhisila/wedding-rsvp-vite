@@ -5319,15 +5319,19 @@ body {
 
   .floral-theme .hero-section.hero-wallpaper {
     padding: 0 !important;
-    min-height: 560px !important;
+    min-height: 470px !important;
   }
 
   .floral-theme .hero-section.hero-wallpaper .hero-grid {
     display: flex !important;
     align-items: flex-end !important;
     justify-content: center !important;
-    min-height: 560px !important;
+    min-height: 470px !important;
     padding-bottom: 0 !important;
+  }
+
+  .floral-theme .hero-section.hero-wallpaper .hero-wallpaper-image {
+    object-position: center 20% !important;
   }
 
   .floral-theme .hero-section.hero-wallpaper .hero-invitation-heading {
@@ -5344,7 +5348,17 @@ body {
     transform: none !important;
     width: min(99%, 760px) !important;
     padding: 8px 12px 6px !important;
-    margin: 0 auto -214px !important;
+    margin: 0 auto -164px !important;
+  }
+
+  .floral-theme .hero-section.hero-wallpaper .hero-copy h1 {
+    font-size: clamp(2.2rem, 8.4vw, 3.2rem) !important;
+    line-height: 1.06 !important;
+  }
+
+  .floral-theme .hero-section.hero-wallpaper .hero-subtitle {
+    font-size: clamp(1rem, 3.6vw, 1.22rem) !important;
+    line-height: 1.35 !important;
   }
 
   .floral-theme .hero-section.hero-wallpaper .hero-copy .info-grid {
@@ -5396,10 +5410,10 @@ body {
 
 .floral-theme .hero-section.hero-wallpaper .hero-copy .hero-highlight-card,
 .floral-theme .hero-section.hero-wallpaper .hero-copy .info-card.hero-highlight-card {
-  width: min(430px, 100%) !important;
-  max-width: 430px !important;
+  width: min(285px, 100%) !important;
+  max-width: 285px !important;
   min-width: 0 !important;
-  padding: 10px 14px !important;
+  padding: 6px 10px !important;
 }
 
 .floral-theme .hero-section.hero-wallpaper .hero-copy .hero-highlight-card:first-child {
@@ -5416,4 +5430,15 @@ body {
     max-width: none !important;
     gap: 14px !important;
   }
+}
+
+/* Keep smaller card shell but larger readable text inside */
+.floral-theme .hero-section.hero-wallpaper .hero-copy .hero-highlight-label {
+  font-size: 0.92rem !important;
+  letter-spacing: 0.05em !important;
+}
+
+.floral-theme .hero-section.hero-wallpaper .hero-copy .hero-highlight-value {
+  font-size: 1.14rem !important;
+  line-height: 1.35 !important;
 }
