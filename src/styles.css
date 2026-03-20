@@ -5523,6 +5523,10 @@ body {
 }
 
 @media (max-width: 900px) {
+  .page-shell.floral-theme .hero-section.hero-wallpaper .hero-copy {
+    transform: translateY(28px) !important;
+  }
+
   .page-shell.floral-theme .hero-section.hero-wallpaper .hero-copy > .info-grid {
     width: 100% !important;
     max-width: 100% !important;
@@ -5532,7 +5536,7 @@ body {
   }
 
   .page-shell.floral-theme .hero-section.hero-wallpaper .hero-copy h1 {
-    font-size: clamp(1.05rem, 4.8vw, 1.35rem) !important;
+    font-size: clamp(1.22rem, 5.8vw, 1.65rem) !important;
   }
 
   .page-shell.floral-theme .hero-section.hero-wallpaper .hero-copy > .info-grid .hero-highlight-card {
