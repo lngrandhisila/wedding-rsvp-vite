@@ -480,7 +480,7 @@ img {
 .info-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 50px;
+  gap: 16px;
   margin-top: 28px;
 }
 
@@ -5497,95 +5497,73 @@ body {
 
 /* Absolute final lock: force visible spacing between Venue and Celebration cards */
 .page-shell.floral-theme .hero-section.hero-wallpaper .hero-copy > .info-grid {
-  display: block !important;
-  width: 100% !important;
-  max-width: 100% !important;
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  width: min(920px, 100%) !important;
+  max-width: 920px !important;
+  column-gap: 84px !important;
+  row-gap: 0 !important;
   padding: 0 !important;
   margin-top: 14px !important;
-  margin-left: 0 !important;
-  min-height: 108px !important;
-  position: relative !important;
   left: auto !important;
   transform: none !important;
-  --hero-card-width: 120px;
-  --hero-card-gap: 200px;
+  overflow: visible !important;
 }
 
 .page-shell.floral-theme .hero-section.hero-wallpaper .hero-copy > .info-grid .hero-highlight-card {
-  width: var(--hero-card-width) !important;
-  max-width: var(--hero-card-width) !important;
-  min-width: var(--hero-card-width) !important;
+  width: 100% !important;
+  max-width: 240px !important;
+  min-width: 240px !important;
   height: 108px !important;
-  padding: 3px 6px !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  text-align: center !important;
-  align-self: start !important;
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-  animation: none !important;
+  padding: 8px 10px !important;
+  overflow: visible !important;
 }
 
 .page-shell.floral-theme .hero-section.hero-wallpaper .hero-copy > .info-grid .hero-highlight-card--dates {
-  position: absolute !important;
-  top: 0 !important;
-  left: calc(50% - var(--hero-card-gap) - var(--hero-card-width)) !important;
-  transform: none !important;
+  justify-self: start !important;
 }
 
 .page-shell.floral-theme .hero-section.hero-wallpaper .hero-copy > .info-grid .hero-highlight-card--venue {
-  position: absolute !important;
-  top: 0 !important;
-  left: calc(50% + var(--hero-card-gap)) !important;
-  transform: none !important;
+  justify-self: end !important;
+  transform: translateX(-28px) !important;
 }
 
-.page-shell.floral-theme .hero-section.hero-wallpaper .hero-copy > .info-grid .hero-highlight-card .hero-highlight-label {
-  font-size: 0.82rem !important;
-  line-height: 1.1 !important;
-  min-height: 1.8em !important;
-}
-
-.page-shell.floral-theme .hero-section.hero-wallpaper .hero-copy > .info-grid .hero-highlight-card .hero-highlight-value {
-  font-size: 1rem !important;
-  line-height: 1.2 !important;
-  min-height: 2.4em !important;
-}
-
-.page-shell.floral-theme .hero-section.hero-wallpaper .hero-copy > .info-grid .hero-highlight-card .info-icon {
-  width: 16px !important;
-  height: 16px !important;
+.page-shell.floral-theme .hero-section.hero-wallpaper .hero-copy > .info-grid .hero-highlight-card--venue .hero-highlight-value {
+  font-size: clamp(0.64rem, 1.1vw, 0.78rem) !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  letter-spacing: 0 !important;
+  padding-right: 12px !important;
+  transform: translateX(-6px) !important;
 }
 
 @media (max-width: 900px) {
   .page-shell.floral-theme .hero-section.hero-wallpaper .hero-copy > .info-grid {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
     width: 100% !important;
     max-width: 100% !important;
     column-gap: 44px !important;
     padding: 0 8px !important;
-    margin-left: 0 !important;
-    min-height: 0 !important;
-    position: static !important;
     box-sizing: border-box !important;
   }
 
-  .page-shell.floral-theme .hero-section.hero-wallpaper .hero-copy > .info-grid .hero-highlight-card--dates,
   .page-shell.floral-theme .hero-section.hero-wallpaper .hero-copy > .info-grid .hero-highlight-card--venue {
-    position: static !important;
     transform: none !important;
   }
 }
 
+/* Final hero vertical position lock: move text + dates + venue down together */
 .page-shell.floral-theme .hero-section.hero-wallpaper .hero-copy {
-  margin-bottom: -165px !important;
+  transform: translateY(104px) !important;
 }
 
 @media (max-width: 900px) {
   .page-shell.floral-theme .hero-section.hero-wallpaper .hero-copy {
-    margin-bottom: -118px !important;
+    transform: translateY(58px) !important;
   }
+}
+
+/* Final hero heading size lock */
+.page-shell.floral-theme .hero-section.hero-wallpaper .hero-copy h1 {
+  font-size: clamp(1.35rem, 4.1vw, 2.05rem) !important;
 }
