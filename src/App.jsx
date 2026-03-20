@@ -935,24 +935,24 @@ END:VCALENDAR`
             transition={{ duration: 0.5 }}
             className="hero-copy"
           >
-            <div className="info-grid">
-              <div className="info-card hero-highlight-card">
-                <MapPin className="info-icon amber-text" />
-                <div className="info-label hero-highlight-label">Venue</div>
-                <div className="info-value hero-highlight-value">{weddingConfig.cityLabel}</div>
-              </div>
-              <div className="info-card hero-highlight-card">
-                <CalendarDays className="info-icon rose-text" />
-                <div className="info-label hero-highlight-label">Celebration Dates</div>
-                <div className="info-value hero-highlight-value">{weddingConfig.datesLabel}</div>
-              </div>
-            </div>
-
             <h1>{weddingConfig.coupleNames}</h1>
             <p className="hero-subtitle">{weddingConfig.subtitle}</p>
 
             <div className="pill-row">
               <span className="soft-pill">3 Days of Celebration</span>
+            </div>
+
+            <div className="info-grid">
+              <div className="info-card hero-highlight-card hero-highlight-card--venue">
+                <MapPin className="info-icon amber-text" />
+                <div className="info-label hero-highlight-label">Venue</div>
+                <div className="info-value hero-highlight-value">{weddingConfig.cityLabel}</div>
+              </div>
+              <div className="info-card hero-highlight-card hero-highlight-card--dates">
+                <CalendarDays className="info-icon rose-text" />
+                <div className="info-label hero-highlight-label">Celebration Dates</div>
+                <div className="info-value hero-highlight-value">{weddingConfig.datesLabel}</div>
+              </div>
             </div>
           </motion.div>
 
