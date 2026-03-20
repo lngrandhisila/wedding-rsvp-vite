@@ -5336,8 +5336,11 @@ body {
 
   .floral-theme .hero-section.hero-wallpaper .hero-invitation-heading {
     top: 6px !important;
-    font-size: 0.72rem !important;
+    font-size: 0.66rem !important;
     max-width: calc(100% - 24px) !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
   }
 
   .floral-theme .hero-section.hero-wallpaper .hero-copy {
@@ -5352,13 +5355,19 @@ body {
   }
 
   .floral-theme .hero-section.hero-wallpaper .hero-copy h1 {
-    font-size: clamp(2.2rem, 8.4vw, 3.2rem) !important;
-    line-height: 1.06 !important;
+    font-size: clamp(1.3rem, 5.2vw, 1.9rem) !important;
+    line-height: 1.1 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
   }
 
   .floral-theme .hero-section.hero-wallpaper .hero-subtitle {
-    font-size: clamp(1rem, 3.6vw, 1.22rem) !important;
-    line-height: 1.35 !important;
+    font-size: clamp(0.78rem, 2.5vw, 0.95rem) !important;
+    line-height: 1.2 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
   }
 
   .floral-theme .hero-section.hero-wallpaper .hero-copy .info-grid {
