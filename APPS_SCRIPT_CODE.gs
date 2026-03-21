@@ -68,6 +68,33 @@ function normalizePhone(value) {
   return String(value || '').replace(/[^0-9]/g, '');
 }
 
+function findMatchingRowIndex(rows, guestName, email, phone) {
+  const inputName = normalizeName(guestName);
+  const inputEmail = normalizeEmail(email);
+  const inputPhone = normalizePhone(phone);
+
+  for (let i = rows.length - 1; i >= 0; i -= 1) {
+    const row = rows[i] || [];
+    const rowName = normalizeName(row[1]);
+    const rowEmail = normalizeEmail(row[2]);
+    const rowPhone = normalizePhone(row[3]);
+
+    if (inputPhone && rowPhone && inputPhone === rowPhone) {
+      return i + 2; // sheet row index (account for header row)
+    }
+
+    if (inputName && inputPhone && rowName && rowPhone && inputName === rowName && inputPhone === rowPhone) {
+      return i + 2;
+    }
+
+    if (inputName && inputEmail && rowName && rowEmail && inputName === rowName && inputEmail === rowEmail) {
+      return i + 2;
+    }
+  }
+
+  return -1;
+}
+
 function checkDuplicateRsvp(data) {
   try {
     const sheet = SpreadsheetApp.openById('1tHc8JCWCkjeRVI5mlYZ0IfgCSsg3Ciild9cj5UZD5wc');
@@ -223,7 +250,16 @@ function doPost(e) {
     ];
 
     const allSheet = sheet.getSheetByName('All RSVPs');
-    allSheet.appendRow(row);
+    const allLastRow = allSheet.getLastRow();
+    const allRows =
+      allLastRow > 1 ? allSheet.getRange(2, 1, allLastRow - 1, 8).getValues() : [];
+    const allMatchRow = findMatchingRowIndex(allRows, guestName, email, phone);
+
+    if (allMatchRow > 0) {
+      allSheet.getRange(allMatchRow, 1, 1, 8).setValues([row]);
+    } else {
+      allSheet.appendRow(row);
+    }
 
     const eventMap = {
       haldi: 'Haldi',
@@ -236,7 +272,16 @@ function doPost(e) {
       if (tabName) {
         const eventSheet = sheet.getSheetByName(tabName);
         if (eventSheet) {
-          eventSheet.appendRow(row);
+          const eventLastRow = eventSheet.getLastRow();
+          const eventRows =
+            eventLastRow > 1 ? eventSheet.getRange(2, 1, eventLastRow - 1, 8).getValues() : [];
+          const eventMatchRow = findMatchingRowIndex(eventRows, guestName, email, phone);
+
+          if (eventMatchRow > 0) {
+            eventSheet.getRange(eventMatchRow, 1, 1, 8).setValues([row]);
+          } else {
+            eventSheet.appendRow(row);
+          }
         }
       }
     });

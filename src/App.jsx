@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from 'react'
+import { useMemo, useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   CalendarDays,
@@ -59,6 +59,7 @@ function App() {
     marriage: 0,
     cocktail: 0,
   })
+  const isSubmittingRef = useRef(false)
   const visibleEvents = useMemo(() => weddingConfig.events, [])
 
   // Load persisted data and fetch RSVP counts from sheet
@@ -702,67 +703,66 @@ END:VCALENDAR`
  const handleSubmit = async (e) => {
   e.preventDefault();
 
+  if (isSubmittingRef.current) {
+    return
+  }
+
   const errors = validate(form, selectedEvents)
   if (Object.keys(errors).length) {
     setFieldErrors(errors)
     return
   }
 
-  // Check duplicates from Google Sheet (phone OR name+phone OR name+email)
-  try {
-    if (appsScriptUrl) {
-      const duplicateResponse = await fetch(appsScriptUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'text/plain;charset=utf-8',
-        },
-        body: JSON.stringify({
-          action: 'checkDuplicateRsvp',
-          guestName: form.name,
-          email: form.email,
-          phone: form.phone,
-          events: selectedEvents,
-        }),
-      })
-
-      const duplicateResult = await duplicateResponse.json()
-      if (duplicateResult.isDuplicate) {
-        const duplicateEventNames = (duplicateResult.duplicateEvents || [])
-          .map((id) => visibleEvents.find((event) => event.id === id)?.title)
-          .filter(Boolean)
-          .join(', ')
-        const reasons = (duplicateResult.reasons || []).join(', ')
-
-        setStatus({
-          state: 'error',
-          message: `Duplicate RSVP found in sheet for: ${duplicateEventNames}. Matched by ${reasons}.`,
-        })
-        return
-      }
-    }
-  } catch (duplicateError) {
-    console.error('Duplicate check failed:', duplicateError)
-    setStatus({
-      state: 'error',
-      message: 'Could not verify duplicates from Google Sheets. Please try again.',
-    })
+  if (!appsScriptUrl) {
+    setStatus({ state: 'error', message: 'Submission URL is not configured.' })
     return
   }
 
-  const payload = {
-    action: 'submitRsvp',
-    guestName: form.name,
-    email: form.email,
-    phone: form.phone,
-    numberOfGuests: form.guests,
-    mealPreference: form.meal,
-    specialNote: form.note,
-    events: selectedEvents,
-  }
+  setStatus({ state: 'loading', message: 'Processing RSVP. Please wait...' })
+  isSubmittingRef.current = true
 
-  setStatus({ state: 'loading', message: '' })
-
+  // Check duplicates from Google Sheet (phone OR name+phone OR name+email)
   try {
+    const duplicateResponse = await fetch(appsScriptUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8',
+      },
+      body: JSON.stringify({
+        action: 'checkDuplicateRsvp',
+        guestName: form.name,
+        email: form.email,
+        phone: form.phone,
+        events: selectedEvents,
+      }),
+    })
+
+    const duplicateResult = await duplicateResponse.json()
+    if (duplicateResult.isDuplicate) {
+      const duplicateEventNames = (duplicateResult.duplicateEvents || [])
+        .map((id) => visibleEvents.find((event) => event.id === id)?.title)
+        .filter(Boolean)
+        .join(', ')
+      const reasons = (duplicateResult.reasons || []).join(', ')
+
+      setStatus({
+        state: 'error',
+        message: `Duplicate RSVP found in sheet for: ${duplicateEventNames}. Matched by ${reasons}.`,
+      })
+      return
+    }
+
+    const payload = {
+      action: 'submitRsvp',
+      guestName: form.name,
+      email: form.email,
+      phone: form.phone,
+      numberOfGuests: form.guests,
+      mealPreference: form.meal,
+      specialNote: form.note,
+      events: selectedEvents,
+    }
+
     const response = await fetch(appsScriptUrl, {
       method: 'POST',
       headers: {
@@ -802,6 +802,8 @@ END:VCALENDAR`
   } catch (error) {
     console.error(error);
     setStatus({ state: 'error', message: 'Error submitting RSVP' })
+  } finally {
+    isSubmittingRef.current = false
   }
   }
 
