@@ -376,7 +376,7 @@ function App() {
     const footerTopY = eventsBottomY + 90
 
     const invitationHeading =
-      weddingConfig.invitationTitle || "Manchikanti's & Grandhisila's Family Wedding Invitation"
+      weddingConfig.invitationTitle || "Grandhisila's & Manchikanti's Family Wedding Invitation"
     const hostFamilyLine = invitationHeading.replace(/\s*wedding invitation\s*$/i, '').trim()
 
     const canvas = document.createElement('canvas')
@@ -661,7 +661,7 @@ UID:${eventId}-${Date.now()}@wedding-rsvp.local
 DTSTAMP:${dtstamp}
 DTSTART:${dtstart}
 DTEND:${dtend}
-SUMMARY:${event.title} - Manchikanti's & Grandhisila's Wedding Events
+SUMMARY:${event.title} - Grandhisila's & Manchikanti's Wedding Events
 DESCRIPTION:${event.note}
 LOCATION:${event.venue}
 STATUS:CONFIRMED
@@ -956,7 +956,7 @@ END:VCALENDAR`
         <div className="hero-glow hero-glow-four" />
         <div className="content-wrap hero-grid">
           <div className="hero-invitation-heading">
-            {weddingConfig.invitationTitle || "Manchikanti's & Grandhisila's Family Wedding Invitation"}
+            {weddingConfig.invitationTitle || "Grandhisila's & Manchikanti's Family Wedding Invitation"}
           </div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
