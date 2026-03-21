@@ -16,20 +16,24 @@ function getRsvpCounts() {
       cocktail: 0
     };
     
-    // Count entries in each event sheet
+    // Count guests in each event sheet (row 1 is header, data starts at row 2)
+    // Deduplicate by guest identity within each tab, keeping the latest row.
     Object.entries(eventMap).forEach(([sheetName, eventKey]) => {
       try {
         const eventSheet = sheet.getSheetByName(sheetName);
         if (eventSheet) {
-          // Sum Number of Guests from column E (excluding header row)
           const lastRow = eventSheet.getLastRow();
           if (lastRow > 1) {
-            const guestValues = eventSheet.getRange(2, 5, lastRow - 1, 1).getValues();
-            counts[eventKey] = guestValues.reduce(function(total, row) {
-              const raw = row && row[0];
-              const parsed = parseInt(raw, 10);
-              const guestCount = Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
-              return total + guestCount;
+            const rows = eventSheet.getRange(2, 1, lastRow - 1, 5).getValues();
+            const latestByIdentity = {};
+
+            rows.forEach(function(row, index) {
+              const identityKey = buildIdentityKey(row[1], row[2], row[3], index + 2);
+              latestByIdentity[identityKey] = parseGuestCount(row[4]);
+            });
+
+            counts[eventKey] = Object.keys(latestByIdentity).reduce(function(total, key) {
+              return total + latestByIdentity[key];
             }, 0);
           }
         }
@@ -66,6 +70,23 @@ function normalizeEmail(value) {
 
 function normalizePhone(value) {
   return String(value || '').replace(/[^0-9]/g, '');
+}
+
+function parseGuestCount(rawValue) {
+  const parsed = parseInt(String(rawValue || '').trim(), 10);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : 0;
+}
+
+function buildIdentityKey(nameValue, emailValue, phoneValue, rowIndex) {
+  const phone = normalizePhone(phoneValue);
+  if (phone) return 'phone:' + phone;
+
+  const name = normalizeName(nameValue);
+  const email = normalizeEmail(emailValue);
+  if (name && email) return 'nameEmail:' + name + '|' + email;
+
+  if (name) return 'name:' + name;
+  return 'row:' + String(rowIndex);
 }
 
 function findMatchingRowIndex(rows, guestName, email, phone) {

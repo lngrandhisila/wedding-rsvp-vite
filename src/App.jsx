@@ -49,6 +49,7 @@ function App() {
     note: '',
   })
   const [status, setStatus] = useState({ state: 'idle', message: '' })
+  const [duplicateNotice, setDuplicateNotice] = useState('')
   const [fieldErrors, setFieldErrors] = useState({})
   const [showCardDownload, setShowCardDownload] = useState(false)
   const [guestMessages, setGuestMessages] = useState([])
@@ -60,6 +61,7 @@ function App() {
     cocktail: 0,
   })
   const isSubmittingRef = useRef(false)
+  const duplicateNoticeTimerRef = useRef(null)
   const visibleEvents = useMemo(() => weddingConfig.events, [])
 
   // Load persisted data and fetch RSVP counts from sheet
@@ -118,7 +120,26 @@ function App() {
     return () => clearInterval(interval)
   }, [])
 
+  useEffect(() => {
+    return () => {
+      if (duplicateNoticeTimerRef.current) {
+        clearTimeout(duplicateNoticeTimerRef.current)
+      }
+    }
+  }, [])
+
   const selectedCount = useMemo(() => selectedEvents.length, [selectedEvents])
+
+  const showDuplicateNotice = (message) => {
+    setDuplicateNotice(message)
+    if (duplicateNoticeTimerRef.current) {
+      clearTimeout(duplicateNoticeTimerRef.current)
+    }
+    duplicateNoticeTimerRef.current = setTimeout(() => {
+      setDuplicateNotice('')
+      duplicateNoticeTimerRef.current = null
+    }, 5000)
+  }
   const floatingFlowers = useMemo(
     () =>
       Array.from({ length: 30 }, (_, index) => ({
@@ -749,6 +770,7 @@ END:VCALENDAR`
         state: 'error',
         message: `Duplicate RSVP found in sheet for: ${duplicateEventNames}. Matched by ${reasons}.`,
       })
+      showDuplicateNotice(`Duplicate RSVP already submitted for: ${duplicateEventNames}.`)
       return
     }
 
@@ -811,6 +833,11 @@ END:VCALENDAR`
 
   return (
     <div className="page-shell wedding-scene floral-theme">
+      {duplicateNotice ? (
+        <div className="duplicate-toast" role="alert" aria-live="assertive">
+          {duplicateNotice}
+        </div>
+      ) : null}
       <div className="floating-flower-layer" aria-hidden="true">
         {floatingFlowers.map((flower) => (
           <span
